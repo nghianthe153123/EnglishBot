@@ -1,0 +1,37 @@
+# Hệ điều hành và IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Biến môi trường và thông tin xác thực
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+
+# Java / Maven
+target/
+*.log
+.classpath
+.project
+.settings/
+
+# Node / pnpm
+node_modules/
+dist/
+coverage/
+.cache/
+.pnpm-store/
+*.tsbuildinfo
+
+# Artifact kiểm thử và công cụ
+playwright-report/
+test-results/
+.scannerwork/
+
