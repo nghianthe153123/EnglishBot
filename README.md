@@ -59,7 +59,7 @@ Trên Windows, dùng `mvnw.cmd` thay cho `./mvnw`. Phase 0 không cần database
 
 Các quyết định kiến trúc được lưu trong [`docs/decisions`](docs/decisions). Các template lập kế hoạch tái sử dụng được lưu trong [`docs/templates`](docs/templates).
 
-Kế hoạch thực thi chi tiết nằm tại [`docs/phases`](docs/phases). [Phase 0 — Nền tảng và khóa quy trình](docs/phases/phase-00-foundation.md) đã hoàn tất; bằng chứng nằm tại [báo cáo kết thúc Phase 0](docs/phases/phase-00-closeout.md).
+Kế hoạch thực thi chi tiết nằm tại [`docs/phases`](docs/phases). [Phase 0 — Nền tảng và khóa quy trình](docs/phases/phase-00-foundation.md) đã hoàn tất; bằng chứng nằm tại [báo cáo kết thúc Phase 0](docs/phases/phase-00-closeout.md). [Kế hoạch Phase 1](docs/phases/phase-01-product-ui-architecture.md) đang chờ chủ dự án duyệt trước khi P1-001 được bắt đầu.
 
 ## Nguyên tắc bàn giao
 

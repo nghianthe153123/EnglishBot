@@ -3,8 +3,8 @@
 ## Ảnh chụp hiện tại
 
 - Ngày: 2026-09-29
-- Trạng thái tổng thể: Phase 0 đã hoàn tất và được CI xác minh
-- Phase đang hoạt động: chưa có; Phase 1 chờ lập kế hoạch chi tiết
+- Trạng thái tổng thể: Phase 0 đã hoàn tất; kế hoạch Phase 1 đang chờ duyệt
+- Phase đang hoạt động: chưa có; Phase 1 chưa được phép thực thi
 - Gói công việc đang hoạt động: chưa có
 - Mục tiêu phát hành: beta có kiểm soát sau Phase 7
 
@@ -32,9 +32,9 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 
 Ưu tiên hiện tại:
 
-1. Chủ dự án yêu cầu và duyệt việc lập kế hoạch chi tiết Phase 1.
-2. Khóa information architecture, luồng UI và tiêu chí review của Phase 1.
-3. Chỉ chuyển gói Phase 1 đầu tiên sang `SẴN_SÀNG` sau khi kế hoạch được duyệt.
+1. Chủ dự án đọc và duyệt [`Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống`](../phases/phase-01-product-ui-architecture.md).
+2. Khi được duyệt, chuyển Phase 1 sang `ĐANG_THỰC_HIỆN` và P1-001 sang `SẴN_SÀNG`.
+3. Chỉ mở P1-002 đến P1-007 sau khi dependency và cổng A/B tương ứng đạt.
 
 ## Rủi ro đang mở
 

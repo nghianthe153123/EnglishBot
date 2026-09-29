@@ -4,6 +4,7 @@ Mỗi phase có một tài liệu điều hành riêng. Tài liệu phase không
 
 - [Phase 0 — Nền tảng và khóa quy trình](phase-00-foundation.md)
 - [Báo cáo kết thúc Phase 0](phase-00-closeout.md)
+- [Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống](phase-01-product-ui-architecture.md)
 - Phase 1 — Chốt sản phẩm, UI và system design: tạo sau khi Phase 0 đạt cổng kết thúc.
 - Phase 2 — Bản thiết kế có thể chạy bằng mock data.
 - Phase 3 — Hợp đồng API và database.
