@@ -34,7 +34,7 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 Ưu tiên hiện tại:
 
 1. Hoàn thành IA, wireframe và state matrix side panel/selection popup trong P1-002; chủ dự án review trước cổng B.
-2. P1-003 dashboard/tích hợp chưa mở; các bất nhất route nếu phát hiện phải được đưa ra owner trước khi cập nhật baseline.
+2. P1-003 dashboard/tích hợp chưa mở; khi bắt đầu cần đồng bộ danh sách route với D-103 và quyết định đã chốt (không có `/progress` riêng), không được tự khôi phục route cũ.
 3. Chỉ mở các gói còn lại sau khi dependency và cổng A/B tương ứng đạt.
 
 ## Rủi ro đang mở

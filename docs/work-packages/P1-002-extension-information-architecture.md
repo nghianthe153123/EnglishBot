@@ -55,7 +55,7 @@ Khóa cấu trúc thông tin, navigation, wireframe độ chi tiết thấp và 
 - P1-001 và cổng A đã hoàn tất ngày 2026-09-29. Chủ dự án yêu cầu đi theo phase: bắt đầu bằng wireframe side panel đủ ba tab; không tạo high-fidelity visual hoặc component UI trong P1-002.
 - High-fidelity mockup chỉ bắt đầu sau khi P1-002/P1-003 và design foundation/accessibility P1-004 đạt các cổng tương ứng; mockup trước đó sẽ dễ khóa sớm màu, typography và thành phần chưa được duyệt.
 - Owner decision `RESOLVED-P1-002-01` (2026-09-29): tab Từ vựng chỉ hiển thị các mục đã lưu từ trang hiện tại; toàn thư viện nằm ở dashboard. UX baseline và IA đã phản ánh lựa chọn này.
-- Kiểm tra tài liệu local ngày 2026-09-29: format, docs-check và secret scan đạt; CI từ xa đang chờ commit chứa wireframe.
+- Kiểm tra tài liệu local ngày 2026-09-29: format, docs-check và secret scan đạt; CI run `36570801869` thành công trên commit `8e248b7`. Deliverable vẫn là bản nháp và chưa qua owner review/cổng B.
 
 ## Rủi ro và rollback
 
