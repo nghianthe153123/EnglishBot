@@ -1,6 +1,6 @@
 # P1-001 — Phạm vi sản phẩm và hành trình
 
-- Trạng thái: BẢN_NHÁP — đang chờ chủ dự án xác nhận các điểm mở
+- Trạng thái: ĐANG_REVIEW — chủ dự án đã duyệt baseline, đang chờ CI/đóng gói
 - Ngày cập nhật: 2026-09-29
 - Phạm vi tài liệu: xác thực persona, beta/MVP, hành trình J1–J5 và scenario đầu vào Phase 2
 - Nguồn chuẩn: [PRD](../01-product-requirements.md), [UX/UI](../02-ux-ui-system.md), [decision register](../11-decisions-to-lock.md)
@@ -45,13 +45,13 @@ EnglishBot hỗ trợ người học tiếng Anh khi họ đọc nội dung trê
 
 ### Vai trò bề mặt
 
-| Bề mặt | Vai trò trong sản phẩm | Giới hạn phạm vi |
-| --- | --- | --- |
-| Extension side panel | Giao diện sử dụng hằng ngày: Chat, Từ vựng, Bài học (D-102) | Chrome trước, Edge tương thích (D-109); không tự quét tab nền |
-| Selection popup | Hành động tức thời cho lựa chọn: dịch, phát âm, giải thích, lưu | Hiện cục bộ trước; chỉ gọi mạng sau khi người dùng chọn hành động (D-110) |
-| Dashboard | Quản lý từ/bài học/nguồn/tích hợp/cài đặt theo D-103 | Route tiến độ riêng đang có bất nhất; chờ owner chốt ở mục 9 |
-| MCP/ChatGPT | Bề mặt bổ sung: dùng dữ liệu EnglishBot được chia sẻ có kiểm soát | Không truy cập tab vô hình/vĩnh viễn; không thay extension làm giao diện chính |
-| Quizlet | Nhận/xuất bộ từ qua luồng do người dùng xác nhận | Import/export văn bản hoặc file theo phase dự kiến; chưa có direct sync trong beta |
+| Bề mặt               | Vai trò trong sản phẩm                                            | Giới hạn phạm vi                                                                   |
+| -------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Extension side panel | Giao diện sử dụng hằng ngày: Chat, Từ vựng, Bài học (D-102)       | Chrome trước, Edge tương thích (D-109); không tự quét tab nền                      |
+| Selection popup      | Hành động tức thời cho lựa chọn: dịch, phát âm, giải thích, lưu   | Hiện cục bộ trước; chỉ gọi mạng sau khi người dùng chọn hành động (D-110)          |
+| Dashboard            | Quản lý từ/bài học/nguồn/tích hợp/cài đặt theo D-103              | Route tiến độ riêng đang có bất nhất; chờ owner chốt ở mục 9                       |
+| MCP/ChatGPT          | Bề mặt bổ sung: dùng dữ liệu EnglishBot được chia sẻ có kiểm soát | Không truy cập tab vô hình/vĩnh viễn; không thay extension làm giao diện chính     |
+| Quizlet              | Nhận/xuất bộ từ qua luồng do người dùng xác nhận                  | Import/export văn bản hoặc file theo phase dự kiến; chưa có direct sync trong beta |
 
 ### Ngoài phạm vi beta / hoãn
 
@@ -119,23 +119,23 @@ EnglishBot hỗ trợ người học tiếng Anh khi họ đọc nội dung trê
 
 ## 5. Ma trận yêu cầu và phân kỳ
 
-| Nhóm | Trạng thái phạm vi theo baseline | Hành trình | Phase PRD | Ghi chú |
-| --- | --- | --- | --- | --- |
-| CAP-01/02 | Giữ — Bắt buộc | J1 | 4/5A | Capture chủ động; extraction không đồng nghĩa mọi website đều hỗ trợ |
-| CAP-03 | Giữ — Nên có | J1 | 5A | Thay đổi/hết mới; không chặn v1 nếu cần cắt scope theo cổng |
-| CAP-04 | Hoãn | J1 | 7+ | PDF/hình/OCR |
-| CHAT-01..04 | Giữ — Bắt buộc | J1 | 4/5A | Gồm streaming, citation và câu trả lời không được nguồn hỗ trợ |
-| SEL-01..04 | Giữ — Bắt buộc | J2 | 5B | Dịch/phát âm/lưu với context |
-| VOC-01/02 | Giữ — Bắt buộc | J2/J3 | 5B/5C | Trạng thái học tập và dedupe |
-| VOC-03 | Giữ — Nên có | J2/J5 | 5C | Sửa tay nghĩa/trạng thái/metadata |
-| LRN-01/02/04 | Giữ — Bắt buộc | J3 | 5C | Lịch xác định, lesson giới hạn, tiến độ có căn cứ |
-| LRN-03 | Giữ — Nên có | J3 | 5C | Nhiều dạng bài tập; có thể thu hẹp theo review learning |
-| MCP-01/02 | Giữ — Bắt buộc cho module MCP | J4 | 6 | Không phải blocker để dựng core extension trước Phase 6 |
-| MCP-03 | Giữ — Nên có, phân kỳ riêng | J4 | 6 | Scope cần thiết kế ở P1; chưa nằm trong beta core theo D-101 |
-| QZ-01 | Giữ — Bắt buộc | J5 | 5B/6 | Export văn bản; không khẳng định import thành công |
-| QZ-02 | Giữ — Nên có, phân kỳ riêng | J5 | 6 | Import file do người dùng cung cấp |
-| QZ-03 | Có điều kiện/hoãn | J5 | 7+ | Chỉ xem xét sau xác minh khả năng/API và quyết định mới |
-| PRIV-01..03 | Giữ — Bắt buộc | J1/J2/J4 | Tất cả | Retention, domain denylist, không lưu cookie/session |
+| Nhóm         | Trạng thái phạm vi theo baseline | Hành trình | Phase PRD | Ghi chú                                                              |
+| ------------ | -------------------------------- | ---------- | --------- | -------------------------------------------------------------------- |
+| CAP-01/02    | Giữ — Bắt buộc                   | J1         | 4/5A      | Capture chủ động; extraction không đồng nghĩa mọi website đều hỗ trợ |
+| CAP-03       | Giữ — Nên có                     | J1         | 5A        | Thay đổi/hết mới; không chặn v1 nếu cần cắt scope theo cổng          |
+| CAP-04       | Hoãn                             | J1         | 7+        | PDF/hình/OCR                                                         |
+| CHAT-01..04  | Giữ — Bắt buộc                   | J1         | 4/5A      | Gồm streaming, citation và câu trả lời không được nguồn hỗ trợ       |
+| SEL-01..04   | Giữ — Bắt buộc                   | J2         | 5B        | Dịch/phát âm/lưu với context                                         |
+| VOC-01/02    | Giữ — Bắt buộc                   | J2/J3      | 5B/5C     | Trạng thái học tập và dedupe                                         |
+| VOC-03       | Giữ — Nên có                     | J2/J5      | 5C        | Sửa tay nghĩa/trạng thái/metadata                                    |
+| LRN-01/02/04 | Giữ — Bắt buộc                   | J3         | 5C        | Lịch xác định, lesson giới hạn, tiến độ có căn cứ                    |
+| LRN-03       | Giữ — Nên có                     | J3         | 5C        | Nhiều dạng bài tập; có thể thu hẹp theo review learning              |
+| MCP-01/02    | Giữ — Bắt buộc cho module MCP    | J4         | 6         | Không phải blocker để dựng core extension trước Phase 6              |
+| MCP-03       | Giữ — Nên có, phân kỳ riêng      | J4         | 6         | Scope cần thiết kế ở P1; chưa nằm trong beta core theo D-101         |
+| QZ-01        | Giữ — Bắt buộc                   | J5         | 5B/6      | Export văn bản; không khẳng định import thành công                   |
+| QZ-02        | Giữ — Nên có, phân kỳ riêng      | J5         | 6         | Import file do người dùng cung cấp                                   |
+| QZ-03        | Có điều kiện/hoãn                | J5         | 7+        | Chỉ xem xét sau xác minh khả năng/API và quyết định mới              |
+| PRIV-01..03  | Giữ — Bắt buộc                   | J1/J2/J4   | Tất cả    | Retention, domain denylist, không lưu cookie/session                 |
 
 Không có requirement nào bị loại khỏi đường cơ sở PRD ở P1-001. “Hoãn” nghĩa là giữ trong backlog nhưng không triển khai ở beta/module hiện tại. Thay đổi trạng thái PRD chỉ thực hiện sau owner duyệt và cập nhật decision/traceability.
 
@@ -152,35 +152,35 @@ Không có requirement nào bị loại khỏi đường cơ sở PRD ở P1-001
 
 ## 7. Kịch bản mock cần đưa vào Phase 2
 
-| ID | Hành trình | Trạng thái/kịch bản | Kỳ vọng quan sát được |
-| --- | --- | --- | --- |
-| SCN-01 | J1 | Bài viết dài, capture thành công, hỏi một chi tiết | Câu trả lời có citation; chọn citation đưa người dùng về đoạn nguồn |
-| SCN-02 | J1 | Câu hỏi không có căn cứ trong capture | Nói rõ không tìm thấy; không bịa và không tự web-search |
-| SCN-03 | J1 | Quyền bị từ chối/trang không hỗ trợ | Capture không gửi; có hướng dẫn phục hồi phù hợp |
-| SCN-04 | J1 | Trang đổi sau capture/nguồn hết hạn | Trạng thái stale/expired rõ; cho quét lại nếu có thể |
-| SCN-05 | J2 | Từ đa nghĩa được chọn trong câu | Dịch/giải thích theo ngữ cảnh; lựa chọn giọng thể hiện rõ |
-| SCN-06 | J2 | Popup sát mép viewport/selection nhiều dòng | Popup không tràn vùng hiển thị; thao tác không làm mất selection bất ngờ |
-| SCN-07 | J2 | Lưu từ đã gặp trước đó | Hợp nhất theo quy tắc; không tạo mục trùng không giải thích |
-| SCN-08 | J3 | Thư viện từ rỗng | Empty state hữu ích; không sinh lesson giả |
-| SCN-09 | J3 | Lesson có từ đến hạn và một câu trả lời sai | Tổng kết/lịch ôn phản ánh đáp án; không tuyên bố mastery quá mức |
-| SCN-10 | J4 | MCP chưa liên kết hoặc quyền chia sẻ đã hết hạn | Không trả dữ liệu; chỉ dẫn liên kết/chia sẻ lại |
-| SCN-11 | J4 | Truy vấn MCP ngoài capture được cấp quyền | Từ chối truy cập ngoài phạm vi; không rò dữ liệu khác |
-| SCN-12 | J5 | Export có mục trùng/thiếu definition | Preview cho phép phát hiện/sửa; export không tuyên bố đã import |
-| SCN-13 | J5 | Người dùng yêu cầu direct Quizlet sync | UI thể hiện chưa hỗ trợ beta; không hiện trạng thái giả |
-| SCN-14 | J1/J2 | Offline hoặc provider timeout | Lỗi có thể hiểu và cách thử lại; không mất nội dung đã lưu an toàn |
+| ID     | Hành trình | Trạng thái/kịch bản                                | Kỳ vọng quan sát được                                                    |
+| ------ | ---------- | -------------------------------------------------- | ------------------------------------------------------------------------ |
+| SCN-01 | J1         | Bài viết dài, capture thành công, hỏi một chi tiết | Câu trả lời có citation; chọn citation đưa người dùng về đoạn nguồn      |
+| SCN-02 | J1         | Câu hỏi không có căn cứ trong capture              | Nói rõ không tìm thấy; không bịa và không tự web-search                  |
+| SCN-03 | J1         | Quyền bị từ chối/trang không hỗ trợ                | Capture không gửi; có hướng dẫn phục hồi phù hợp                         |
+| SCN-04 | J1         | Trang đổi sau capture/nguồn hết hạn                | Trạng thái stale/expired rõ; cho quét lại nếu có thể                     |
+| SCN-05 | J2         | Từ đa nghĩa được chọn trong câu                    | Dịch/giải thích theo ngữ cảnh; lựa chọn giọng thể hiện rõ                |
+| SCN-06 | J2         | Popup sát mép viewport/selection nhiều dòng        | Popup không tràn vùng hiển thị; thao tác không làm mất selection bất ngờ |
+| SCN-07 | J2         | Lưu từ đã gặp trước đó                             | Hợp nhất theo quy tắc; không tạo mục trùng không giải thích              |
+| SCN-08 | J3         | Thư viện từ rỗng                                   | Empty state hữu ích; không sinh lesson giả                               |
+| SCN-09 | J3         | Lesson có từ đến hạn và một câu trả lời sai        | Tổng kết/lịch ôn phản ánh đáp án; không tuyên bố mastery quá mức         |
+| SCN-10 | J4         | MCP chưa liên kết hoặc quyền chia sẻ đã hết hạn    | Không trả dữ liệu; chỉ dẫn liên kết/chia sẻ lại                          |
+| SCN-11 | J4         | Truy vấn MCP ngoài capture được cấp quyền          | Từ chối truy cập ngoài phạm vi; không rò dữ liệu khác                    |
+| SCN-12 | J5         | Export có mục trùng/thiếu definition               | Preview cho phép phát hiện/sửa; export không tuyên bố đã import          |
+| SCN-13 | J5         | Người dùng yêu cầu direct Quizlet sync             | UI thể hiện chưa hỗ trợ beta; không hiện trạng thái giả                  |
+| SCN-14 | J1/J2      | Offline hoặc provider timeout                      | Lỗi có thể hiểu và cách thử lại; không mất nội dung đã lưu an toàn       |
 
 ## 8. Từ vựng sản phẩm dùng nhất quán
 
-| Thuật ngữ | Cách dùng trong UI/tài liệu |
-| --- | --- |
+| Thuật ngữ          | Cách dùng trong UI/tài liệu                                                                   |
+| ------------------ | --------------------------------------------------------------------------------------------- |
 | Bản quét (capture) | Bản văn bản trang đã được người dùng yêu cầu thu thập; “capture” chỉ dùng khi nói về kỹ thuật |
-| Quét tab | Hành động chủ động lấy nội dung tab hiện tại; không hàm ý giám sát liên tục |
-| Nguồn / citation | Trang/đoạn làm căn cứ cho câu trả lời; citation có thể định vị về anchor nếu còn hợp lệ |
-| Từ đã lưu | Mục vocabulary người dùng chủ động giữ để học; khác với từ chỉ xuất hiện trong nội dung trang |
-| Đến hạn | Mục có lịch ôn cần thực hiện; không đồng nghĩa người dùng đã quên |
-| Chưa thuộc | Chỉ dùng khi có trạng thái/bằng chứng học tập xác định; không suy từ một lần trả lời |
-| Chia sẻ MCP | Quyền truy cập được người dùng cấp cho MCP client trên dữ liệu chọn; có phạm vi và hạn dùng |
-| Xuất Quizlet | Tạo dữ liệu để người dùng đưa vào Quizlet; không đồng nghĩa import/sync đã thành công |
+| Quét tab           | Hành động chủ động lấy nội dung tab hiện tại; không hàm ý giám sát liên tục                   |
+| Nguồn / citation   | Trang/đoạn làm căn cứ cho câu trả lời; citation có thể định vị về anchor nếu còn hợp lệ       |
+| Từ đã lưu          | Mục vocabulary người dùng chủ động giữ để học; khác với từ chỉ xuất hiện trong nội dung trang |
+| Đến hạn            | Mục có lịch ôn cần thực hiện; không đồng nghĩa người dùng đã quên                             |
+| Chưa thuộc         | Chỉ dùng khi có trạng thái/bằng chứng học tập xác định; không suy từ một lần trả lời          |
+| Chia sẻ MCP        | Quyền truy cập được người dùng cấp cho MCP client trên dữ liệu chọn; có phạm vi và hạn dùng   |
+| Xuất Quizlet       | Tạo dữ liệu để người dùng đưa vào Quizlet; không đồng nghĩa import/sync đã thành công         |
 
 ## 9. Điểm cần chủ dự án xác nhận
 
@@ -206,10 +206,19 @@ Không có requirement nào bị loại khỏi đường cơ sở PRD ở P1-001
 - [x] Nêu rõ bề mặt extension/dashboard/MCP/Quizlet và non-goal beta.
 - [x] Ghi invariant consent, retention, quyền riêng tư và thuật ngữ.
 - [x] Tạo backlog SCN cho Phase 2.
-- [ ] Owner duyệt persona/baseline.
+- [x] Owner duyệt persona/baseline và phạm vi P1-001 trong phiên ngày 2026-09-29.
 - [x] Owner giải quyết RESOLVED-P1-001-01.
-- [ ] Owner xác nhận persona, journeys/non-goals và invariant còn lại.
-- [ ] Walkthrough thủ công theo 3 nhánh và review scope/privacy.
+- [x] Owner xác nhận persona, journeys/non-goals và invariant còn lại theo lựa chọn “Duyệt P1-001 trước”.
+- [x] Walkthrough trên tài liệu J1–J5 theo ba nhánh; rà soát scope/privacy.
 - [ ] Cập nhật nguồn chuẩn (PRD/UX/decision register) nếu owner phê duyệt thay đổi.
 
-P1-001 chưa được đánh dấu hoàn tất cho tới khi các mục owner review và kiểm tra còn lại được xử lý; không mở P1-002 chỉ dựa trên bản nháp này.
+### Bằng chứng review P1-001 — 2026-09-29
+
+- Chủ dự án chọn quy trình “Duyệt P1-001 trước, rồi làm wireframe và mockup theo đúng phase”. Ghi nhận là duyệt baseline P1-001; không phải phê duyệt ngoại lệ hay high-fidelity design trong P1-001.
+- Walkthrough J1–J5 đối chiếu từng mục entry, điều kiện trước, success, recovery, unsupported và exit với requirement map ở mục 5.
+- `pnpm.cmd run format`: đạt.
+- `pnpm.cmd run docs:check`: đạt — 45 file Markdown.
+- `pnpm.cmd run secrets:scan`: đạt — 91 file.
+- CI từ xa và cập nhật trạng thái đóng gói: đang chờ.
+
+Chỉ chuyển P1-001 sang `HOÀN_TẤT` và P1-002 sang `SẴN_SÀNG` sau khi CI/cổng A đạt; không mở P1-002 trước thời điểm đó.

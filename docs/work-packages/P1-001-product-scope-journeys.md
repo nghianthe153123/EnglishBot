@@ -1,6 +1,6 @@
 # P1-001: Xác thực persona, hành trình và ưu tiên tính năng
 
-- Trạng thái: ĐANG_LÀM
+- Trạng thái: ĐANG_REVIEW
 - Phase: 1
 - Module/bề mặt sở hữu: product governance
 - Mức rủi ro: Nâng cao
@@ -37,24 +37,24 @@ PRD hiện đã mô tả J1–J5 và danh sách yêu cầu, nhưng Phase 1 phả
 
 ## Tiêu chí nghiệm thu
 
-- [ ] AC1: Có persona chính cùng bối cảnh và mục tiêu rõ ràng.
-- [ ] AC2: J1–J5 có entry, precondition, happy path, failure/recovery và exit state.
-- [ ] AC3: Mọi yêu cầu chức năng được giữ/hoãn/loại có lý do và phase.
-- [ ] AC4: MVP, beta non-goal và vai trò extension/dashboard/MCP không mâu thuẫn.
-- [ ] AC5: Consent, retention, browser support và thuật ngữ cốt lõi được chủ dự án duyệt.
-- [ ] AC6: Có danh sách scenario ID đầu vào cho Phase 2.
+- [x] AC1: Có persona chính cùng bối cảnh và mục tiêu rõ ràng; owner đã duyệt baseline.
+- [x] AC2: J1–J5 có entry, precondition, happy path, failure/recovery và exit state.
+- [x] AC3: Mọi yêu cầu chức năng được giữ/hoãn/loại có lý do và phase.
+- [x] AC4: MVP, beta non-goal và vai trò extension/dashboard/MCP không mâu thuẫn.
+- [x] AC5: Consent, retention, browser support và thuật ngữ cốt lõi được chủ dự án duyệt.
+- [x] AC6: Có danh sách scenario ID đầu vào cho Phase 2.
 
 ## Kế hoạch kiểm thử
 
 ### Tự động
 
-- [ ] Docs-check, format, secret scan và CI đạt.
+- [x] Docs-check, format và secret scan đạt local; CI từ xa đang chờ.
 
 ### Thủ công
 
-- [ ] Walkthrough J1–J5 theo ba nhánh.
-- [ ] Review phản biện scope creep và quyền riêng tư.
-- [ ] Requirement coverage không có ID Bắt buộc bị bỏ sót.
+- [x] Walkthrough J1–J5 theo ba nhánh đã ghi trong deliverable.
+- [x] Review phản biện scope creep và quyền riêng tư.
+- [x] Requirement coverage không có ID Bắt buộc bị bỏ sót.
 
 ### Lệnh bắt buộc
 
@@ -71,6 +71,7 @@ pnpm run secrets:scan
 - Chủ dự án đã yêu cầu bắt đầu P1-001 ngày 2026-09-29; phạm vi bắt đầu chỉ bao gồm gói này, không tự mở P1-002..P1-007.
 - Deliverable hiện là bản nháp; chủ dự án đã chốt `RESOLVED-P1-001-01`: tiến độ nằm trong Hôm nay/Bài học, không có route `/progress` riêng. UX baseline đã được cập nhật tương ứng.
 - Áp dụng quy tắc trong `AGENTS.md`: nếu phát hiện quy tắc/tính năng dùng lại được thì đề xuất cập nhật đúng tài liệu nguồn và nêu lý do, tác động, phase. Trong P1-001 chưa phát hiện tính năng mới ngoài baseline PRD; bất nhất `/progress` đã được xử lý theo xác nhận owner, chưa mở rộng scope.
+- Chủ dự án duyệt baseline P1-001 ngày 2026-09-29; kết quả review và lệnh kiểm tra được ghi trong deliverable. Chờ CI từ xa trước khi chuyển trạng thái hoàn tất.
 
 ## Rủi ro và rollback
 

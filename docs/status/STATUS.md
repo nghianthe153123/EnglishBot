@@ -5,7 +5,7 @@
 - Ngày: 2026-09-29
 - Trạng thái tổng thể: Phase 0 đã hoàn tất; Phase 1 đang thực hiện giới hạn tại P1-001
 - Phase đang hoạt động: Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống
-- Gói công việc đang hoạt động: P1-001 — Phạm vi sản phẩm và hành trình (bản nháp, chờ owner review)
+- Gói công việc đang hoạt động: P1-001 — Phạm vi sản phẩm và hành trình (đã được owner duyệt, đang review CI)
 - Mục tiêu phát hành: beta có kiểm soát sau Phase 7
 
 ## Đã hoàn thành
@@ -32,9 +32,9 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 
 Ưu tiên hiện tại:
 
-1. Chủ dự án review bản nháp [P1-001 — Phạm vi sản phẩm và hành trình](../product/phase-1-scope-and-journeys.md), gồm persona, journeys và ranh giới beta; vị trí tiến độ đã chốt.
-2. Hoàn tất walkthrough và owner review trước khi đánh dấu P1-001 hoàn tất.
-3. Chỉ mở P1-002 đến P1-007 sau khi dependency và cổng A/B tương ứng đạt.
+1. Xác nhận CI/cổng A cho P1-001; chủ dự án đã duyệt baseline, walkthrough và kiểm tra local đã ghi trong [deliverable](../product/phase-1-scope-and-journeys.md).
+2. Nếu cổng A đạt, đánh dấu P1-001 hoàn tất và P1-002 sẵn sàng để bắt đầu wireframe extension.
+3. Chỉ mở các gói còn lại sau khi dependency và cổng A/B tương ứng đạt.
 
 ## Rủi ro đang mở
 
