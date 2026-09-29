@@ -1,6 +1,6 @@
 # P0-003: Môi trường, secret và cổng CI
 
-- Trạng thái: ĐANG_REVIEW
+- Trạng thái: HOÀN_TẤT
 - Phase: 0
 - Phạm vi sở hữu: platform/tooling
 - Mức rủi ro: Cao
@@ -26,7 +26,7 @@ Thiết lập cổng tự động tối thiểu và quy ước secret để mọ
 
 ## Tiêu chí nghiệm thu
 
-- [ ] CI chạy từ checkout sạch (đang chờ lần chạy đầu tiên trên GitHub).
+- [x] CI chạy từ checkout sạch.
 - [x] Job lỗi thật sự trả trạng thái thất bại.
 - [x] Không cần secret thật để qua Phase 0.
 - [x] Log không in secret.
@@ -50,3 +50,4 @@ Thiết lập cổng tự động tối thiểu và quy ước secret để mọ
 - Test local: docs-check đạt 34 file; secret scan đạt 80 file trước khi stage; npm audit không có lỗ hổng đã biết.
 - `.env`: `git check-ignore -v .env` xác nhận rule `.gitignore:9` áp dụng.
 - Credential thật: không sử dụng.
+- Bằng chứng remote: cả ba job đạt tại [GitHub Actions run 36452278392](https://github.com/nghianthe153123/EnglishBot/actions/runs/36452278392), commit `f91dae1`.

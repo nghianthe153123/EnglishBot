@@ -4,8 +4,8 @@ EnglishBot là hệ thống học tiếng Anh có AI hỗ trợ, được xây d
 
 ## Trạng thái hiện tại
 
-- Trạng thái: Phase 0 đang ở cổng xác minh CI
-- Phase đang hoạt động: Phase 0 — nền tảng và khóa quyết định
+- Trạng thái: Phase 0 đã hoàn tất và được CI xác minh
+- Phase đang hoạt động: chưa có; Phase 1 chờ lập kế hoạch chi tiết
 - Code production: chưa bắt đầu
 - Kiến trúc: modular monolith, được thiết kế để có thể tách module về sau
 - Backend chính: Java và Spring Boot
@@ -59,7 +59,7 @@ Trên Windows, dùng `mvnw.cmd` thay cho `./mvnw`. Phase 0 không cần database
 
 Các quyết định kiến trúc được lưu trong [`docs/decisions`](docs/decisions). Các template lập kế hoạch tái sử dụng được lưu trong [`docs/templates`](docs/templates).
 
-Kế hoạch thực thi chi tiết nằm tại [`docs/phases`](docs/phases). Phase đang được xác minh là [Phase 0 — Nền tảng và khóa quy trình](docs/phases/phase-00-foundation.md); báo cáo tạm thời nằm tại [báo cáo kết thúc Phase 0](docs/phases/phase-00-closeout.md).
+Kế hoạch thực thi chi tiết nằm tại [`docs/phases`](docs/phases). [Phase 0 — Nền tảng và khóa quy trình](docs/phases/phase-00-foundation.md) đã hoàn tất; bằng chứng nằm tại [báo cáo kết thúc Phase 0](docs/phases/phase-00-closeout.md).
 
 ## Nguyên tắc bàn giao
 

@@ -2,10 +2,10 @@
 
 ## Ảnh chụp hiện tại
 
-- Ngày: 2026-09-28
-- Trạng thái tổng thể: Phase 0 đang ở cổng xác minh remote
-- Phase đang hoạt động: Phase 0 — Nền tảng
-- Gói công việc đang hoạt động: P0-002, P0-003 và P0-004 đang `ĐANG_REVIEW`
+- Ngày: 2026-09-29
+- Trạng thái tổng thể: Phase 0 đã hoàn tất và được CI xác minh
+- Phase đang hoạt động: chưa có; Phase 1 chờ lập kế hoạch chi tiết
+- Gói công việc đang hoạt động: chưa có
 - Mục tiêu phát hành: beta có kiểm soát sau Phase 7
 
 ## Đã hoàn thành
@@ -21,6 +21,10 @@
 - Phân rã công việc và truy vết yêu cầu.
 - Phê duyệt toàn bộ hướng quyết định và ADR nền tảng.
 - P0-001 — phê duyệt đường cơ sở.
+- P0-002 — repository và build layout.
+- P0-003 — môi trường, secret và cổng CI.
+- P0-004 — dry run quy trình AI.
+- Cổng Phase 0 — ba job CI đạt trên commit `f91dae1`.
 
 ## Quyết định tiếp theo
 
@@ -28,10 +32,9 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 
 Ưu tiên hiện tại:
 
-1. Push commit thực thi Phase 0 lên GitHub.
-2. Xác minh ba job CI từ checkout sạch.
-3. Nếu CI đạt, cập nhật bằng chứng và đóng P0-002 đến P0-004 cùng Phase 0.
-4. Giữ mọi gói Phase 1 ở trạng thái chưa sẵn sàng cho tới khi có chỉ đạo tiếp theo.
+1. Chủ dự án yêu cầu và duyệt việc lập kế hoạch chi tiết Phase 1.
+2. Khóa information architecture, luồng UI và tiêu chí review của Phase 1.
+3. Chỉ chuyển gói Phase 1 đầu tiên sang `SẴN_SÀNG` sau khi kế hoạch được duyệt.
 
 ## Rủi ro đang mở
 
@@ -45,6 +48,6 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 
 ## Lịch sử cổng phase
 
-| Phase | Kết quả       | Ngày | Bằng chứng                         |
-| ----- | ------------- | ---- | ---------------------------------- |
-| 0     | Đang xác minh | —    | `docs/phases/phase-00-closeout.md` |
+| Phase | Kết quả  | Ngày       | Bằng chứng                                               |
+| ----- | -------- | ---------- | -------------------------------------------------------- |
+| 0     | Hoàn tất | 2026-09-29 | `docs/phases/phase-00-closeout.md`, CI run `36452278392` |

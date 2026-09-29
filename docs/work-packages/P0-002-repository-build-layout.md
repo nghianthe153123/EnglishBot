@@ -1,6 +1,6 @@
 # P0-002: Khóa repository và build layout
 
-- Trạng thái: ĐANG_REVIEW
+- Trạng thái: HOÀN_TẤT
 - Phase: 0
 - Phạm vi sở hữu: toàn repository
 - Mức rủi ro: Nâng cao
@@ -29,7 +29,7 @@ Tạo monorepo skeleton có thể build và kiểm thử, đủ để Phase 1 x�
 ## Tiêu chí nghiệm thu
 
 - [x] Checkout sạch có hướng dẫn setup rõ ràng.
-- [ ] Backend skeleton compile/test thành công trên Java 21 (đang chờ CI đầu tiên).
+- [x] Backend skeleton compile/test thành công trên Java 21.
 - [x] Frontend workspace install/type-check/lint/test/build thành công.
 - [x] Không có secret hoặc file local nhạy cảm được track.
 - [x] Layout khớp ADR đã duyệt.
@@ -52,7 +52,8 @@ Rollback bằng commit đảo ngược có kiểm soát; không dùng lệnh ph�
 - Backend: Maven Wrapper 3.9.11, Java 21, Spring Boot 4.1.1; module `application` và `platform`.
 - Frontend: Node 24.16.0, pnpm 11.7.0; hai app React và ba package dùng chung ở mức skeleton.
 - Test local: `pnpm run quality` đạt với 16 test; Maven Wrapper tự khởi động đúng phiên bản.
-- Backend Java 21: giao cho job CI `Backend Java 21` xác minh từ checkout sạch.
+- Backend Java 21: job CI `Backend Java 21` đạt từ checkout sạch trên commit `f91dae1`.
+- Bằng chứng remote: [GitHub Actions run 36452278392](https://github.com/nghianthe153123/EnglishBot/actions/runs/36452278392).
 - Migration database: không.
 - Tác động bảo mật: không có secret; `.env` đã được xác minh là bị ignore.
 - Giới hạn: chưa có logic tính năng, database, API hoặc tích hợp ngoài đúng theo phạm vi.

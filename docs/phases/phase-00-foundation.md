@@ -1,6 +1,6 @@
 # Phase 0 — Nền tảng và khóa quy trình
 
-- Trạng thái: ĐANG_THỰC_HIỆN
+- Trạng thái: HOÀN_TẤT
 - Thời lượng: 1 tuần
 - Ngân sách: 20–30 giờ tập trung của chủ dự án
 - Tỷ lệ kiểm thử/review: tối thiểu 25%
@@ -127,9 +127,9 @@ Thời gian: 4–7 giờ.
 | ID     | Tên                           | Trạng thái khi trình duyệt | Phụ thuộc      | Sản phẩm                          |
 | ------ | ----------------------------- | -------------------------- | -------------- | --------------------------------- |
 | P0-001 | Phê duyệt đường cơ sở         | HOÀN_TẤT                   | Không          | Hồ sơ phê duyệt                   |
-| P0-002 | Khóa repository/build layout  | ĐANG_REVIEW                | P0-001         | Monorepo skeleton + ADR           |
-| P0-003 | Môi trường, secret và cổng CI | ĐANG_REVIEW                | P0-002         | CI/env/tooling baseline           |
-| P0-004 | Chạy thử quy trình AI         | ĐANG_REVIEW                | P0-002, P0-003 | Test evidence + cải tiến playbook |
+| P0-002 | Khóa repository/build layout  | HOÀN_TẤT                   | P0-001         | Monorepo skeleton + ADR           |
+| P0-003 | Môi trường, secret và cổng CI | HOÀN_TẤT                   | P0-002         | CI/env/tooling baseline           |
+| P0-004 | Chạy thử quy trình AI         | HOÀN_TẤT                   | P0-002, P0-003 | Test evidence + cải tiến playbook |
 
 File chi tiết:
 
@@ -169,16 +169,16 @@ File chi tiết:
 
 ## 9. Cổng kết thúc Phase 0
 
-- [ ] P0-001 đến P0-004 ở trạng thái `HOÀN_TẤT`.
-- [ ] Git repository được khởi tạo và trạng thái sạch sau commit phase.
-- [ ] ADR repository/build layout được chấp nhận.
-- [ ] Build skeleton backend/frontend đạt.
-- [ ] CI tối thiểu đạt.
-- [ ] Kiểm tra tài liệu đạt.
-- [ ] Secret scan đạt.
-- [ ] Có test evidence cho dry run.
-- [ ] Không có lỗi S1/S2.
-- [ ] Báo cáo closeout được chủ dự án duyệt.
+- [x] P0-001 đến P0-004 ở trạng thái `HOÀN_TẤT`.
+- [x] Git repository được khởi tạo và trạng thái sạch sau commit phase.
+- [x] ADR repository/build layout được chấp nhận.
+- [x] Build skeleton backend/frontend đạt.
+- [x] CI tối thiểu đạt.
+- [x] Kiểm tra tài liệu đạt.
+- [x] Secret scan đạt.
+- [x] Có test evidence cho dry run.
+- [x] Không có lỗi S1/S2.
+- [x] Báo cáo closeout được hoàn tất theo yêu cầu thực thi toàn bộ Phase 0 của chủ dự án.
 
 Nếu một điều kiện không đạt, Phase 1 chưa được bắt đầu.
 

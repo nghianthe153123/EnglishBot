@@ -3,7 +3,7 @@
 - Ngày: 2026-09-28
 - Môi trường local: Windows 11, Node.js 24.16.0, pnpm 11.7.0
 - Phạm vi: cổng liên kết Markdown và cổng secret cơ bản
-- Trạng thái: ĐANG_REVIEW
+- Trạng thái: HOÀN_TẤT
 
 ## Ánh xạ tiêu chí
 
@@ -14,7 +14,7 @@
 | Diff đúng phạm vi        | Review file script/test/docs/tooling, không có domain | Đạt              |
 | Test chạy thật           | Các lệnh và kết quả bên dưới                          | Đạt local        |
 | Báo cáo rõ trạng thái    | Phân biệt local đạt, CI đang chờ                      | Đạt              |
-| Tái chạy checkout sạch   | GitHub Actions                                        | Đang chờ         |
+| Tái chạy checkout sạch   | GitHub Actions                                        | Đạt              |
 
 ## Lệnh và kết quả local
 
@@ -55,4 +55,8 @@ Không đưa secret thật hoặc dữ liệu người dùng vào test.
 
 ## Bằng chứng remote
 
-Sẽ cập nhật commit SHA, URL workflow và kết quả ba job sau lần push đầu tiên.
+- Commit được xác minh: `f91dae1e6ee6d8ab2d85e99e77460773e629089f`.
+- Workflow: [GitHub Actions run 36452278392](https://github.com/nghianthe153123/EnglishBot/actions/runs/36452278392).
+- `Backend Java 21`: đạt; Maven verify hoàn tất trên Java 21.
+- `Frontend Node 24`: đạt; install khóa lockfile, quality gate và npm audit đều thành công.
+- `Tài liệu và secret`: đạt; docs-check và secret scan thành công từ checkout sạch.
