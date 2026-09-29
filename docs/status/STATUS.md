@@ -3,9 +3,9 @@
 ## Ảnh chụp hiện tại
 
 - Ngày: 2026-09-29
-- Trạng thái tổng thể: Phase 0 đã hoàn tất; kế hoạch Phase 1 đang chờ duyệt
-- Phase đang hoạt động: chưa có; Phase 1 chưa được phép thực thi
-- Gói công việc đang hoạt động: chưa có
+- Trạng thái tổng thể: Phase 0 đã hoàn tất; Phase 1 đang thực hiện giới hạn tại P1-001
+- Phase đang hoạt động: Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống
+- Gói công việc đang hoạt động: P1-001 — Phạm vi sản phẩm và hành trình (bản nháp, chờ owner review)
 - Mục tiêu phát hành: beta có kiểm soát sau Phase 7
 
 ## Đã hoàn thành
@@ -32,8 +32,8 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 
 Ưu tiên hiện tại:
 
-1. Chủ dự án đọc và duyệt [`Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống`](../phases/phase-01-product-ui-architecture.md).
-2. Khi được duyệt, chuyển Phase 1 sang `ĐANG_THỰC_HIỆN` và P1-001 sang `SẴN_SÀNG`.
+1. Chủ dự án review bản nháp [P1-001 — Phạm vi sản phẩm và hành trình](../product/phase-1-scope-and-journeys.md), gồm persona, journeys và ranh giới beta; vị trí tiến độ đã chốt.
+2. Hoàn tất walkthrough và owner review trước khi đánh dấu P1-001 hoàn tất.
 3. Chỉ mở P1-002 đến P1-007 sau khi dependency và cổng A/B tương ứng đạt.
 
 ## Rủi ro đang mở

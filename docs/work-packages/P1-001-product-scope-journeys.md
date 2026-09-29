@@ -1,6 +1,6 @@
 # P1-001: Xác thực persona, hành trình và ưu tiên tính năng
 
-- Trạng thái: NHÁP
+- Trạng thái: ĐANG_LÀM
 - Phase: 1
 - Module/bề mặt sở hữu: product governance
 - Mức rủi ro: Nâng cao
@@ -68,6 +68,9 @@ pnpm run secrets:scan
 
 - Deliverable dự kiến: `docs/product/phase-1-scope-and-journeys.md`.
 - Dùng ID ổn định `J*`, `REQ-*`, `SCN-*`; không tạo ID trùng với requirement hiện có.
+- Chủ dự án đã yêu cầu bắt đầu P1-001 ngày 2026-09-29; phạm vi bắt đầu chỉ bao gồm gói này, không tự mở P1-002..P1-007.
+- Deliverable hiện là bản nháp; chủ dự án đã chốt `RESOLVED-P1-001-01`: tiến độ nằm trong Hôm nay/Bài học, không có route `/progress` riêng. UX baseline đã được cập nhật tương ứng.
+- Áp dụng quy tắc trong `AGENTS.md`: nếu phát hiện quy tắc/tính năng dùng lại được thì đề xuất cập nhật đúng tài liệu nguồn và nêu lý do, tác động, phase. Trong P1-001 chưa phát hiện tính năng mới ngoài baseline PRD; bất nhất `/progress` đã được xử lý theo xác nhận owner, chưa mở rộng scope.
 
 ## Rủi ro và rollback
 

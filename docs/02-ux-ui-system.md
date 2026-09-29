@@ -80,11 +80,12 @@ Các route:
 | --------------- | ----------------------------------------------------------------- |
 | `/today`        | Bài học đến hạn, từ mới, hoạt động gần đây                        |
 | `/vocabulary`   | Tìm kiếm, lọc, sửa, xuất hàng loạt                                |
-| `/lessons`      | Lịch sử bài học và bài học đang chờ                               |
+| `/lessons`      | Bài học đang chờ, lịch sử và tiến độ ôn tập có bằng chứng         |
 | `/sources`      | Bản thu thập và ngữ cảnh được giữ lại                             |
-| `/progress`     | Tính đều đặn khi ôn và bằng chứng mastery                         |
 | `/integrations` | Luồng MCP và Quizlet                                              |
 | `/settings`     | Trình độ, giọng, quyền riêng tư, thời gian lưu, domain bị từ chối |
+
+Tiến độ tổng quan được hiển thị trong `/today`; lịch sử ôn và bằng chứng tiến độ theo bài học nằm trong `/lessons`. Không tạo route `/progress` riêng trong beta (D-103; xác nhận P1-001 ngày 2026-09-29).
 
 ### 4. Trạng thái chia sẻ MCP/ChatGPT
 
@@ -109,7 +110,7 @@ EnglishBot
 ├── Học tập
 │   ├── Từ vựng
 │   ├── Bài học hằng ngày
-│   └── Tiến độ
+│   └── Tiến độ trong Hôm nay/Bài học
 ├── Nguồn
 │   ├── Bản thu thập
 │   └── Đoạn ngữ cảnh

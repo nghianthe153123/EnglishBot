@@ -1,6 +1,6 @@
 # Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống
 
-- Trạng thái: CHỜ_DUYỆT_KẾ_HOẠCH_THỰC_THI
+- Trạng thái: ĐANG_THỰC_HIỆN — chỉ mở P1-001 theo yêu cầu chủ dự án ngày 2026-09-29
 - Thời lượng: 3 tuần, 15 ngày làm việc
 - Ngân sách: 60–90 giờ tập trung của chủ dự án
 - Tỷ lệ kiểm thử/review dự kiến: 25–30%
@@ -25,6 +25,8 @@ Phase 1 trả lời bốn câu hỏi trước khi viết UI thực tế:
 - [x] D-101 đến D-112 đã được chấp nhận làm hướng ban đầu.
 - [x] P1-001 đến P1-007 có ID ổn định trong WBS.
 - [ ] Kế hoạch thực thi Phase 1 này được chủ dự án duyệt.
+
+> Phạm vi ủy quyền hiện tại: chủ dự án yêu cầu bắt đầu P1-001. Điều này cho phép thực hiện gói P1-001, không mặc nhiên phê duyệt thay đổi quyết định sản phẩm hoặc mở P1-002 đến P1-007. Những gói sau vẫn phải qua cổng và dependency tương ứng.
 
 ## 3. Kết quả bắt buộc
 
