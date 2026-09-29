@@ -21,6 +21,12 @@ Trước khi thay đổi code hoặc tài liệu dự án:
 - Nếu các yêu cầu mâu thuẫn, dừng triển khai và ghi nhận xung đột trong gói công việc.
 - Ưu tiên triển khai nhỏ nhất có thể đáp ứng các tiêu chí nghiệm thu.
 
+## Đề xuất cập nhật quy tắc và tính năng
+
+- Trong quá trình code hoặc brainstorming, nếu phát hiện quy tắc dùng chung mới hoặc ý tưởng tính năng có giá trị cho các lần làm việc sau, hãy chủ động đề xuất cập nhật vào tài liệu có thẩm quyền của dự án.
+- Với quy tắc dùng chung, đề xuất cập nhật `AGENTS.md` hoặc playbook/quy trình phù hợp. Với tính năng sản phẩm, đề xuất cập nhật PRD, backlog, decision register hoặc work package phù hợp; nêu ngắn gọn lý do, tác động và phase liên quan.
+- Ghi đề xuất cùng phiên làm việc hoặc trong báo cáo hoàn thành để chủ dự án có thể xem lại và dùng ở các phiên sau. Không tự coi đề xuất là quyết định đã duyệt, không âm thầm mở rộng phạm vi task hiện tại; chỉ áp dụng khi chủ dự án chấp thuận hoặc đã có quyết định tương ứng.
+
 ## Quy tắc kiến trúc
 
 - Các module nghiệp vụ backend không được phụ thuộc trực tiếp vào chi tiết trình duyệt hoặc hạ tầng.
