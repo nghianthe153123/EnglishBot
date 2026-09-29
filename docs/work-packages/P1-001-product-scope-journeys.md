@@ -1,6 +1,6 @@
 # P1-001: Xác thực persona, hành trình và ưu tiên tính năng
 
-- Trạng thái: ĐANG_REVIEW
+- Trạng thái: HOÀN_TẤT
 - Phase: 1
 - Module/bề mặt sở hữu: product governance
 - Mức rủi ro: Nâng cao
@@ -48,7 +48,7 @@ PRD hiện đã mô tả J1–J5 và danh sách yêu cầu, nhưng Phase 1 phả
 
 ### Tự động
 
-- [x] Docs-check, format và secret scan đạt local; CI từ xa đang chờ.
+- [x] Docs-check, format và secret scan đạt local; CI từ xa đạt trên run `36569876283`.
 
 ### Thủ công
 
@@ -71,7 +71,7 @@ pnpm run secrets:scan
 - Chủ dự án đã yêu cầu bắt đầu P1-001 ngày 2026-09-29; phạm vi bắt đầu chỉ bao gồm gói này, không tự mở P1-002..P1-007.
 - Deliverable hiện là bản nháp; chủ dự án đã chốt `RESOLVED-P1-001-01`: tiến độ nằm trong Hôm nay/Bài học, không có route `/progress` riêng. UX baseline đã được cập nhật tương ứng.
 - Áp dụng quy tắc trong `AGENTS.md`: nếu phát hiện quy tắc/tính năng dùng lại được thì đề xuất cập nhật đúng tài liệu nguồn và nêu lý do, tác động, phase. Trong P1-001 chưa phát hiện tính năng mới ngoài baseline PRD; bất nhất `/progress` đã được xử lý theo xác nhận owner, chưa mở rộng scope.
-- Chủ dự án duyệt baseline P1-001 ngày 2026-09-29; kết quả review và lệnh kiểm tra được ghi trong deliverable. Chờ CI từ xa trước khi chuyển trạng thái hoàn tất.
+- Chủ dự án duyệt baseline P1-001 ngày 2026-09-29; kết quả review và lệnh kiểm tra được ghi trong deliverable. CI thành công trên commit `abc5d36`; P1-001 đóng và cổng A đạt.
 
 ## Rủi ro và rollback
 

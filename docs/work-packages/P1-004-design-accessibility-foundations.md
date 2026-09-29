@@ -14,6 +14,7 @@
 ## Trong phạm vi
 
 - Vai trò màu, typography, spacing 4 px, radius, elevation, motion và icon rule.
+- Art direction theo yêu cầu chủ dự án: sản phẩm học tập/đọc hiểu có cảm giác biên tập và thủ công, lấy typography/nội dung làm trọng tâm; tránh gradient/glow, glassmorphism, thẻ KPI trang trí và mô-típ AI/SaaS đại trà.
 - Light/dark theo hệ thống, focus ring, reduced motion.
 - Breakpoint/viewport tham chiếu cho extension và dashboard.
 - Keyboard behavior, focus order, label, heading, error, live region và contrast target.
@@ -48,6 +49,7 @@
 ## Ghi chú triển khai
 
 - Deliverable: `docs/design/phase-1-design-foundations.md`.
+- Chỉ dẫn art direction được ghi nhận từ yêu cầu review mockup ngày 2026-09-29. Lý do: tránh cảm giác template AI; tác động: cần owner review bằng lựa chọn thị giác khi P1-004 mở. Đây là ràng buộc về cách trình bày, không thêm chức năng hay dependency.
 
 ## Rủi ro và rollback
 

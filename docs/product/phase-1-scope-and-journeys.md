@@ -1,6 +1,6 @@
 # P1-001 — Phạm vi sản phẩm và hành trình
 
-- Trạng thái: ĐANG_REVIEW — chủ dự án đã duyệt baseline, đang chờ CI/đóng gói
+- Trạng thái: HOÀN_TẤT — owner approval và CI/cổng A đạt
 - Ngày cập nhật: 2026-09-29
 - Phạm vi tài liệu: xác thực persona, beta/MVP, hành trình J1–J5 và scenario đầu vào Phase 2
 - Nguồn chuẩn: [PRD](../01-product-requirements.md), [UX/UI](../02-ux-ui-system.md), [decision register](../11-decisions-to-lock.md)
@@ -219,6 +219,6 @@ Không có requirement nào bị loại khỏi đường cơ sở PRD ở P1-001
 - `pnpm.cmd run format`: đạt.
 - `pnpm.cmd run docs:check`: đạt — 45 file Markdown.
 - `pnpm.cmd run secrets:scan`: đạt — 91 file.
-- CI từ xa và cập nhật trạng thái đóng gói: đang chờ.
+- CI GitHub run `36569876283` trên commit `abc5d36`: hoàn tất, success.
 
-Chỉ chuyển P1-001 sang `HOÀN_TẤT` và P1-002 sang `SẴN_SÀNG` sau khi CI/cổng A đạt; không mở P1-002 trước thời điểm đó.
+P1-001 đã đạt cổng A. P1-002 được mở để tiếp tục IA/wireframe; high-fidelity visual vẫn để sau P1-002/P1-003 và cổng design foundation P1-004.

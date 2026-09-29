@@ -11,7 +11,7 @@ Tài liệu này định nghĩa các bề mặt UI và trạng thái phải đư
 Giao diện sử dụng hằng ngày chính gồm ba khu vực cấp cao nhất:
 
 - **Chat** — trạng thái thu thập, tóm tắt, hội thoại có căn cứ và citation.
-- **Từ vựng** — từ được tìm thấy hoặc lưu từ trang hiện tại.
+- **Từ vựng** — chỉ các từ đã lưu từ trang hiện tại; toàn thư viện được quản lý trong dashboard.
 - **Bài học** — số lượng từ đến hạn và lối vào bài học nhanh.
 
 Khung giao diện đề xuất:

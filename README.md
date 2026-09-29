@@ -4,8 +4,8 @@ EnglishBot là hệ thống học tiếng Anh có AI hỗ trợ, được xây d
 
 ## Trạng thái hiện tại
 
-- Trạng thái: Phase 0 đã hoàn tất và được CI xác minh; P1-001 đang được thực hiện
-- Phase đang hoạt động: Phase 1, giới hạn tại P1-001; các gói còn lại chưa mở
+- Trạng thái: Phase 0 và P1-001 đã hoàn tất; P1-002 đang được thực hiện
+- Phase đang hoạt động: Phase 1, hiện tại là IA/wireframe extension; các gói không phụ thuộc vẫn chưa mở
 - Code production: chưa bắt đầu
 - Kiến trúc: modular monolith, được thiết kế để có thể tách module về sau
 - Backend chính: Java và Spring Boot
@@ -59,7 +59,7 @@ Trên Windows, dùng `mvnw.cmd` thay cho `./mvnw`. Phase 0 không cần database
 
 Các quyết định kiến trúc được lưu trong [`docs/decisions`](docs/decisions). Các template lập kế hoạch tái sử dụng được lưu trong [`docs/templates`](docs/templates).
 
-Kế hoạch thực thi chi tiết nằm tại [`docs/phases`](docs/phases). [Phase 0 — Nền tảng và khóa quy trình](docs/phases/phase-00-foundation.md) đã hoàn tất; bằng chứng nằm tại [báo cáo kết thúc Phase 0](docs/phases/phase-00-closeout.md). Chủ dự án đã yêu cầu bắt đầu riêng [P1-001](docs/product/phase-1-scope-and-journeys.md); các gói Phase 1 tiếp theo vẫn chờ dependency/cổng tương ứng.
+Kế hoạch thực thi chi tiết nằm tại [`docs/phases`](docs/phases). [Phase 0 — Nền tảng và khóa quy trình](docs/phases/phase-00-foundation.md) và [P1-001 — Phạm vi sản phẩm và hành trình](docs/product/phase-1-scope-and-journeys.md) đã hoàn tất. [P1-002](docs/work-packages/P1-002-extension-information-architecture.md) đang tạo IA/wireframe; high-fidelity visual vẫn chờ các cổng design foundation theo phase.
 
 ## Nguyên tắc bàn giao
 

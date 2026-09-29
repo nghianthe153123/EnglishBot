@@ -3,9 +3,9 @@
 ## Ảnh chụp hiện tại
 
 - Ngày: 2026-09-29
-- Trạng thái tổng thể: Phase 0 đã hoàn tất; Phase 1 đang thực hiện giới hạn tại P1-001
+- Trạng thái tổng thể: Phase 0 đã hoàn tất; Phase 1 đang thực hiện tại P1-002
 - Phase đang hoạt động: Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống
-- Gói công việc đang hoạt động: P1-001 — Phạm vi sản phẩm và hành trình (đã được owner duyệt, đang review CI)
+- Gói công việc đang hoạt động: P1-002 — IA, extension và selection popup
 - Mục tiêu phát hành: beta có kiểm soát sau Phase 7
 
 ## Đã hoàn thành
@@ -25,6 +25,7 @@
 - P0-003 — môi trường, secret và cổng CI.
 - P0-004 — dry run quy trình AI.
 - Cổng Phase 0 — ba job CI đạt trên commit `f91dae1`.
+- P1-001 — persona, phạm vi và hành trình được chủ dự án duyệt; cổng A và CI đạt trên commit `abc5d36`.
 
 ## Quyết định tiếp theo
 
@@ -32,8 +33,8 @@ Danh sách đầy đủ nằm tại [`docs/11-decisions-to-lock.md`](../11-decis
 
 Ưu tiên hiện tại:
 
-1. Xác nhận CI/cổng A cho P1-001; chủ dự án đã duyệt baseline, walkthrough và kiểm tra local đã ghi trong [deliverable](../product/phase-1-scope-and-journeys.md).
-2. Nếu cổng A đạt, đánh dấu P1-001 hoàn tất và P1-002 sẵn sàng để bắt đầu wireframe extension.
+1. Hoàn thành IA, wireframe và state matrix side panel/selection popup trong P1-002; chủ dự án review trước cổng B.
+2. P1-003 dashboard/tích hợp chưa mở; các bất nhất route nếu phát hiện phải được đưa ra owner trước khi cập nhật baseline.
 3. Chỉ mở các gói còn lại sau khi dependency và cổng A/B tương ứng đạt.
 
 ## Rủi ro đang mở

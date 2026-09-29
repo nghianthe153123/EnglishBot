@@ -144,8 +144,8 @@ Tổng: 64–94 giờ. Mục tiêu vận hành là 60–90 giờ; phần vượt
 
 | ID     | Tên                                               | Trạng thái khi trình duyệt | Bằng chứng chính                  |
 | ------ | ------------------------------------------------- | -------------------------- | --------------------------------- |
-| P1-001 | Xác thực persona, hành trình và ưu tiên tính năng | ĐANG_REVIEW                | Scope/journey matrix đã duyệt     |
-| P1-002 | Thiết kế IA, extension và selection popup         | NHÁP                       | Wireframe + state matrix          |
+| P1-001 | Xác thực persona, hành trình và ưu tiên tính năng | HOÀN_TẤT                   | Owner approval, scope matrix, CI  |
+| P1-002 | Thiết kế IA, extension và selection popup         | ĐANG_LÀM                   | Wireframe + state matrix          |
 | P1-003 | Thiết kế dashboard và luồng tích hợp              | NHÁP                       | Wireframe + integration flow      |
 | P1-004 | Định nghĩa design foundation và accessibility     | NHÁP                       | Token/viewport/a11y specification |
 | P1-005 | Khóa runtime, module và data flow                 | NHÁP                       | System design + ADR nếu cần       |
