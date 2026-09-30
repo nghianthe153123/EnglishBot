@@ -27,6 +27,12 @@ Ngày 2026-09-30 chủ dự án thay thế phạm vi Phase 1 bằng [ADR-006](de
 
 Owner đã trả lời cả ba câu hỏi trong P1-R01: N cấu hình không mặc định; Google + AI BYOK cho từ; khảo sát thao tác giao diện Quizlet. Đã đồng bộ PRD/roadmap/package/architecture; chưa suy ra PoC production đã đạt.
 
+### D-P1-15 — Duyệt UX P1-101
+
+- CHẤP_NHẬN ngày 2026-10-01: chủ dự án trả lời “ok tôi duyệt phần tiếp theo là thực thi P1-103 đúng ko”.
+- Phê duyệt [hồ sơ UX P1-101](design/p1-101-owner-review.md): luồng, bố trí popup, focus/đóng, Options/queue, state catalog và token/component ở mức đặc tả.
+- P1-101 HOÀN_TẤT cổng đặc tả; P1-103 SẴN_SÀNG, chưa thực thi. Mockup/hợp đồng P1-103 cần owner duyệt riêng. Không tự chốt model/auth/schema/Quizlet hoặc coi runtime test đã chạy; đề xuất rule chung vẫn chờ phê duyệt riêng.
+
 ## Quyết định nền tảng còn hiệu lực
 
 Java 21/Spring Boot; React/TypeScript; monorepo; mock-first/contract-first; PostgreSQL/Flyway; modular monolith; public module interface; ownership/auth; không plaintext secret; không đọc cookie/session trang. D-001..004/006/009 và ADR-001/002/005 tiếp tục cho phạm vi nhỏ.
@@ -54,4 +60,4 @@ Redis, pgvector, SSE chat, object storage, MCP, TTS, scheduler và dashboard kh�
 
 Cổng UI/contract/schema vẫn cần kết quả review của gói mới. Không lấy duyệt P1-001 cũ làm bằng chứng UI/schema mới đã duyệt.
 
-Ngày 2026-09-30 owner duyệt phân tầng gate D-P1-14. Chưa có câu trả lời duyệt toàn bộ UX P1-101; không suy ra duyệt UX từ việc đồng ý chuyển nơi chạy visual test.
+Ngày 2026-09-30 owner duyệt phân tầng gate D-P1-14. Ngày 2026-10-01 owner duyệt bộ UX P1-101 theo D-P1-15; đây là phê duyệt riêng, không suy ra từ câu trả lời phân tầng gate.

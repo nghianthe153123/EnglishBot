@@ -1,6 +1,6 @@
 # IA Phase 1 — Selection, options và queue
 
-- Trạng thái: phạm vi P1-R01 và cấu trúc UX đề xuất P1-101; không phải hợp đồng API/schema đã khóa. Chi tiết mới chờ owner tại [hồ sơ review](p1-101-owner-review.md).
+- Trạng thái: phạm vi P1-R01 và cấu trúc UX P1-101 đã được owner duyệt ngày 2026-10-01 tại [hồ sơ review](p1-101-owner-review.md). Không phải hợp đồng API/schema đã khóa.
 - Cơ sở: P1-J1…P1-J4, P1-TR-01…05, P1-WD-01…03, P1-QZ-01…04, P1-UI-01, P1-SEC-01…03.
 - Thị giác tham chiếu: [Wirefigma Design System](reference/WIREFIGMA_DESIGN_SYSTEM.md) và sample cùng thư mục.
 
@@ -56,7 +56,7 @@ Extension
 
 ## Privacy và quyền
 
-Giải thích quyền content script trước lúc bắt đầu detect selection. Owner đã chọn bật tab hiện tại với tùy chọn ghi nhớ quyền từng website (D-P1-11). `activeTab` không tự được cấp do bôi đen. Chỉ gửi selection tối thiểu sau click. BYOK qua backend; client không lưu secret. Không crawl trang, truy cập cookie/session hoặc tạo MCP share. Cấu trúc vùng quản lý là đề xuất bố trí để review, không mở dashboard/route mới; [quyền và layout](p1-101-permissions-and-layout.md) sở hữu hành vi chi tiết.
+Giải thích quyền content script trước lúc bắt đầu detect selection. Owner đã chọn bật tab hiện tại với tùy chọn ghi nhớ quyền từng website (D-P1-11). `activeTab` không tự được cấp do bôi đen. Chỉ gửi selection tối thiểu sau click. BYOK qua backend; client không lưu secret. Không crawl trang, truy cập cookie/session hoặc tạo MCP share. Cấu trúc vùng quản lý đã được duyệt ở mức UX, không mở dashboard/route mới; [quyền và layout](p1-101-permissions-and-layout.md) sở hữu hành vi chi tiết.
 
 ## Những gì không thuộc cây IA hiện hành
 

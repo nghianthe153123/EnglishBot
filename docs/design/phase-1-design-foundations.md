@@ -1,6 +1,6 @@
 # Nền tảng thiết kế Phase 1
 
-- Trạng thái: hướng dẫn dùng token/component; chưa phải mockup, theme production hay baseline UX được owner duyệt.
+- Trạng thái: baseline token/component P1-101 được owner duyệt ngày 2026-10-01 (D-P1-15); chưa phải mockup/theme production hoặc UI đã kiểm thử.
 - Phạm vi: hành động Dịch, popup kết quả không modal, Options và queue nhỏ. Dashboard/side panel không thuộc baseline.
 - Nguồn: [Wirefigma Design System](reference/WIREFIGMA_DESIGN_SYSTEM.md), [sample HTML](reference/wirefigma-sample.html), [snapshot provenance/checksum](reference/SOURCE.md).
 - Quyết định: chỉ dùng component/tên token có trong snapshot. Giá trị được ghi là “chuẩn hóa để triển khai” không được mô tả là Inspect-verified. Sample là dashboard minh họa, không phải giao diện mục tiêu.
@@ -22,7 +22,7 @@
 | Focus      | `accent`, vòng focus 3 px, có offset/khoảng thở                                                                                                  | Dùng focus-visible, không đổi kích thước layout. Màu accent là giá trị chuẩn hóa; contrast thực tế phải được đo trên UI.                                                                                                      |
 | Border     | `stroke.dark` cho boundary control cần nhận biết; `stroke.light` chỉ divider/trang trí                                                           | `neutral.300`/stroke nhạt không được coi là boundary control đạt yêu cầu khi chưa xác minh contrast. `stroke.dark` là lựa chọn semantic có trong nguồn; vẫn cần đo trên runtime.                                              |
 
-Không đặt tên/mã màu cục bộ thay cho semantic token. Nền extension phải là surface sáng dễ phân biệt với trang; khi nội dung web phía sau tối, không suy ra dark mode từ Wirefigma. Popup vẫn dùng surface sáng theo token đã có. Đây là chỉ dẫn thiết kế đang chờ review, không phải bằng chứng tương phản đạt chuẩn trên mọi trang.
+Không đặt tên/mã màu cục bộ thay cho semantic token. Nền extension phải là surface sáng dễ phân biệt với trang; khi nội dung web phía sau tối, không suy ra dark mode từ Wirefigma. Popup vẫn dùng surface sáng theo token đã có. Đây là chỉ dẫn thiết kế đã được owner duyệt, không phải bằng chứng tương phản đạt chuẩn trên mọi trang.
 
 ## Ánh xạ surface
 

@@ -36,3 +36,5 @@ Baseline trước đã đưa Chat/quét trang, side panel ba tab, dashboard, MCP
 ## Hệ quả và cổng
 
 Roadmap nhỏ hơn, nhưng Quizlet trở thành điều kiện kết thúc Phase 1. Spike P1-102 chạy sớm; thất bại hoặc chưa chứng minh kênh thì 108 bị chặn, không báo hoàn tất Phase 1. UI, contract và DB vẫn được kiểm tra/duyệt theo thứ tự trước production.
+
+Ngày 2026-10-01, owner phê duyệt [đặc tả UX P1-101](../design/p1-101-owner-review.md) (D-P1-15). P1-103 đủ điều kiện làm prototype/mock và hợp đồng theo D-P1-14; mockup/hợp đồng cần owner duyệt riêng trước P1-104. Quyết định này không phê duyệt model/auth/schema, kênh Quizlet production hoặc coi runtime test đã đạt.

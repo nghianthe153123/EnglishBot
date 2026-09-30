@@ -17,6 +17,7 @@ Chat, thu thập toàn trang, dashboard, MCP server, TTS, word family, lesson/sc
 
 - Phase 0 đã hoàn tất; phạm vi P1-001 cũ đã được thay thế qua P1-R01 và giữ làm lịch sử.
 - P1-R01 đã qua cổng điều chỉnh tài liệu ngày 2026-09-30. Kế hoạch hiện hành gồm P1-101..109; chưa có tính năng production được xác nhận hoàn tất.
+- P1-101 hoàn tất cổng UX/đặc tả sau phê duyệt owner ngày 2026-10-01. P1-103 sẵn sàng: prototype dữ liệu mock, hợp đồng và review visual/keyboard; chưa bắt đầu triển khai và chưa tích hợp dịch/Quizlet thật.
 - Công nghệ đã chốt: Java/Spring Boot cho backend, React/TypeScript cho extension và modular monolith. Provider/model, auth, schema và chi tiết tích hợp vẫn đang được xác minh.
 - N do người dùng cấu hình; chưa có giá trị mặc định. Với từ ở Google mode, Google dịch nghĩa và AI BYOK bổ sung POS/câu ví dụ theo quyết định đã chốt; cache đầy đủ được dùng lại mà không gọi provider.
 - Owner cho phép khảo sát browser automation Quizlet nếu kênh chính thức không khả dụng; feasibility proof và lựa chọn triển khai vẫn cần hoàn tất.

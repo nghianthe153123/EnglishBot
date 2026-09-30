@@ -1,7 +1,7 @@
 # Wireframe chức năng — P1-101
 
-- Trạng thái: đặc tả hành vi chữ để owner review; chưa phải UI/code đã duyệt.
-- Mọi chi tiết mới trong tài liệu này đều là **ĐỀ_XUẤT_CHỜ_OWNER**.
+- Trạng thái: ĐÃ_DUYỆT_ĐẶC_TẢ ngày 2026-10-01 (D-P1-15); UI/code/mockup chưa triển khai hoặc được duyệt.
+- Chi tiết UX thuộc hồ sơ P1-101 đã được owner duyệt. Các lựa chọn contract/model/auth/cache/N còn mở vẫn giữ CHƯA_CHỐT.
 - Nguồn yêu cầu: [P1-101](../work-packages/P1-101-scope-wirefigma-ux.md), [PRD](../01-product-requirements.md), [hệ thống UX/UI](../02-ux-ui-system.md), [IA Phase 1](phase-1-information-architecture.md), [nền tảng thiết kế](phase-1-design-foundations.md), [Wirefigma](reference/WIREFIGMA_DESIGN_SYSTEM.md) và [sample](reference/wirefigma-sample.html).
 - Không dùng dashboard/side panel lịch sử làm baseline; đây là wireframe chữ, không phải mockup.
 
@@ -207,7 +207,7 @@ Từ có dấu gạch nối hoặc dấu nháy có thể gây nhập nhằng gi�
 
 ## Còn chờ owner / giới hạn
 
-- Toàn bộ wireframe và chi tiết UX mới tại đây: **ĐỀ_XUẤT_CHỜ_OWNER**; AC1–AC6 chưa được coi là owner duyệt.
+- Wireframe chữ và chi tiết UX của P1-101: owner đã duyệt ngày 2026-10-01; AC1…6 đạt cổng đặc tả. Mockup và hợp đồng P1-103 cần lượt duyệt riêng.
 - Chưa có review trực quan/browser test hoặc ảnh chụp 320/360/420 px; tài liệu chữ không phải bằng chứng layout.
 - Provider/model/auth/key lifecycle và API/schema chưa khóa; kênh Quizlet production chưa có feasibility proof.
 - Min/max N, validate N và cách đổi N khi queue/batch đã có dữ liệu chờ contract/quyết định phù hợp.

@@ -2,7 +2,7 @@
 
 - Phiên: 2026-09-30 → 2026-10-01 (Asia/Saigon); người kiểm tra tích hợp: root.
 - Phạm vi: tài liệu UX, không feature production, không mockup.
-- Trạng thái: review kỹ thuật tài liệu; owner approval và UI runtime vẫn chờ.
+- Trạng thái: P1-101 HOÀN_TẤT cổng đặc tả; owner duyệt ngày 2026-10-01. UI runtime vẫn chưa chạy và giữ gate ở P1-103/105/109.
 - [Gói](../work-packages/P1-101-scope-wirefigma-ux.md), [hồ sơ owner](../design/p1-101-owner-review.md), [checklist](../design/p1-101-review-checklist.md).
 
 ## 1. Nguồn và checksum
@@ -34,7 +34,7 @@ Root đã tính trong phiên bằng JavaScript theo relative luminance sRGB: m�
 | stroke.light / trắng               | #DCD8E2 / #FFFFFF        | 1.40  | Không đạt 3:1 cho boundary chức năng duy nhất; chỉ divider trang trí |
 | Focus alpha 0.28 sample trên trắng | Xấp xỉ #DFC1FC / #FFFFFF | 1.59  | Không đạt 3:1 cho focus indicator duy nhất                           |
 
-Sample HTML định nghĩa `--wf-focus: rgba(141,32,245,.28)` trong khi MD hướng dẫn vòng accent; **không sao chép nguyên focus mờ của sample**. Đề xuất dùng semantic accent đục, stroke.dark cho boundary cần nhận biết, giữ source nguyên trạng. Đây là lựa chọn có nguồn, chờ owner duyệt UX, không thêm primitive màu mới.
+Sample HTML định nghĩa `--wf-focus: rgba(141,32,245,.28)` trong khi MD hướng dẫn vòng accent; **không sao chép nguyên focus mờ của sample**. Đề xuất dùng semantic accent đục, stroke.dark cho boundary cần nhận biết, giữ source nguyên trạng. Đây là lựa chọn có nguồn, được owner duyệt UX ngày 2026-10-01, không thêm primitive màu mới.
 
 Đối chiếu [WCAG 1.4.3](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html) cho text và [WCAG 1.4.11](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) cho non-text. Suy luận lựa chọn palette không phải certification WCAG toàn UI: computed style, focus clipping/obscuring, màu liền kề runtime và trang sáng/tối chưa kiểm tra. Disabled có ngoại lệ nhưng hướng dẫn lỗi/thiếu key không được giấu bằng disabled text.
 
@@ -111,19 +111,28 @@ Kiểm tra cuối/ghi Git tiếp tục sang 2026-10-01. Không chạy build feat
 
 | Hạng mục                                                  | Trạng thái                             | Người/gói chịu trách nhiệm đề xuất                          |
 | --------------------------------------------------------- | -------------------------------------- | ----------------------------------------------------------- |
-| Owner walkthrough/duyệt UX                                | CHỜ_OWNER                              | Chủ dự án, P1-101                                           |
+| Owner walkthrough/duyệt UX                                | ĐÃ_DUYỆT_SPEC 2026-10-01               | Chủ dự án, P1-101                                           |
 | Screenshot 320/360/420, keyboard/focus/zoom trên mock     | CHỜ_UI_RUNTIME, chưa có ảnh            | Root/agent UI, P1-103; owner đã duyệt phân tầng D-P1-14     |
 | Cài mới/grant/revoke/restricted/action network assertions | CHƯA_CHẠY                              | Agent implementation/reviewer, P1-105 rồi P1-109            |
 | Provider/DB/Add/Quizlet E2E thật                          | CHƯA_CHẠY, không thuộc thực thi P1-101 | Các gói P1-104…109                                          |
 | Frontend/backend feature unit/build/migration/live model  | KHÔNG_ÁP_DỤNG cho thay đổi tài liệu    | Không đổi production/schema hoặc gọi model/provider/Quizlet |
 
-Không có API key/cookie/selection cá nhân trong artifacts; không external write Quizlet, không migration. Owner đã duyệt phân tầng visual D-P1-14; cổng P1-101 vẫn chờ duyệt bộ UX (AC1), STATUS chưa được cập nhật hoàn tất.
+Không có API key/cookie/selection cá nhân trong artifacts; không external write Quizlet, không migration. Owner đã duyệt phân tầng visual D-P1-14 và bộ UX D-P1-15 ngày 2026-10-01; AC1…6 đạt cổng đặc tả, STATUS được cập nhật sau cổng. Không diễn giải approval thành test UI thật đã đạt.
 
 ## 7. File thay đổi và phân công
 
 - Điều phối: `docs/ai-prompts/P1-101-orchestration.md`, `P1-101-A-interactions.md`, `P1-101-B-foundations-testing.md`; gói `docs/work-packages/P1-101-scope-wirefigma-ux.md`.
 - UX: `docs/02-ux-ui-system.md`, `docs/design/phase-1-information-architecture.md`, `phase-1-extension-wireframes.md`, `phase-1-design-foundations.md`, `p1-101-permissions-and-layout.md`, `p1-101-owner-review.md`, `p1-101-review-checklist.md`.
 - Truy vết/kiểm thử: `docs/10-traceability.md`, `docs/11-decisions-to-lock.md`, `docs/06-testing-strategy.md`, `docs/work-packages/P1-103-mock-contracts.md`, `P1-105-selection-translation.md`, `P1-109-e2e-uat-release.md`, báo cáo này.
-- Hai agent `gpt-6-luna` effort `low` thực thi đúng lane; root đọc/sửa output, xử lý quyền/contrast/gate và review cuối. Không code production, đổi dependency, migration hoặc STATUS.
+- Hai agent `gpt-6-luna` effort `low` thực thi đúng lane; root đọc/sửa output, xử lý quyền/contrast/gate và review cuối. Không code production, đổi dependency hoặc migration. STATUS được cập nhật ở bước đóng gói sau owner approval.
 
-Gói 103/105/109 chỉ cập nhật trách nhiệm test theo quyết định owner, vẫn NHÁP; không tự mở thực thi. AC2…6 đủ đặc tả/bằng chứng tài liệu; AC1 chờ owner. Đề xuất quy tắc tái sử dụng ở hồ sơ owner vẫn chưa được duyệt thành AGENTS/playbook.
+Tại baseline cfbc196, gói 103/105/109 chỉ nhận trách nhiệm test, chưa thực thi. Sau owner approval ngày 2026-10-01, AC1…6 đủ cổng đặc tả; P1-103 SẴN_SÀNG, P1-105/109 vẫn NHÁP. Đề xuất quy tắc tái sử dụng ở hồ sơ owner vẫn chưa được duyệt thành AGENTS/playbook.
+
+## 8. Đóng cổng sau phê duyệt ngày 2026-10-01
+
+- Owner: “ok tôi duyệt phần tiếp theo là thực thi P1-103 đúng ko”; ghi D-P1-15 và ADR-006. AC1 phê duyệt spec, AC2…6 đạt cổng tài liệu; P1-101 HOÀN_TẤT, P1-103 SẴN_SÀNG nhưng chưa thực thi.
+- Root xác minh CI baseline cfbc196 đã `completed/success`: [run 36748996409](https://github.com/nghianthe153123/EnglishBot/actions/runs/36748996409). Không coi kết quả này là CI của commit metadata phê duyệt về sau.
+- Rerun trên tài liệu phê duyệt: `rtk pnpm run docs:check` đạt 77 Markdown; `rtk pnpm run format` đạt; `rtk pnpm run secrets:scan` đạt 124 file; `rtk pnpm run test` đạt 2 file/16 test tooling; `rtk proxy git diff --check` đạt; tất cả exit 0.
+- File đóng gói cập nhật: README; UX/UI; traceability; decision register; ADR-006; STATUS; work package P1-101/P1-103; hồ sơ owner/checklist/quyền-layout; IA/wireframes/foundations; orchestration và báo cáo này (16 file, không code production).
+- Không migration, dependency mới, provider/Quizlet thật hoặc secret; không claim ảnh/bàn phím/permission/E2E chưa chạy là đạt. Các test đó vẫn chờ P1-103/105/109 theo D-P1-14; model/auth/schema/cache/sense và kênh Quizlet vẫn mở.
+- Câu hỏi xác nhận bước tiếp theo không được coi là lệnh triển khai P1-103 ngay. Đầu ra P1-103 là mock UI + hợp đồng + bằng chứng test và owner review riêng trước P1-104.

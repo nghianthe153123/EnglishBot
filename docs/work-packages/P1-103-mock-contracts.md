@@ -1,6 +1,6 @@
 # P1-103: Prototype mô phỏng và hợp đồng request/result/state
 
-- Trạng thái: NHÁP
+- Trạng thái: SẴN_SÀNG — phụ thuộc P1-101 đã được owner duyệt ngày 2026-10-01; chưa bắt đầu thực thi.
 - Phase: 1
 - Module/bề mặt sở hữu: hợp đồng extension/API
 - Mức rủi ro: Nâng cao
@@ -64,6 +64,8 @@ pnpm run docs:check
 ```
 
 ## Ghi chú triển khai
+
+- Chủ dự án đã duyệt UX P1-101 ngày 2026-10-01 và hỏi xác nhận P1-103 là bước tiếp theo. Phiên này chỉ đóng gate/mở trạng thái sẵn sàng, không tự coi câu hỏi xác nhận là yêu cầu triển khai P1-103 ngay. Khi bắt đầu, root lập kế hoạch chi tiết, giao việc thường quy cho agent cấp thấp theo nguyên tắc đã yêu cầu; giữ review hợp đồng/quyết định khó. Mockup và hợp đồng mới vẫn cần owner duyệt ở AC5/AC6.
 
 - Dự kiến: module hợp đồng/mô phỏng và fixture; chọn file sau khi khảo sát repo.
 - Cờ tính năng: tích hợp production giữ tắt tới cổng phát hành; P1-108 có thể bật riêng cho nhóm thử nghiệm sau khi được duyệt.

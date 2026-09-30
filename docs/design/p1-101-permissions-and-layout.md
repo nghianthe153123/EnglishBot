@@ -1,6 +1,6 @@
 # P1-101 — Quyền trình duyệt, vị trí popup và bàn phím
 
-- Ngày: 2026-09-30; trạng thái: ĐỀ_XUẤT_CHỜ_OWNER.
+- Khởi tạo: 2026-09-30; trạng thái: ĐÃ_DUYỆT_ĐẶC_TẢ ngày 2026-10-01 (D-P1-15). Manifest/runtime vẫn cần test ở gói sau.
 - Gói: [P1-101](../work-packages/P1-101-scope-wirefigma-ux.md); baseline sản phẩm: [ADR-006](../decisions/ADR-006-phase-1-translation-scope.md).
 - Đây là đặc tả UX và ràng buộc triển khai sau, không phải manifest/code đã thực hiện. Không chốt auth, model, schema hay kênh Quizlet.
 
@@ -67,7 +67,7 @@ Không thêm `tabs`, history, clipboard, cookies hoặc all-frames như tiện �
 
 ## 5. Neo popup và giới hạn kích thước
 
-Thông số sau là lựa chọn layout đề xuất cho owner, không phải giá trị Inspect Figma. Color/type/space/radius vẫn lấy token Wirefigma. Các phép tính dùng CSS pixel trong **visual viewport**, không nhân lại devicePixelRatio hoặc page zoom.
+Thông số sau là lựa chọn layout được owner duyệt ngày 2026-10-01, không phải giá trị Inspect Figma. Color/type/space/radius vẫn lấy token Wirefigma. Các phép tính dùng CSS pixel trong **visual viewport**, không nhân lại devicePixelRatio hoặc page zoom.
 
 - Neo pointer: tọa độ cuối thao tác chọn/click, lấy trước khi focus làm mất selection; giữ snapshot selection tạm local. Nếu dùng keyboard, neo rect cuối của selection, không lấy pointer cũ ở góc xa.
 - Đề xuất chiều rộng ưu tiên `320 px`; biên viewport `8 px`, khoảng cách neo `8 px` (space.m). `W = min(320, Vw − 16)`.

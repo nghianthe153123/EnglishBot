@@ -1,10 +1,10 @@
 # P1-101 — Hồ sơ UX để chủ dự án duyệt
 
-- Ngày: 2026-09-30; trạng thái: ĐANG_REVIEW, chưa khóa toàn bộ UX.
+- Khởi tạo: 2026-09-30; trạng thái: ĐÃ_DUYỆT_UX — chủ dự án phê duyệt ngày 2026-10-01 (D-P1-15). Đây là baseline đặc tả cho P1-103, không phải mockup được duyệt.
 - Đã chốt riêng: **bật trên tab hiện tại, có tùy chọn ghi nhớ quyền từng website** (D-P1-11, trả lời owner trong phiên này).
 - Không tạo code production hoặc mockup mới. Bộ này là thiết kế hành vi bằng chữ, sơ đồ và thông số Wirefigma, phục vụ duyệt trước gói mock/contracts.
 
-## 1. Luồng được đề xuất
+## 1. Luồng đã được duyệt
 
 ```text
 Icon EnglishBot
@@ -38,7 +38,7 @@ Popup không modal: không backdrop/trap focus; Escape/nút đóng/click ngoài 
 | Persist fail/unknown         | Không nói đã lưu; Add chưa bật, có hướng phục hồi/đối soát                                                          |
 | Add pending/added/unknown    | Nút/trạng thái thay thế nhau; không double submit hoặc báo đã thêm khi outcome chưa rõ                              |
 
-## 3. Bố trí Wirefigma đề xuất
+## 3. Bố trí Wirefigma đã được duyệt ở mức đặc tả
 
 - Popup ưu tiên rộng 320 CSS px, biên và khoảng neo 8 px; ở viewport 320/360/420 rộng lần lượt 304/320/320. Không cố định chiều cao; body cuộn khi dài, control vẫn tiếp cận được.
 - Màu sáng đục từ Wirefigma, chữ neutral tối, radius 8 cho popup/4 cho control; không thêm dark palette, gradient, shadow lớn hoặc style mockup cũ.
@@ -46,7 +46,7 @@ Popup không modal: không backdrop/trap focus; Escape/nút đóng/click ngoài 
 - Control mặc định 40 px; focus accent **đục**, viền control chức năng stroke.dark. Sample HTML có focus alpha 0.28 và viền nhạt không đạt ngưỡng contrast số học khi dùng như tín hiệu duy nhất; không copy nguyên các chi tiết này.
 - Options cần chọn provider rõ ràng, không tự chọn mặc định; key chỉ nhập/thay một lần gửi backend, sau đó hiển thị trạng thái chứ không echo lại secret. N rỗng, không placeholder số hoặc default.
 
-Các lựa chọn mới này chờ owner duyệt; con số hình học là đề xuất layout, không phải số đo Inspect hoặc screenshot UI.
+Các lựa chọn UX này được owner duyệt ngày 2026-10-01; con số hình học là thông số layout EnglishBot, không phải số đo Inspect hoặc screenshot UI.
 
 ## 4. Queue và Quizlet
 
@@ -59,13 +59,13 @@ Quizlet ở trạng thái chờ khảo sát/chấp nhận kênh: không giả đ
 [Báo cáo kiểm tra](../evidence/P1-101-design-review.md) phân biệt rõ:
 
 - Đã kiểm tra: nguồn/hash, đối chiếu đặc tả, tính tương phản token, 432 tổ hợp clamp số học, kiểm tra tài liệu/formatter/secret/diff theo kết quả ghi trong báo cáo.
-- Chưa kiểm tra: UI/browser thật, screenshot 320/360/420, zoom, keyboard/focus, grant/revoke/restricted trên runtime và owner walkthrough.
+- Chưa kiểm tra: UI/browser thật, screenshot 320/360/420, zoom, keyboard/focus, grant/revoke/restricted trên runtime. Owner đã phê duyệt đặc tả; chưa walkthrough UI chạy thật.
 
 Gói ban đầu cấm mockup/code nhưng yêu cầu visual review viewport. Owner đã giải quyết xung đột ngày 2026-09-30 bằng **phân tầng gate D-P1-14**: P1-101 duyệt spec/số học; review ảnh/keyboard trên mock ở P1-103; quyền và interaction thật ở P1-105; browser E2E/release ở P1-109. Test vẫn bắt buộc, chưa chạy không tính là đạt. Không dùng screenshot dashboard mẫu làm chứng cứ EnglishBot. Gói phụ thuộc đã nhận trách nhiệm test cụ thể; đây không phải mở thực thi các gói đó.
 
-## 6. Chủ dự án cần duyệt
+## 6. Biên bản phê duyệt
 
-1. Duyệt hoặc yêu cầu sửa bộ UX đề xuất: luồng, bố trí popup, close/focus, Options/queue và state catalog. Activation A đã chốt, không hỏi lại.
+1. **ĐÃ_DUYỆT** bộ UX: luồng, bố trí popup, close/focus, Options/queue và state catalog. Nguồn: chủ dự án trả lời “ok tôi duyệt phần tiếp theo là thực thi P1-103 đúng ko” ngày 2026-10-01. Ghi nhận phê duyệt đặc tả, không suy ra đã test UI hoặc đã yêu cầu triển khai P1-103 ngay.
 2. Phân tầng gate ở mục 5: **ĐÃ_DUYỆT** ngày 2026-09-30. Không cần hỏi lại. Câu trả lời này không đồng nghĩa duyệt toàn bộ UX ở mục 1.
 
 Từ ghép/nháy/gạch nối, sense/ngữ cảnh ví dụ/cache key, model/auth/BYOK lifecycle, contract/schema và Quizlet channel vẫn để đúng gói sau, không cần mở rộng P1-101 để tự quyết.

@@ -32,4 +32,4 @@ P1-101 không tạo mockup mới: kiểm tra tài liệu, tính tương phản t
 
 ## Kết quả điều phối
 
-Hai lane đã giao bản thảo; root tích hợp và sửa selection race, thiếu key/cache hit, mapping requirement và lựa chọn focus/viền theo contrast. Owner chốt activation A (D-P1-11) và phân tầng test (D-P1-14). Gói đang ĐANG_REVIEW vì bộ UX chưa có owner approval; runtime test được giữ bắt buộc tại P1-103/105/109, không miễn test và không mở implementation trước gate.
+Hai lane đã giao bản thảo; root tích hợp và sửa selection race, thiếu key/cache hit, mapping requirement và lựa chọn focus/viền theo contrast. Owner chốt activation A (D-P1-11) và phân tầng test (D-P1-14). Tại lần bàn giao cfbc196 gói ĐANG_REVIEW; owner duyệt UX ngày 2026-10-01 (D-P1-15) nên P1-101 HOÀN_TẤT cổng đặc tả và P1-103 SẴN_SÀNG. Runtime test giữ bắt buộc tại P1-103/105/109; chưa bắt đầu implementation trong lượt xác nhận bước tiếp theo.

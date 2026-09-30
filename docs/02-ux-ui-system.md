@@ -4,7 +4,7 @@
 
 Giao diện Phase 1 hỗ trợ tra cứu nhanh khi đọc web. Dùng Wirefigma theo [bản tham chiếu](design/reference/WIREFIGMA_DESIGN_SYSTEM.md) và sample để chọn token, component và behavior phù hợp cho popup, options và hàng đợi nhỏ. Không dùng lại baseline ba tab side panel hay trang dashboard. Không tạo mockup mới trong gói P1-R01; chủ dự án yêu cầu xóa các mockup EnglishBot cũ.
 
-P1-101 tạo [hồ sơ review UX](design/p1-101-owner-review.md), [wireframe chữ](design/phase-1-extension-wireframes.md), [quyền/layout](design/p1-101-permissions-and-layout.md) và [checklist](design/p1-101-review-checklist.md). Chi tiết UX mới chờ owner, không tự thay baseline đã duyệt. Riêng activation đã được owner chốt ngày 2026-09-30: bật trên tab hiện tại, có tùy chọn ghi nhớ quyền riêng cho từng website (D-P1-11).
+P1-101 tạo [hồ sơ review UX](design/p1-101-owner-review.md), [wireframe chữ](design/phase-1-extension-wireframes.md), [quyền/layout](design/p1-101-permissions-and-layout.md) và [checklist](design/p1-101-review-checklist.md). Chi tiết UX P1-101 đã được owner duyệt ngày 2026-10-01 (D-P1-15) làm baseline cho P1-103; mockup/hợp đồng và UI runtime chưa được duyệt hoặc kiểm thử. Riêng activation đã được owner chốt ngày 2026-09-30: bật trên tab hiện tại, có tùy chọn ghi nhớ quyền riêng cho từng website (D-P1-11).
 
 ## Bề mặt và luồng chính
 
