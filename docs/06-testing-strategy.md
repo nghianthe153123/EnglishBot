@@ -55,6 +55,8 @@ Theo quyết định owner: khi chọn Google, phrase/sentence không cần AI k
 
 ## Lệnh và cổng
 
+D-P1-14 được owner duyệt trong P1-101 ngày 2026-09-30: gói thiết kế P1-101 kiểm tra spec/nguồn/số học và owner walkthrough tài liệu; visual screenshot/keyboard/zoom trên mock thuộc AC6 P1-103; browser permission/interaction thuộc P1-105; E2E và visual/runtime release thuộc P1-109. [Checklist P1-101](design/p1-101-review-checklist.md) giữ test runtime chưa chạy và gói chịu trách nhiệm. Phân tầng không miễn test hoặc biến fixture/số học thành kết quả browser.
+
 Các lệnh chuẩn hiện có: `pnpm run format`, `pnpm run lint`, `pnpm run test`, `pnpm run build`, `pnpm run docs:check`, `pnpm run secrets:scan`, `pnpm audit --audit-level=high`, `mvnw.cmd --batch-mode --no-transfer-progress verify` (Windows). Chọn lệnh theo thay đổi và cấu hình scaffold; package phải ghi chính xác lệnh thực chạy, phiên bản môi trường, exit/result và artifact. Không coi lệnh chưa chạy là đạt.
 
 P1-109 — cổng phát hành:

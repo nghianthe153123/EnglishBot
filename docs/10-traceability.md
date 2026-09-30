@@ -35,6 +35,8 @@ Yêu cầu xuyên suốt: test LLM trong CI dùng fixture xác định; test Goo
 
 ## Bao phủ các gate
 
+P1-101 có [hồ sơ UX review](design/p1-101-owner-review.md), [checklist AC/UAT](design/p1-101-review-checklist.md) và [bằng chứng](evidence/P1-101-design-review.md). Mapping thiết kế không phải kết quả unit/E2E. D-P1-11 chốt activation; D-P1-14 chốt gate spec P1-101, mock visual/keyboard P1-103, browser quyền/interaction P1-105, E2E/release P1-109. Bộ UX còn chờ owner duyệt; runtime test chưa chạy.
+
 | Gate                 | Phạm vi bao phủ                                                                      |
 | -------------------- | ------------------------------------------------------------------------------------ |
 | Scope/UX owner gate  | P1-TR-01/03/04, P1-UI-01, P1-SEC-01/03; Wirefigma và hành vi local-only              |

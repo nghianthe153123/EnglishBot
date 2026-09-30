@@ -44,6 +44,7 @@ P1-109 là cổng phát hành, không hạ yêu cầu. Tự tạo Quizlet là b�
 - [ ] AC2: Luồng từ đầy đủ đạt; phrase/sentence chỉ dịch đạt.
 - [ ] AC3: Ca browser đạt trên Chrome rồi Edge, gồm cài mới/permission/restart/suspension/trang hạn chế.
 - [ ] AC4: Bằng chứng trực quan/accessibility gồm popup/options/queue ở 320/360/420 px, keyboard/focus/contrast.
+- AC3/AC4 nhận kiểm chứng E2E/runtime cuối theo D-P1-14: đối chiếu [checklist P1-101](../design/p1-101-review-checklist.md) và [quyền/layout](../design/p1-101-permissions-and-layout.md), không chỉ tái dùng kết quả mock/số học; mọi case cần evidence hoặc ngoại lệ có owner phê duyệt, không miễn test vì P1-101 đã đóng.
 - [ ] AC5: Test provider, DB isolation, output lỗi cấu trúc, secrets, XSS, đồng thời Add/batch, N unset/invalid/configured, N−1/N/N+1 và đổi N khi queue có dữ liệu đạt.
 - [ ] AC6: Test account Quizlet được phép chứng minh tạo set đúng tài khoản có URL/ID; timeout unknown được đối soát và idempotency đạt.
 - [ ] AC7: Owner UAT đạt; báo cáo package/traceability/security/privacy/rollback đầy đủ.

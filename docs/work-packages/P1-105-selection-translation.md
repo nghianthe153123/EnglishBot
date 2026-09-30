@@ -22,6 +22,7 @@ Bôi đen chỉ hiện hành động local; click Dịch mới mở popup/gửi 
 - Lỗi key/quota/network/timeout/provider; provider phải chọn rõ, không fallback ngầm.
 - Khi chọn Google, phrase/sentence không cần AI key; Google word thiếu key hiển thị đang chờ enrichment/credential và không bịa nội dung.
 - Cài mới, chưa có quyền, cấp/thu hồi quyền, trang bị hạn chế.
+- D-P1-11 đã chốt bật tab hiện tại, tùy chọn ghi nhớ từng site không bật sẵn. Thực hiện [ma trận PERM-01…12](../design/p1-101-permissions-and-layout.md); chưa cấp không inject, selection không cấp activeTab, revoke dừng listener/UI/request mới và kết quả muộn không ghi đè.
 
 ## Ngoài phạm vi
 
@@ -44,6 +45,7 @@ Bôi đen chỉ hiện hành động local; click Dịch mới mở popup/gửi 
 - [ ] AC5: Khi chọn Google, phrase/sentence dịch được mà không có AI key; khi chọn AI, phrase/sentence được dịch qua AI provider đã chọn và không có Add/enrichment từ.
 - [ ] AC6: Google word thiếu key báo chờ enrichment, không tạo POS/example giả; cache đầy đủ không gọi provider.
 - [ ] AC7: Test permission bao gồm cài mới/chưa cấp/cấp/thu hồi/trang hạn chế trên Chrome và Edge.
+- AC7 nhận gate runtime từ P1-101 theo D-P1-14: ghi từng PERM-01…12 là đạt/không hỗ trợ theo phạm vi đã duyệt/không đạt, browser/version và evidence; include activation tab, opt-in site, deny/revoke, reload/cross-origin, frame/restricted. Không coi mock permission P1-103 là bằng chứng thật.
 - [ ] AC8: Test XSS/selection không tin cậy đạt; không crawl trang hoặc truy cập cookie/session.
 
 ## Kế hoạch kiểm thử

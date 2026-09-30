@@ -21,6 +21,7 @@ Mock/hợp đồng là gate trước DB theo P1-R01. Không thiết kế API cho
 - Word so với phrase/sentence; trường POS/definition/example đã validate và provenance/version; chiều khóa cache gồm language/provider/sense.
 - Queue item/idempotency Add; text import term TAB definition; trạng thái batch sent/unsent/unknown; response tạo Quizlet gồm URL/ID.
 - Fixture/fake xác định tại ranh giới provider; schema/hợp đồng cho ca âm tính.
+- Theo D-P1-14 owner duyệt từ P1-101: prototype UI mock popup/Options/queue theo UX được owner duyệt, kèm screenshot và keyboard/focus/zoom review; không tích hợp provider/Quizlet production.
 
 ## Ngoài phạm vi
 
@@ -41,6 +42,7 @@ Mock/hợp đồng là gate trước DB theo P1-R01. Không thiết kế API cho
 - [ ] AC3: Định danh cache/provenance tách biệt với trạng thái Add trong mock và hợp đồng.
 - [ ] AC4: Batch snapshot, quy tắc TAB/newline, trạng thái Quizlet unavailable/unknown và định danh đối soát được nêu rõ.
 - [ ] AC5: Owner duyệt hợp đồng trước P1-104; trường chưa quyết định ghi `CHƯA_CHỐT`.
+- [ ] AC6: Popup/Options/queue mock có ảnh và bằng chứng review 320/360/420 CSS px, cả nền trang sáng/tối, mép viewport/nội dung dài, keyboard/focus/Escape, zoom/reflow theo [checklist P1-101](../design/p1-101-review-checklist.md) UAT-101-09…17. Owner duyệt mock riêng; không dùng test số học/screenshot Wirefigma dashboard thay UI EnglishBot.
 
 ## Kế hoạch kiểm thử
 
@@ -52,6 +54,7 @@ Mock/hợp đồng là gate trước DB theo P1-R01. Không thiết kế API cho
 ### Thủ công/trực quan/model thật
 
 - [ ] Owner walkthrough hợp đồng; không cần gọi provider thật.
+- [ ] Review visual/keyboard của mock xác định theo AC6; lưu ảnh, viewport/browser/version và kết quả từng ca. Fake permission không thay test browser quyền thực P1-105.
 
 ### Lệnh bắt buộc
 

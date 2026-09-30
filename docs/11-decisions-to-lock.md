@@ -8,21 +8,22 @@ Ngày 2026-09-30 chủ dự án thay thế phạm vi Phase 1 bằng [ADR-006](de
 
 ## Phase 1 hiện hành
 
-| ID      | Quyết định                                                                  | Trạng thái / nguồn                                                                                                 |
-| ------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| D-P1-01 | Chỉ selection translation, word DB/reuse, Add và tự tạo bộ thẻ Quizlet      | CHẤP_NHẬN — yêu cầu owner 2026-09-30                                                                               |
-| D-P1-02 | Hai lựa chọn Google API chính thức và AI bằng API key người dùng            | CHẤP_NHẬN; AI vendor/model cụ thể chưa chọn                                                                        |
-| D-P1-03 | Bôi đen hiện action local; click mới mở popup nhỏ cạnh con trỏ và gọi dịch  | CHẤP_NHẬN                                                                                                          |
-| D-P1-04 | Từ loại, nghĩa và câu ví dụ của từ phải lưu DB để dùng lại                  | CHẤP_NHẬN; thay phần persistence để mở ở DEFERRED-P1-002-03                                                        |
-| D-P1-05 | Add riêng cho từ, đủ N thì tự tạo batch/text import                         | CHẤP_NHẬN: N do người dùng cấu hình, không mặc định; chưa cấu hình không tạo batch                                 |
-| D-P1-06 | Tự import/tạo bộ thẻ Quizlet đúng tài khoản                                 | CHẤP_NHẬN mục tiêu; CẦN_THỬ_NGHIỆM kênh ở P1-102                                                                   |
-| D-P1-07 | Dùng Wirefigma tại C:\SystemDesign, hủy mockup cũ                           | CHẤP_NHẬN nguồn thiết kế; không phải duyệt UI mới                                                                  |
-| D-P1-08 | AI vendor/model, auth/deploy, vòng đời/mã hóa BYOK                          | CHƯA_CHỐT; P1-103/104, ADR-007 đề xuất                                                                             |
-| D-P1-09 | Nguồn POS/example khi Google dịch từ                                        | CHẤP_NHẬN: Google dịch nghĩa + AI BYOK bổ sung POS/ví dụ cho từ                                                    |
-| D-P1-10 | Kênh Quizlet: tích hợp chính thức dùng được hay khảo sát browser automation | CHẤP_NHẬN KHẢO SÁT: dùng browser đã đăng nhập nếu official channel chưa dùng được; production cần spike GO/ADR-008 |
-| D-P1-11 | Activation và quyền content script theo site                                | CẦN_THỬ_NGHIỆM; P1-101/105; selection không tự cấp activeTab                                                       |
-| D-P1-12 | Nghĩa/sense và ngữ cảnh câu ví dụ; cache key/dedupe/xóa đang xử lý          | CHƯA_CHỐT chi tiết contract ở P1-103, schema ở P1-104                                                              |
-| D-P1-13 | Bài học Phase 1 là bộ thẻ Quizlet, chưa hứa lesson/khóa Learn riêng         | Ánh xạ kế hoạch; xác minh với năng lực channel tại P1-102                                                          |
+| ID      | Quyết định                                                                                            | Trạng thái / nguồn                                                                                                              |
+| ------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| D-P1-01 | Chỉ selection translation, word DB/reuse, Add và tự tạo bộ thẻ Quizlet                                | CHẤP_NHẬN — yêu cầu owner 2026-09-30                                                                                            |
+| D-P1-02 | Hai lựa chọn Google API chính thức và AI bằng API key người dùng                                      | CHẤP_NHẬN; AI vendor/model cụ thể chưa chọn                                                                                     |
+| D-P1-03 | Bôi đen hiện action local; click mới mở popup nhỏ cạnh con trỏ và gọi dịch                            | CHẤP_NHẬN                                                                                                                       |
+| D-P1-04 | Từ loại, nghĩa và câu ví dụ của từ phải lưu DB để dùng lại                                            | CHẤP_NHẬN; thay phần persistence để mở ở DEFERRED-P1-002-03                                                                     |
+| D-P1-05 | Add riêng cho từ, đủ N thì tự tạo batch/text import                                                   | CHẤP_NHẬN: N do người dùng cấu hình, không mặc định; chưa cấu hình không tạo batch                                              |
+| D-P1-06 | Tự import/tạo bộ thẻ Quizlet đúng tài khoản                                                           | CHẤP_NHẬN mục tiêu; CẦN_THỬ_NGHIỆM kênh ở P1-102                                                                                |
+| D-P1-07 | Dùng Wirefigma tại C:\SystemDesign, hủy mockup cũ                                                     | CHẤP_NHẬN nguồn thiết kế; không phải duyệt UI mới                                                                               |
+| D-P1-08 | AI vendor/model, auth/deploy, vòng đời/mã hóa BYOK                                                    | CHƯA_CHỐT; P1-103/104, ADR-007 đề xuất                                                                                          |
+| D-P1-09 | Nguồn POS/example khi Google dịch từ                                                                  | CHẤP_NHẬN: Google dịch nghĩa + AI BYOK bổ sung POS/ví dụ cho từ                                                                 |
+| D-P1-10 | Kênh Quizlet: tích hợp chính thức dùng được hay khảo sát browser automation                           | CHẤP_NHẬN KHẢO SÁT: dùng browser đã đăng nhập nếu official channel chưa dùng được; production cần spike GO/ADR-008              |
+| D-P1-11 | Bật trên tab hiện tại; tùy chọn ghi nhớ quyền riêng từng website                                      | CHẤP_NHẬN UX — owner trả lời P1-101 ngày 2026-09-30; manifest/runtime CẦN_THỬ_NGHIỆM ở P1-105; selection không tự cấp activeTab |
+| D-P1-12 | Nghĩa/sense và ngữ cảnh câu ví dụ; cache key/dedupe/xóa đang xử lý                                    | CHƯA_CHỐT chi tiết contract ở P1-103, schema ở P1-104                                                                           |
+| D-P1-13 | Bài học Phase 1 là bộ thẻ Quizlet, chưa hứa lesson/khóa Learn riêng                                   | Ánh xạ kế hoạch; xác minh với năng lực channel tại P1-102                                                                       |
+| D-P1-14 | Phân tầng gate: P1-101 spec/số học; P1-103 mock visual/keyboard; P1-105 quyền/interaction; P1-109 E2E | CHẤP_NHẬN — owner trả lời P1-101 ngày 2026-09-30; mọi test vẫn bắt buộc, không phải miễn kiểm thử                               |
 
 Owner đã trả lời cả ba câu hỏi trong P1-R01: N cấu hình không mặc định; Google + AI BYOK cho từ; khảo sát thao tác giao diện Quizlet. Đã đồng bộ PRD/roadmap/package/architecture; chưa suy ra PoC production đã đạt.
 
@@ -45,9 +46,12 @@ Redis, pgvector, SSE chat, object storage, MCP, TTS, scheduler và dashboard kh�
 
 ## Nhật ký
 
-| Ngày       | Người chỉ đạo | Nội dung                                                                                                           | Tài liệu                           |
-| ---------- | ------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
-| 2026-09-28 | Chủ dự án     | Duyệt baseline trước; giữ lịch sử và bằng chứng Phase 0                                                            | Bản trước điều chỉnh, ADR-001..004 |
-| 2026-09-30 | Chủ dự án     | Thu hẹp Phase 1; N cấu hình không mặc định; Google + AI cho từ; cho phép khảo sát UI Quizlet; dùng C:\SystemDesign | ADR-006/008; P1-R01                |
+| Ngày       | Người chỉ đạo | Nội dung                                                                                                           | Tài liệu                                                         |
+| ---------- | ------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| 2026-09-28 | Chủ dự án     | Duyệt baseline trước; giữ lịch sử và bằng chứng Phase 0                                                            | Bản trước điều chỉnh, ADR-001..004                               |
+| 2026-09-30 | Chủ dự án     | Thu hẹp Phase 1; N cấu hình không mặc định; Google + AI cho từ; cho phép khảo sát UI Quizlet; dùng C:\SystemDesign | ADR-006/008; P1-R01                                              |
+| 2026-09-30 | Chủ dự án     | P1-101: chốt bật tab hiện tại, ghi nhớ quyền từng website là tùy chọn; chưa duyệt toàn bộ UX mới                   | D-P1-11; [quyền/layout](design/p1-101-permissions-and-layout.md) |
 
 Cổng UI/contract/schema vẫn cần kết quả review của gói mới. Không lấy duyệt P1-001 cũ làm bằng chứng UI/schema mới đã duyệt.
+
+Ngày 2026-09-30 owner duyệt phân tầng gate D-P1-14. Chưa có câu trả lời duyệt toàn bộ UX P1-101; không suy ra duyệt UX từ việc đồng ý chuyển nơi chạy visual test.

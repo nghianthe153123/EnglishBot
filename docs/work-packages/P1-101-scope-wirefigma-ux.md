@@ -1,6 +1,6 @@
 # P1-101: Chốt phạm vi và UX theo Wirefigma
 
-- Trạng thái: NHÁP
+- Trạng thái: ĐANG_REVIEW
 - Phase: 1
 - Module/bề mặt sở hữu: UX extension và phạm vi sản phẩm
 - Mức rủi ro: Nâng cao
@@ -36,22 +36,23 @@ P1-R01 thay thế baseline Phase 1 cũ ngày 2026-09-30. Owner đã chốt: khi 
 ## Tiêu chí nghiệm thu
 
 - [ ] AC1: Owner duyệt sơ đồ tương tác từ hành động local → click → popup → kết quả/lỗi/đóng.
-- [ ] AC2: UX phân biệt word với phrase/sentence; chỉ word có Add và Add tách khỏi lookup.
-- [ ] AC3: Đặc tả popup ở cạnh con trỏ, zoom, đóng, keyboard/focus cho viewport 320/360/420 px.
-- [ ] AC4: Ma trận quyền gồm cài mới/chưa cấp/cấp/thu hồi/trang hạn chế; không hàm ý selection tự cấp quyền.
-- [ ] AC5: Tài liệu tham chiếu Wirefigma có nguồn/checksum; dashboard mẫu và mockup cũ không còn là baseline.
-- [ ] AC6: UI thể hiện N do user cấu hình, không mặc định; khi chọn Google, phrase/sentence không gọi AI; khi chọn AI, phrase/sentence dịch qua provider đó; Google word dùng AI BYOK bổ sung POS/example; kênh Quizlet chờ khảo sát/quyết định.
+- [x] AC2: Đặc tả UX phân biệt word với phrase/sentence; chỉ word có Add và Add tách khỏi lookup. Chưa phải test UI runtime.
+- [x] AC3: Đặc tả popup ở cạnh con trỏ, zoom, đóng, keyboard/focus cho viewport 320/360/420 px. Đã kiểm tra clamp số học, chưa kiểm tra UI runtime.
+- [x] AC4: Ma trận quyền gồm cài mới/chưa cấp/cấp/thu hồi/trang hạn chế; không hàm ý selection tự cấp quyền. Owner chốt bật tab với tùy chọn ghi nhớ site; manifest/runtime chờ kiểm chứng.
+- [x] AC5: Tài liệu tham chiếu Wirefigma có nguồn/checksum xác minh khớp; dashboard mẫu và mockup cũ không còn là baseline.
+- [x] AC6: Đặc tả UI thể hiện N do user cấu hình, không mặc định; Google cụm/câu không AI; AI mode dùng AI; Google word + AI POS/example; Quizlet chờ khảo sát/quyết định. Chưa test implementation.
 
 ## Kế hoạch kiểm thử
 
 ### Tự động
 
-- [ ] Kiểm tra tài liệu/liên kết/checksum nếu có script; đối chiếu mã requirement.
+- [x] Kiểm tra tài liệu/liên kết/formatter, checksum và đối chiếu mã requirement; kết quả trong báo cáo, chạy lại trên bản cuối trước lưu Git.
 
 ### Thủ công/trực quan/model thật
 
-- [ ] Owner walkthrough nhánh thành công/lỗi/không hỗ trợ; review trực quan 320/360/420 px theo Wirefigma.
-- [ ] Review quyền, keyboard/focus và tương phản.
+- [ ] Owner walkthrough đặc tả nhánh thành công/lỗi/không hỗ trợ, duyệt UX mới (AC1).
+- [x] Root review tài liệu quyền, keyboard/focus và tính tương phản token; không phải test browser.
+- Theo D-P1-14 owner duyệt ngày 2026-09-30: review ảnh/keyboard/zoom trên mock 320/360/420 ở P1-103; quyền/interaction thật ở P1-105; browser E2E/release ở P1-109. Test runtime chưa chạy, không bỏ hoặc tính pass. Không tạo mockup/code trong P1-101.
 
 ### Lệnh bắt buộc
 
@@ -66,6 +67,10 @@ Ghi lệnh thực sự đã chạy và bằng chứng; không tuyên bố test c
 
 - Dự kiến: tài liệu UX/sản phẩm và liên kết Wirefigma; không viết code.
 - Cờ tính năng: không áp dụng cho gói thiết kế.
+- Ngày 2026-09-30: owner yêu cầu thực hiện P1-101. Điều kiện Phase 0/P1-R01 đã có; gói được chuyển NHÁP → SẴN_SÀNG → ĐANG_LÀM. Đây là quyền thực hiện, không phải duyệt trước thiết kế UX mới.
+- Cho phép hai nhánh tài liệu song song trong duy nhất P1-101, sở hữu file độc lập; root lập kế hoạch, xử lý quyền và tích hợp/review. Chi tiết ở [kế hoạch điều phối](../ai-prompts/P1-101-orchestration.md).
+- ĐANG_LÀM → ĐANG_REVIEW: agent A/B đã giao bản thảo; root review, sửa race/cache/mapping và tạo [hồ sơ owner](../design/p1-101-owner-review.md). Owner chốt riêng activation D-P1-11; toàn bộ UX mới chưa được coi là đã duyệt.
+- Xung đột gate đã được owner giải quyết: D-P1-14 chấp nhận phân tầng visual/mock P1-103, quyền/interaction P1-105, E2E P1-109; đã cập nhật trách nhiệm trong gói phụ thuộc, không bắt đầu thực thi chúng. AC1 còn chờ duyệt bộ UX; STATUS chưa cập nhật vì gói chưa qua cổng kết thúc.
 
 ## Rủi ro và rollback
 
@@ -74,16 +79,16 @@ Ghi lệnh thực sự đã chạy và bằng chứng; không tuyên bố test c
 
 ## Bằng chứng
 
-- Build/commit: chưa thực hiện.
-- Kết quả test tự động: chờ chạy.
-- Bằng chứng thủ công: chờ owner walkthrough.
-- Báo cáo/ảnh: chờ review; gói này không tạo mockup.
+- Build: không áp dụng, chỉ tài liệu; commit sẽ nhận diện qua Git log của file gói sau khi lưu.
+- Kết quả kiểm tra: [báo cáo](../evidence/P1-101-design-review.md); hash khớp, contrast số học, 432 ca clamp, docs 77 Markdown/formatter, 16 test tooling, secret scan 124 file và diff-check đạt. Không chạy hoặc claim test UI/feature thật.
+- Bằng chứng thủ công: root review tài liệu/nguồn; chờ owner walkthrough và visual runtime.
+- Báo cáo/ảnh: hồ sơ chữ và bảng số học có sẵn; không ảnh/mockup mới hoặc sử dụng screenshot dashboard mẫu.
 
 ## Báo cáo hoàn thành
 
-- File đã thay đổi: chưa ghi.
-- Kết quả tiêu chí nghiệm thu: chưa đánh giá.
-- Tác động bảo mật/quyền riêng tư: UX ghi rõ giới hạn permission/selection.
+- File đã thay đổi: UX/UI cấp cao, IA, wireframes, foundations, decision register, traceability; thêm quyền/layout, owner-review, checklist, bằng chứng và ba prompt/kế hoạch điều phối; cập nhật gói này. Danh sách cụ thể ở báo cáo và Git diff.
+- Kết quả tiêu chí nghiệm thu: AC2…6 đạt mức đặc tả/review kỹ thuật; AC1 chờ owner. Kiểm tra UI thật còn chờ, không tuyên bố gói hoàn tất.
+- Tác động bảo mật/quyền riêng tư: quyền tab/site tách khỏi quyền gửi selection; không secret client/log; không crawl/session/cookie; thu hồi không hứa xóa dữ liệu đã gửi. Không có dữ liệu tài khoản thật hoặc external write.
 - Database migration: không.
-- Giới hạn đã biết: khả năng/kênh Quizlet còn chờ khảo sát và phê duyệt.
+- Giới hạn đã biết: duyệt bộ UX còn chờ; visual runtime có gói chịu trách nhiệm nhưng chưa chạy; Quizlet còn chờ khảo sát/phê duyệt; model/auth/schema/cache/sense không tự chốt ở gói này.
 - Gói tiếp theo: P1-103 sau gate owner; P1-102 có thể spike sớm.
