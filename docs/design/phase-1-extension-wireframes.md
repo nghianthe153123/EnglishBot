@@ -1,7 +1,7 @@
 # P1-002 — Wireframe extension và selection popup
 
 - Trạng thái: BẢN_NHÁP — ưu tiên review side panel đủ ba tab trước
-- Cập nhật: 2026-09-29
+- Cập nhật: 2026-09-30
 - Work package: [P1-002](../work-packages/P1-002-extension-information-architecture.md)
 - Mức fidelity: cấu trúc và hành vi, chưa phải high-fidelity visual hoặc code UI
 
@@ -129,8 +129,9 @@ Xóa chỉ xảy ra sau xác nhận; sau khi xóa quay về EXT-CHAT-01. Không 
 │ Mục đã lưu từ trang hiện tại     │
 │                                  │
 │ Chưa có từ nào từ trang này.     │
-│ Bôi đen từ hoặc cụm từ trên trang│
-│ để dịch, nghe phát âm hoặc lưu.  │
+│ Bôi đen một từ trên trang để    │
+│ tra, nghe phát âm hoặc lưu.      │
+│ Cụm/câu chỉ được dịch nghĩa.     │
 │                                  │
 │ [Quay lại trang]                 │
 └──────────────────────────────────┘
@@ -156,7 +157,7 @@ Không biến empty state thành lời khẳng định người dùng chưa có 
 
 - Mỗi dòng ưu tiên từ + nghĩa theo ngữ cảnh; IPA/part of speech chỉ hiện khi có.
 - Không trình bày mastery bằng badge màu nếu chưa có bằng chứng; hành động nghe có text label và chọn accent theo D-107.
-- Lựa chọn phạm vi list (chỉ trang hiện tại hay thư viện đầy đủ) vẫn cần owner review trước khi khóa.
+- Phạm vi danh sách đã được chủ dự án chốt: chỉ mục đã lưu từ trang hiện tại; toàn thư viện nằm ở dashboard.
 
 ## 4. Tab Bài học
 

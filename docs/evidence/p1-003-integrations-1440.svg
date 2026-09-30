@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">P1-003: trang Tích hợp ở viewport 1440 px</title>
+  <desc id="desc">Wireframe xám: sidebar cố định và nội dung có giới hạn độ rộng đọc, hai khu tích hợp với thứ bậc rõ.</desc>
+  <rect width="1440" height="900" fill="#f5f5f5"/>
+  <g font-family="Arial, sans-serif" fill="#202020">
+    <rect x="12" y="12" width="1416" height="876" rx="4" fill="#fff" stroke="#555"/>
+    <line x1="246" y1="12" x2="246" y2="888" stroke="#777"/>
+    <text x="36" y="57" font-size="23" font-weight="700">EnglishBot</text>
+    <line x1="30" y1="82" x2="228" y2="82" stroke="#aaa"/>
+    <text x="36" y="128" font-size="16">Hôm nay</text>
+    <text x="36" y="176" font-size="16">Từ vựng</text>
+    <text x="36" y="224" font-size="16">Bài học</text>
+    <text x="36" y="272" font-size="16">Nguồn</text>
+    <rect x="26" y="291" width="210" height="48" fill="#dedede"/>
+    <text x="36" y="321" font-size="16" font-weight="700">Tích hợp</text>
+    <text x="36" y="377" font-size="16">Cài đặt</text>
+
+    <text x="310" y="69" font-size="30" font-weight="700">Tích hợp</text>
+    <text x="310" y="102" font-size="15">Chia sẻ bản quét và chuyển từ vựng</text>
+    <line x1="310" y1="134" x2="1280" y2="134" stroke="#aaa"/>
+
+    <text x="310" y="180" font-size="22" font-weight="700">Chia sẻ với ChatGPT</text>
+    <text x="310" y="210" font-size="15">Tài khoản: learner@example…</text>
+    <text x="310" y="251" font-size="14">Nguồn được chọn</text>
+    <rect x="310" y="267" width="970" height="78" fill="#f1f1f1" stroke="#777"/>
+    <text x="329" y="298" font-size="16">The science of learning · example.com</text>
+    <text x="329" y="326" font-size="14">Bản quét còn hiệu lực</text>
+    <text x="310" y="393" font-size="15">Dữ liệu: nội dung và tìm kiếm trong bản quét này</text>
+    <text x="310" y="430" font-size="15">Thời hạn: 30 phút từ lúc cấp quyền</text>
+    <text x="310" y="467" font-size="15">Tool thay đổi dữ liệu cần duyệt riêng.</text>
+    <rect x="310" y="492" width="274" height="52" fill="#dedede" stroke="#555"/>
+    <text x="339" y="525" font-size="15" font-weight="700">Cho phép trong 30 phút</text>
+
+    <line x1="310" y1="592" x2="1280" y2="592" stroke="#aaa"/>
+    <text x="310" y="640" font-size="22" font-weight="700">Quizlet</text>
+    <text x="310" y="671" font-size="15">Xem trước và xuất văn bản để bạn tự nhập vào Quizlet.</text>
+    <rect x="310" y="698" width="222" height="50" fill="#fff" stroke="#555"/>
+    <text x="344" y="730" font-size="15">Chọn từ để xuất</text>
+    <text x="310" y="814" font-size="14">Liên kết tài khoản không tự chia sẻ nguồn · Không có đồng bộ trực tiếp trong beta</text>
+  </g>
+</svg>
