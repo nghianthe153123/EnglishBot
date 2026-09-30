@@ -59,6 +59,9 @@ Tiến độ tổng quan vẫn thuộc Hôm nay/Bài học theo xác nhận `RES
 - Khi tab trình duyệt đổi, header cập nhật tên trang; capture cũ không bị thay bằng nội dung tab mới cho tới khi người dùng chọn quét.
 - Citation chỉ điều hướng tới anchor của chính bản capture; khi anchor không còn hợp lệ, vẫn hiển thị nguồn nhưng nêu giới hạn.
 - Selection popup là điểm vào thao tác trên văn bản, không thay navigation ba tab và không mở panel phụ bắt buộc.
+- Selection một từ đơn mở thẻ từ vựng gồm nghĩa theo ngữ cảnh, từ loại, câu ví dụ AI soạn mới, các dạng cùng họ từ, phát âm và lưu.
+- Selection cụm/câu nhiều từ chỉ có bản dịch nghĩa; không thêm hành động hoặc metadata học từ.
+- Câu ví dụ/word family có được lưu cùng mục từ không và câu ví dụ có bám nghĩa trang không được để mở tới phase thiết kế DB/API.
 
 ## 5. Chiều rộng và hành vi responsive
 

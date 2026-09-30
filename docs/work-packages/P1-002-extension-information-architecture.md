@@ -5,7 +5,7 @@
 - Module/bề mặt sở hữu: extension UX
 - Mức rủi ro: Nâng cao
 - Phụ thuộc: P1-001, cổng A
-- ID yêu cầu: J1, J2, CAP-01..03, CHAT-01..04, SEL-01..04, D-102, D-110, D-111, D-112, PRIV-01..03, NFR-08, NFR-09
+- ID yêu cầu: J1, J2, CAP-01..03, CHAT-01..04, SEL-01..05, D-102, D-110, D-111, D-112, PRIV-01..03, NFR-08, NFR-09
 
 ## Mục tiêu
 
@@ -15,7 +15,8 @@ Khóa cấu trúc thông tin, navigation, wireframe độ chi tiết thấp và 
 
 - IA chung và ba tab `Chat`, `Từ vựng`, `Bài học`.
 - Consent capture, scan, summary, Q&A streaming, citation và recapture.
-- Selection popup dịch/phát âm/giải thích/lưu với phản hồi local tức thời.
+- Selection popup phản hồi local tức thời; từ đơn có thẻ từ, phát âm/lưu; cụm/câu chỉ dịch.
+- Phân loại một từ đơn so với cụm/câu nhiều từ; thẻ từ đơn có POS, ví dụ AI mới và word family.
 - Empty/loading/error/offline/permission/expired/quota/unsupported states.
 - Edge case nhiều dòng, viewport edge, zoom, dark page và navigation.
 
@@ -55,6 +56,8 @@ Khóa cấu trúc thông tin, navigation, wireframe độ chi tiết thấp và 
 - P1-001 và cổng A đã hoàn tất ngày 2026-09-29. Chủ dự án yêu cầu đi theo phase: bắt đầu bằng wireframe side panel đủ ba tab; không tạo high-fidelity visual hoặc component UI trong P1-002.
 - High-fidelity mockup chỉ bắt đầu sau khi P1-002/P1-003 và design foundation/accessibility P1-004 đạt các cổng tương ứng; mockup trước đó sẽ dễ khóa sớm màu, typography và thành phần chưa được duyệt.
 - Owner decision `RESOLVED-P1-002-01` (2026-09-29): tab Từ vựng chỉ hiển thị các mục đã lưu từ trang hiện tại; toàn thư viện nằm ở dashboard. UX baseline và IA đã phản ánh lựa chọn này.
+- Owner decision `RESOLVED-P1-002-02` (2026-09-30): selection một từ đơn mở thẻ từ gồm từ loại, câu ví dụ mới do AI soạn và các dạng cùng họ từ (không phải từ đồng nghĩa/trái nghĩa), kèm phát âm/lưu; selection nhiều từ chỉ hiển thị bản dịch, không có hành động/thông tin học từ khác.
+- Owner decision `DEFERRED-P1-002-03` (2026-09-30): chưa quyết định câu ví dụ AI phải bám nghĩa trong ngữ cảnh trang hay dùng nghĩa phổ biến độc lập; cũng chưa quyết định có lưu câu ví dụ/word family cùng mục từ hay không. Chốt tại phase thiết kế DB/API; P1-002 chỉ ghi nhận để không khóa hợp đồng dữ liệu sớm.
 - Kiểm tra tài liệu local ngày 2026-09-29: format, docs-check và secret scan đạt; CI run `36570801869` thành công trên commit `8e248b7`. Deliverable vẫn là bản nháp và chưa qua owner review/cổng B.
 
 ## Rủi ro và rollback

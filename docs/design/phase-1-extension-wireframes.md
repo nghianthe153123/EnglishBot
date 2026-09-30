@@ -201,27 +201,44 @@ Popup xuất hiện gần selection nhưng phải được đặt lại vị tr�
 
 ```text
 ┌──────────────────────────────────┐
-│ “desirable difficulty”           │
-│ [Dịch] [Nghe] [Giải thích] [Lưu] │  Hành động gọn
+│ “durable”                         │
+│ Một từ đơn · [Tra từ]             │  Chỉ xử lý sau thao tác rõ ràng
 └──────────────────────────────────┘
 ```
 
 ```text
 ┌──────────────────────────────────┐
-│ desirable difficulty             │
-│ danh từ · /dɪˈzaɪrəbəl.../       │
-│ Khó khăn có ích cho việc học.    │
+│ durable · /ˈdʊrəbəl/             │
+│ tính từ                          │
+│ bền, có thể sử dụng lâu dài      │
 │                                  │
-│ Trong câu này: thử thách vừa đủ  │
-│ để giúp ghi nhớ bền hơn.         │
+│ Câu ví dụ mới                    │
+│ The team built a durable bridge. │
+│                                  │
+│ Cùng họ từ                       │
+│ durability (danh từ)             │
+│ durably (trạng từ)               │
 │                                  │
 │ [Nghe US ▾]       [Lưu từ]       │
 └──────────────────────────────────┘
 ```
 
+Với selection từ hai từ trở lên, chỉ cung cấp bản dịch:
+
+```text
+┌──────────────────────────────────┐
+│ “desirable difficulty”           │
+│ [Dịch]                           │
+├──────────────────────────────────┤
+│ Khó khăn có ích cho việc học.    │
+└──────────────────────────────────┘
+```
+
+- Phân loại: một từ đơn (một từ vựng) mở thẻ từ; cụm/câu nhiều từ chỉ có bản dịch. Không hiển thị từ loại, câu ví dụ, word family, phát âm, giải thích bổ sung hoặc nút lưu cho cụm/câu.
+- Câu ví dụ của từ đơn do AI soạn mới; word family chỉ gồm các dạng cùng họ từ (ví dụ `learn`, `learner`, `learning`), không gồm từ đồng nghĩa/trái nghĩa.
 - Trước khi người dùng chọn hành động, popup chỉ hiện local selection và lựa chọn; không gửi selection lên mạng.
-- Kết quả dịch/giải thích có context câu liền kề khi được phép; không hiển thị text trang rộng hơn selection cần thiết.
-- Lưu từ nêu được ngữ cảnh sẽ được giữ cùng từ; có phản hồi đã lưu và hướng thu hồi/xóa nếu được hỗ trợ.
+- Khi tra từ hoặc dịch, chỉ gửi selection và phần ngữ cảnh tối thiểu cần thiết theo quyết định quyền riêng tư; không hiển thị text trang rộng hơn selection cần thiết.
+- Lưu từ đơn có phản hồi đã lưu và hướng thu hồi/xóa nếu được hỗ trợ. Cách lưu đầu ra AI (câu ví dụ/word family) vẫn chờ owner quyết định.
 - Nhiều dòng, zoom, trang nền tối, điều hướng trang và selection mất hiệu lực phải được tính trong placement/state review.
 
 ## 6. State catalog cho Phase 2 mock
@@ -242,11 +259,13 @@ Popup xuất hiện gần selection nhưng phải được đặt lại vị tr�
 | ST-EXT-12 | Vocabulary      | Không có mục đã lưu từ trang này  | Empty state phân biệt rỗng với lỗi/tải                                       | SCN-08    |
 | ST-EXT-13 | Vocabulary      | Có mục đã lưu từ trang này        | Nghĩa ngữ cảnh, audio action có label, save status                           | SCN-05/07 |
 | ST-EXT-14 | Selection popup | Selection mất/không hỗ trợ        | Đóng/ẩn an toàn, không gửi request, không làm mất selection không cần thiết  | SCN-06    |
-| ST-EXT-15 | Selection popup | Đang dịch/giải thích/phát âm      | Loading/error tương ứng action; cho retry/đổi giọng                          | SCN-05/14 |
+| ST-EXT-15 | Selection popup | Đang tra từ/dịch/phát âm          | Loading/error theo action hợp lệ; từ đơn có thể retry/đổi giọng              | SCN-05/14 |
 | ST-EXT-16 | Lesson          | Có mục đến hạn                    | Số mục, CTA bắt đầu, tiến độ có nguồn                                        | SCN-09    |
 | ST-EXT-17 | Lesson          | Không có mục đến hạn              | Empty/next due; không sinh lesson giả                                        | SCN-08    |
 | ST-EXT-18 | Chat            | Người dùng từ chối quyền capture  | Giải thích quyền cần thiết; nút thử lại/mở hướng dẫn; không tiếp tục capture | SCN-03    |
 | ST-EXT-19 | Chat            | Người dùng xóa bản capture        | Xác nhận trước; chat/capture bị xóa; từ đã lưu còn theo D-205                | SCN-04    |
+| ST-EXT-20 | Selection popup | Thẻ từ đơn                        | Từ loại, nghĩa, ví dụ AI mới, word family, phát âm và lưu                    | SCN-05    |
+| ST-EXT-21 | Selection popup | Selection nhiều từ                | Chỉ bản dịch; không hiển thị hành động/thông tin học từ                      | SCN-15    |
 
 ## 7. Review keyboard, focus và nội dung
 
@@ -259,17 +278,19 @@ Popup xuất hiện gần selection nhưng phải được đặt lại vị tr�
 
 ## 8. Scenario walkthrough và điểm owner review
 
-| Flow                        | Success                         | Recoverable failure                    | Unsupported path                                  | Kết quả review                             |
-| --------------------------- | ------------------------------- | -------------------------------------- | ------------------------------------------------- | ------------------------------------------ |
-| J1 / Chat                   | Quét → hỏi → citation về anchor | Mất mạng, quyền từ chối, stale/expired | Trang bị chặn hoặc nguồn không có đáp án          | Chờ owner review wireframe                 |
-| J2 / selection + vocabulary | Chọn → dịch/nghe → lưu          | Provider/audio lỗi, popup sát cạnh     | Selection dài/không phải text hoặc script bị chặn | Chờ owner review popup và thứ tự hành động |
+| Flow                        | Success                                                   | Recoverable failure                    | Unsupported path                              | Kết quả review                             |
+| --------------------------- | --------------------------------------------------------- | -------------------------------------- | --------------------------------------------- | ------------------------------------------ |
+| J1 / Chat                   | Quét → hỏi → citation về anchor                           | Mất mạng, quyền từ chối, stale/expired | Trang bị chặn hoặc nguồn không có đáp án      | Chờ owner review wireframe                 |
+| J2 / selection + vocabulary | Chọn một từ → xem thẻ → nghe/lưu; chọn cụm/câu → chỉ dịch | Provider/audio lỗi, popup sát cạnh     | Selection không phải text hoặc script bị chặn | Chờ owner review popup và thứ tự hành động |
 
 ### Quyết định đã chốt
 
 - Tab Từ vựng chỉ hiển thị các mục đã lưu từ trang hiện tại; toàn bộ thư viện thuộc dashboard. Từ chưa lưu không xuất hiện trong danh sách tab.
+- Selection một từ đơn mở thẻ từ vựng gồm từ loại, câu ví dụ AI soạn mới và các dạng cùng họ từ; selection nhiều từ chỉ có bản dịch, không có hành động học/lưu/phát âm.
 
 ### Câu hỏi giữ mở, không tự quyết
 
-- Khi người dùng chọn cả cụm/câu, hành động “Lưu” tạo vocabulary item đại diện theo từ nào? Chưa thêm behavior tự tách câu thành nhiều từ vì chưa có quyết định.
+- Câu ví dụ AI cần bám nghĩa trong ngữ cảnh trang hay dùng nghĩa phổ biến độc lập?
+- Khi lưu từ, có lưu kèm câu ví dụ AI và danh sách word family để dùng lại không?
 
 High-fidelity visual và component UI không thuộc deliverable này; sau khi owner duyệt IA/wireframe, tiếp tục P1-003/P1-004 theo dependency và cổng phase.

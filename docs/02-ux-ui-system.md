@@ -52,12 +52,16 @@ Các trạng thái bắt buộc:
 
 Tương tác đầu tiên xuất hiện ngay từ code local và không được chờ phản hồi mạng.
 
-Các hành động:
+Selection được phân loại thành **một từ đơn** hoặc **cụm/câu nhiều từ**. Popup ban đầu chỉ hiển thị selection và loại nhận diện; không gọi mạng trước hành động rõ ràng.
 
-- Dịch.
-- Phát âm.
-- Giải thích theo ngữ cảnh.
-- Lưu.
+- **Từ đơn:** mở thẻ từ vựng có bản dịch theo ngữ cảnh, từ loại, một câu ví dụ mới do AI soạn và các dạng cùng họ từ (ví dụ `learn`, `learner`, `learning`); cho phép phát âm và lưu từ.
+- **Cụm/câu:** chỉ hiển thị bản dịch nghĩa; không có phát âm, từ loại, câu ví dụ, word family, giải thích bổ sung hoặc lưu từ.
+
+Nội dung/hành động của thẻ từ đơn:
+
+- Bản dịch tiếng Việt theo ngữ cảnh.
+- Phát âm và lựa chọn giọng.
+- Lưu từ.
 
 Các trường trong thẻ mở rộng:
 
@@ -66,9 +70,12 @@ Các trường trong thẻ mở rộng:
 - Từ loại.
 - IPA hoặc ký hiệu phát âm khi có.
 - Bản dịch tiếng Việt theo ngữ cảnh.
-- Giải thích ngắn theo ngữ cảnh.
+- Một câu ví dụ mới do AI soạn.
+- Danh sách dạng cùng họ từ; không bao gồm từ đồng nghĩa/trái nghĩa.
 - Điều khiển phát âm Anh-Mỹ/Anh-Anh.
-- Hành động lưu/đã biết/bỏ qua.
+- Hành động lưu từ.
+
+Chưa chốt ở P1-002: câu ví dụ AI phải bám nghĩa trong ngữ cảnh trang hay dùng nghĩa phổ biến độc lập; câu ví dụ và word family có được lưu cùng mục từ hay không. Chuyển hai quyết định này sang phase thiết kế DB/API để đánh giá cùng mô hình dữ liệu và vòng đời nội dung.
 
 Bong bóng phải xử lý được vùng chọn nhiều dòng, mép viewport, zoom, trang nền tối và điều hướng trang.
 

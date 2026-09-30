@@ -22,10 +22,11 @@
 ### J2 — Học văn bản được chọn
 
 1. Người dùng chọn một từ, cụm từ hoặc câu.
-2. Một bong bóng hành động nhỏ xuất hiện.
-3. Người dùng có thể dịch, phát âm, yêu cầu giải thích hoặc lưu nội dung.
-4. Từ được lưu sẽ ghi nhận ngữ cảnh trang và tín hiệu lần gặp.
-5. Các từ trùng được hợp nhất thành một bản ghi học tập.
+2. Extension phân loại cục bộ lựa chọn thành một từ đơn hoặc cụm/câu nhiều từ; chỉ gửi dữ liệu sau hành động rõ ràng của người dùng.
+3. Với từ đơn, người dùng mở thẻ từ vựng gồm nghĩa theo ngữ cảnh, từ loại, câu ví dụ mới do AI soạn và các dạng cùng họ từ; có thể nghe phát âm hoặc lưu từ.
+4. Với cụm/câu, người dùng chỉ nhận bản dịch nghĩa; không hiện phát âm, giải thích thêm hoặc lưu từ.
+5. Từ đơn được lưu sẽ ghi nhận ngữ cảnh trang và tín hiệu lần gặp.
+6. Các từ trùng được hợp nhất thành một bản ghi học tập.
 
 ### J3 — Hoàn thành bài học hằng ngày
 
@@ -54,36 +55,37 @@
 
 ## Yêu cầu chức năng
 
-| ID      | Yêu cầu                                                                    |  Ưu tiên | Trạng thái   | Phase dự kiến |
-| ------- | -------------------------------------------------------------------------- | -------: | ------------ | ------------- |
-| CAP-01  | Chỉ thu thập tab đang hoạt động sau thao tác của người dùng                | Bắt buộc | CHẤP_NHẬN    | 4/5A          |
-| CAP-02  | Trích xuất tiêu đề, URL, ngôn ngữ, heading, văn bản dễ đọc và anchor nguồn | Bắt buộc | CHẤP_NHẬN    | 5A            |
-| CAP-03  | Phát hiện nội dung trang đã thay đổi hoặc hết mới                          |   Nên có | CHẤP_NHẬN    | 5A            |
-| CAP-04  | Hỗ trợ PDF, trang nhiều hình và OCR                                        |   Có thể | HOÃN         | 7+            |
-| CHAT-01 | Đặt câu hỏi về một bản thu thập                                            | Bắt buộc | CHẤP_NHẬN    | 4/5A          |
-| CHAT-02 | Stream câu trả lời tới side panel                                          | Bắt buộc | CHẤP_NHẬN    | 4             |
-| CHAT-03 | Gắn citation nguồn có thể kiểm chứng                                       | Bắt buộc | CHẤP_NHẬN    | 5A            |
-| CHAT-04 | Thông báo khi câu trả lời không được trang hỗ trợ                          | Bắt buộc | CHẤP_NHẬN    | 5A            |
-| SEL-01  | Phát hiện văn bản được chọn và hiển thị hành động theo ngữ cảnh            | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-02  | Dịch bằng ngữ cảnh câu xung quanh                                          | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-03  | Phát âm và cho phép chọn giọng                                             | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-04  | Lưu từ cùng ngữ cảnh nguồn                                                 | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| VOC-01  | Duy trì các trạng thái candidate, learning, reviewing, mastered, ignored   | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| VOC-02  | Hợp nhất các lần gặp lặp lại của cùng một từ đã chuẩn hóa                  | Bắt buộc | CHẤP_NHẬN    | 5B/5C         |
-| VOC-03  | Cho phép sửa thủ công nghĩa, trạng thái và metadata phát âm                |   Nên có | CHẤP_NHẬN    | 5C            |
-| LRN-01  | Tạo lịch ôn có tính xác định từ kết quả ôn tập                             | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| LRN-02  | Tạo bài học có giới hạn từ từ vựng đến hạn                                 | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| LRN-03  | Hỗ trợ bài tập điền từ, chọn đáp án, nhớ lại và đọc hiểu theo ngữ cảnh     |   Nên có | CHẤP_NHẬN    | 5C            |
-| LRN-04  | Hiển thị tiến độ mà không tạo ra tuyên bố mastery thiếu căn cứ             | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| MCP-01  | Liên kết tài khoản EnglishBot với MCP client                               | Bắt buộc | CHẤP_NHẬN    | 6             |
-| MCP-02  | Tìm kiếm trong bản thu thập được chia sẻ rõ ràng                           | Bắt buộc | CHẤP_NHẬN    | 6             |
-| MCP-03  | Liệt kê từ đến hạn/chưa thuộc và tạo bài học                               |   Nên có | CHẤP_NHẬN    | 6             |
-| QZ-01   | Xem trước và xuất văn bản tương thích Quizlet                              | Bắt buộc | CHẤP_NHẬN    | 5B/6          |
-| QZ-02   | Import file Quizlet do người dùng cung cấp                                 |   Nên có | CHẤP_NHẬN    | 6             |
-| QZ-03   | Đồng bộ trực tiếp với Quizlet                                              |   Có thể | CÓ_ĐIỀU_KIỆN | 7+            |
-| PRIV-01 | Cấu hình thời gian lưu và xóa bản thu thập                                 | Bắt buộc | CHẤP_NHẬN    | 4             |
-| PRIV-02 | Chặn thu thập trên domain bị từ chối                                       | Bắt buộc | CHẤP_NHẬN    | 4             |
-| PRIV-03 | Không bao giờ lưu cookie phiên trình duyệt hoặc ChatGPT                    | Bắt buộc | CHẤP_NHẬN    | Tất cả        |
+| ID      | Yêu cầu                                                                                        |  Ưu tiên | Trạng thái   | Phase dự kiến |
+| ------- | ---------------------------------------------------------------------------------------------- | -------: | ------------ | ------------- |
+| CAP-01  | Chỉ thu thập tab đang hoạt động sau thao tác của người dùng                                    | Bắt buộc | CHẤP_NHẬN    | 4/5A          |
+| CAP-02  | Trích xuất tiêu đề, URL, ngôn ngữ, heading, văn bản dễ đọc và anchor nguồn                     | Bắt buộc | CHẤP_NHẬN    | 5A            |
+| CAP-03  | Phát hiện nội dung trang đã thay đổi hoặc hết mới                                              |   Nên có | CHẤP_NHẬN    | 5A            |
+| CAP-04  | Hỗ trợ PDF, trang nhiều hình và OCR                                                            |   Có thể | HOÃN         | 7+            |
+| CHAT-01 | Đặt câu hỏi về một bản thu thập                                                                | Bắt buộc | CHẤP_NHẬN    | 4/5A          |
+| CHAT-02 | Stream câu trả lời tới side panel                                                              | Bắt buộc | CHẤP_NHẬN    | 4             |
+| CHAT-03 | Gắn citation nguồn có thể kiểm chứng                                                           | Bắt buộc | CHẤP_NHẬN    | 5A            |
+| CHAT-04 | Thông báo khi câu trả lời không được trang hỗ trợ                                              | Bắt buộc | CHẤP_NHẬN    | 5A            |
+| SEL-01  | Phát hiện văn bản được chọn và hiển thị hành động theo ngữ cảnh                                | Bắt buộc | CHẤP_NHẬN    | 5B            |
+| SEL-02  | Dịch bằng ngữ cảnh câu xung quanh                                                              | Bắt buộc | CHẤP_NHẬN    | 5B            |
+| SEL-03  | Phát âm và cho phép chọn giọng                                                                 | Bắt buộc | CHẤP_NHẬN    | 5B            |
+| SEL-04  | Lưu từ cùng ngữ cảnh nguồn                                                                     | Bắt buộc | CHẤP_NHẬN    | 5B            |
+| SEL-05  | Phân loại từ đơn với cụm/câu; từ đơn có từ loại, ví dụ AI mới và word family; cụm/câu chỉ dịch | Bắt buộc | CHẤP_NHẬN    | 5B            |
+| VOC-01  | Duy trì các trạng thái candidate, learning, reviewing, mastered, ignored                       | Bắt buộc | CHẤP_NHẬN    | 5C            |
+| VOC-02  | Hợp nhất các lần gặp lặp lại của cùng một từ đã chuẩn hóa                                      | Bắt buộc | CHẤP_NHẬN    | 5B/5C         |
+| VOC-03  | Cho phép sửa thủ công nghĩa, trạng thái và metadata phát âm                                    |   Nên có | CHẤP_NHẬN    | 5C            |
+| LRN-01  | Tạo lịch ôn có tính xác định từ kết quả ôn tập                                                 | Bắt buộc | CHẤP_NHẬN    | 5C            |
+| LRN-02  | Tạo bài học có giới hạn từ từ vựng đến hạn                                                     | Bắt buộc | CHẤP_NHẬN    | 5C            |
+| LRN-03  | Hỗ trợ bài tập điền từ, chọn đáp án, nhớ lại và đọc hiểu theo ngữ cảnh                         |   Nên có | CHẤP_NHẬN    | 5C            |
+| LRN-04  | Hiển thị tiến độ mà không tạo ra tuyên bố mastery thiếu căn cứ                                 | Bắt buộc | CHẤP_NHẬN    | 5C            |
+| MCP-01  | Liên kết tài khoản EnglishBot với MCP client                                                   | Bắt buộc | CHẤP_NHẬN    | 6             |
+| MCP-02  | Tìm kiếm trong bản thu thập được chia sẻ rõ ràng                                               | Bắt buộc | CHẤP_NHẬN    | 6             |
+| MCP-03  | Liệt kê từ đến hạn/chưa thuộc và tạo bài học                                                   |   Nên có | CHẤP_NHẬN    | 6             |
+| QZ-01   | Xem trước và xuất văn bản tương thích Quizlet                                                  | Bắt buộc | CHẤP_NHẬN    | 5B/6          |
+| QZ-02   | Import file Quizlet do người dùng cung cấp                                                     |   Nên có | CHẤP_NHẬN    | 6             |
+| QZ-03   | Đồng bộ trực tiếp với Quizlet                                                                  |   Có thể | CÓ_ĐIỀU_KIỆN | 7+            |
+| PRIV-01 | Cấu hình thời gian lưu và xóa bản thu thập                                                     | Bắt buộc | CHẤP_NHẬN    | 4             |
+| PRIV-02 | Chặn thu thập trên domain bị từ chối                                                           | Bắt buộc | CHẤP_NHẬN    | 4             |
+| PRIV-03 | Không bao giờ lưu cookie phiên trình duyệt hoặc ChatGPT                                        | Bắt buộc | CHẤP_NHẬN    | Tất cả        |
 
 ## Yêu cầu phi chức năng
 

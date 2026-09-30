@@ -158,7 +158,7 @@ Không có requirement nào bị loại khỏi đường cơ sở PRD ở P1-001
 | SCN-02 | J1         | Câu hỏi không có căn cứ trong capture              | Nói rõ không tìm thấy; không bịa và không tự web-search                  |
 | SCN-03 | J1         | Quyền bị từ chối/trang không hỗ trợ                | Capture không gửi; có hướng dẫn phục hồi phù hợp                         |
 | SCN-04 | J1         | Trang đổi sau capture/nguồn hết hạn                | Trạng thái stale/expired rõ; cho quét lại nếu có thể                     |
-| SCN-05 | J2         | Từ đa nghĩa được chọn trong câu                    | Dịch/giải thích theo ngữ cảnh; lựa chọn giọng thể hiện rõ                |
+| SCN-05 | J2         | Từ đơn đa nghĩa được chọn trong câu                | Thẻ có nghĩa theo ngữ cảnh, POS, ví dụ AI mới, word family, nghe/lưu     |
 | SCN-06 | J2         | Popup sát mép viewport/selection nhiều dòng        | Popup không tràn vùng hiển thị; thao tác không làm mất selection bất ngờ |
 | SCN-07 | J2         | Lưu từ đã gặp trước đó                             | Hợp nhất theo quy tắc; không tạo mục trùng không giải thích              |
 | SCN-08 | J3         | Thư viện từ rỗng                                   | Empty state hữu ích; không sinh lesson giả                               |
@@ -168,6 +168,7 @@ Không có requirement nào bị loại khỏi đường cơ sở PRD ở P1-001
 | SCN-12 | J5         | Export có mục trùng/thiếu definition               | Preview cho phép phát hiện/sửa; export không tuyên bố đã import          |
 | SCN-13 | J5         | Người dùng yêu cầu direct Quizlet sync             | UI thể hiện chưa hỗ trợ beta; không hiện trạng thái giả                  |
 | SCN-14 | J1/J2      | Offline hoặc provider timeout                      | Lỗi có thể hiểu và cách thử lại; không mất nội dung đã lưu an toàn       |
+| SCN-15 | J2         | Chọn cụm từ hoặc cả câu                            | Chỉ có bản dịch; không hiện phát âm, giải thích, ví dụ, word family/lưu  |
 
 ## 8. Từ vựng sản phẩm dùng nhất quán
 
