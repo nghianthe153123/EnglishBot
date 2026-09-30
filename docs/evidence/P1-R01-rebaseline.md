@@ -63,6 +63,13 @@ Gỡ 8 file mockup HTML/ảnh QA khỏi đường dẫn hiện hành; bản ph�
 
 Không chạy backend/frontend feature suite, E2E hoặc live Google/AI/Quizlet trong P1-R01: không có code production hay UI mới được triển khai. Trách nhiệm chạy các test đó nằm trong P1-103..109; không đánh dấu các feature test đó đạt. Không thêm test lặp lại cho thay đổi nội dung tài liệu.
 
+### CI và bàn giao GitHub
+
+- Baseline đã commit/push lên `origin/main`: `79c2f082ff11e7445d87137cf41b22f7ca5756b3`.
+- [CI run 36743901948](https://github.com/nghianthe153123/EnglishBot/actions/runs/36743901948): trạng thái completed, kết luận success, xác minh qua GitHub Actions API theo đúng head SHA.
+- CI kiểm tra scaffold/repository hiện có; không phải bằng chứng translation/Quizlet production đã được triển khai. Local không chạy live provider hoặc tài khoản người dùng.
+- Bản ghi CI/status bổ sung sau baseline là thay đổi metadata tài liệu; không làm thay đổi feature scope.
+
 ## Giới hạn và công việc tiếp theo
 
 Schema/contract/provider-model/auth/deployment chưa khóa. Quizlet có tài liệu import web và connector Claude nhưng EnglishBot auto-create chưa có PoC; P1-102 cần chứng minh channel/account/outcome/retry. Không có database migration, credential thật hoặc thay đổi dữ liệu bên ngoài. Các gói production giữ NHÁP/điều kiện phụ thuộc và chưa được tính hoàn tất.

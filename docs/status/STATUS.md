@@ -17,6 +17,7 @@
 - Có 9 gói P1-101..109; tổng dự toán 16–27 ngày công gồm triển khai/testing/review, chưa tính chờ bên ngoài.
 - Wirefigma từ C:\SystemDesign đã có snapshot/attribution/hash trong repository. Mockup cũ gỡ khỏi baseline, có bản phục hồi cục bộ; evidence dashboard cũ có thể phục hồi từ Git.
 - Format, docs-check 70 Markdown, secret scan 117 file và staged diff-check đạt ở cổng tài liệu. Không có migration, key thật, mockup mới hoặc thao tác tài khoản Quizlet thật.
+- Baseline đã push `origin/main` tại `79c2f08`; [CI 36743901948](https://github.com/nghianthe153123/EnglishBot/actions/runs/36743901948) hoàn tất thành công trên baseline đó. Cập nhật ghi nhận CI chỉ là metadata tài liệu.
 
 ## Quyết định owner đã chốt
 
