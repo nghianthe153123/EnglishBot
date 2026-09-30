@@ -116,6 +116,12 @@ Diff lớn do AI tạo là tín hiệu rủi ro, không phải bằng chứng ti
 
 ## Quy tắc thực thi song song
 
+### Điều phối phiên P1-R01
+
+Chủ dự án yêu cầu root điều phối model/effort thấp hơn cho phần tài liệu thường quy. Hai prompt đã giao tại `docs/ai-prompts/P1-R01-A-product-ux.md` và `P1-R01-B-delivery-testing.md`: `gpt-6-luna`, effort `low`, quyền file độc lập. Root xử lý kiến trúc/DB/secret/khả thi Quizlet, review diff và chạy cổng cuối. Khi owner trả lời, root gửi cập nhật và ghi quyết định trong prompt/ADR; không để agent giữ giả định cũ. Không coi bản trả lời sub-agent là bằng chứng test đã đạt.
+
+Gói P1-R01 cho phép hai lane tài liệu cùng một work package; đây không phải quyền mở nhiều tính năng production song song. Từ phiên tiếp theo đọc scope hiện hành ADR-006/008 và P1-101..109; P1-001..007 chỉ là lịch sử.
+
 Được phép song song:
 
 - UI component độc lập dùng hợp đồng mock đã khóa.

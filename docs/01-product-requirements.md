@@ -1,114 +1,67 @@
-# Yêu cầu sản phẩm
+# Yêu cầu sản phẩm — Phase 1
 
-## Trạng thái yêu cầu
+## Trạng thái
 
-- `ĐỀ_XUẤT`: chưa được phê duyệt để triển khai.
-- `CHẤP_NHẬN`: thuộc phạm vi đã lên kế hoạch.
-- `HOÃN`: chủ động chuyển sang giai đoạn sau.
-- `CÓ_ĐIỀU_KIỆN`: cần năng lực bên ngoài hoặc quyết định bổ sung.
+Đây là baseline Phase 1 theo P1-R01 ngày 2026-09-30, thay thế phạm vi P1-001 trước đó cho công việc hiện hành. Các quyết định chưa có câu trả lời được ghi `CHƯA_CHỐT`; tài liệu không tự suy ra phương án.
 
-## Các hành trình người dùng cốt lõi
+## Hành trình người dùng
 
-### J1 — Hiểu tab đang hoạt động
+### P1-J1 — Dịch một từ
 
-1. Người dùng mở side panel của tiện ích.
-2. Tiện ích giải thích dữ liệu sẽ được thu thập.
-3. Người dùng chọn **Quét tab này**.
-4. EnglishBot trích xuất và tóm tắt nội dung được hỗ trợ.
-5. Người dùng đặt câu hỏi.
-6. EnglishBot stream câu trả lời có căn cứ kèm tham chiếu nguồn.
-7. Khi chọn nguồn, hệ thống cuộn tới và làm nổi bật đoạn gốc nếu có thể.
+Người dùng chọn một từ trên trang đã cấp quyền. Extension hiện action local mà chưa gửi mạng. Khi người dùng bấm **Dịch**, popup nhỏ mở ngay cạnh con trỏ ở trạng thái đang tải và gửi selection tối thiểu. Nếu chọn Google, Google Cloud Translation API dịch nghĩa và AI BYOK bổ sung POS/câu ví dụ; giao diện nêu rõ cả hai provider trong luồng từ và chỉ enrichment thiếu mới cần AI key. Nếu chọn AI, AI dịch selection. Cụm/câu luôn dùng provider người dùng chọn; trong Google mode không cần AI enrichment. Nếu cache có đủ dữ liệu rich word thì tái sử dụng mà không gọi provider. Dữ liệu mới hợp lệ được lưu DB; Add vẫn là hành động riêng.
 
-### J2 — Học văn bản được chọn
+### P1-J2 — Dịch cụm hoặc câu
 
-1. Người dùng chọn một từ, cụm từ hoặc câu.
-2. Extension phân loại cục bộ lựa chọn thành một từ đơn hoặc cụm/câu nhiều từ; chỉ gửi dữ liệu sau hành động rõ ràng của người dùng.
-3. Với từ đơn, người dùng mở thẻ từ vựng gồm nghĩa theo ngữ cảnh, từ loại, câu ví dụ mới do AI soạn và các dạng cùng họ từ; có thể nghe phát âm hoặc lưu từ.
-4. Với cụm/câu, người dùng chỉ nhận bản dịch nghĩa; không hiện phát âm, giải thích thêm hoặc lưu từ.
-5. Từ đơn được lưu sẽ ghi nhận ngữ cảnh trang và tín hiệu lần gặp.
-6. Các từ trùng được hợp nhất thành một bản ghi học tập.
+Người dùng chọn cụm/câu, thấy action local và chủ động bấm **Dịch**. Popup chỉ hiển thị bản dịch nghĩa. Không lưu như rich word entry và không có Add.
 
-### J3 — Hoàn thành bài học hằng ngày
+### P1-J3 — Add, batch và Quizlet
 
-1. Bảng điều khiển hiển thị từ đến hạn và từ mới.
-2. Người dùng bắt đầu bài học với số lượng mục giới hạn.
-3. Bài tập thu thập độ chính xác và thời gian phản hồi.
-4. Learning engine cập nhật mức độ ghi nhớ và ngày ôn tiếp theo.
-5. Tổng kết bài học giải thích tiến độ và các từ khó.
+Người dùng bấm **Add** trên một từ hợp lệ. Từ được thêm idempotent vào queue riêng của người dùng, tách biệt với việc translation result đã lưu DB. Người dùng tự cấu hình N, không có giá trị mặc định. Nếu chưa cấu hình, UI yêu cầu thiết lập và không tạo batch. Khi đủ N từ duy nhất, hợp lệ, đã Add và chưa gán batch, hệ thống tạo text import dạng `term<TAB>definition`, một card mỗi dòng, validate delimiter rồi tự tạo set trong đúng tài khoản Quizlet. Set chỉ được báo thành công khi có bằng chứng; timeout/unknown phải reconcile hoặc retry mà không tạo trùng.
 
-### J4 — Sử dụng dữ liệu đã thu thập trong ChatGPT
+### P1-J4 — Provider, key và quyền
 
-1. Người dùng chủ động chia sẻ bản thu thập đang hoạt động với ChatGPT.
-2. EnglishBot cấp tham chiếu bản thu thập có thời hạn ngắn.
-3. ChatGPT gọi các MCP tool của EnglishBot dưới tài khoản người dùng đã liên kết.
-4. MCP chỉ trả về nội dung hoặc kết quả tìm kiếm đã được cấp quyền.
-5. Hành động nhạy cảm cần phê duyệt rõ ràng và được audit.
-
-### J5 — Xuất sang Quizlet
-
-1. Người dùng chọn một tập con từ vựng.
-2. EnglishBot cho xem trước từ và định nghĩa.
-3. Người dùng xử lý lỗi xác thực hoặc từ trùng.
-4. EnglishBot tạo nội dung văn bản tương thích với Quizlet.
-5. Người dùng sao chép hoặc mở luồng import của Quizlet.
-6. EnglishBot ghi nhận batch xuất nhưng không khẳng định đã xuất bản thành công nếu chưa có xác nhận.
+Người dùng cấu hình chọn Google API hoặc AI BYOK và cấp quyền extension cần thiết. Mô tả quyền phải xuất hiện trước khi content script cần phát hiện selection. Bôi đen tự nó không kích hoạt `activeTab` hay request mạng. BYOK đi qua backend; key không nằm trong client storage/log. Lỗi key/quota/network/provider có recovery rõ và không tự chuyển provider.
 
 ## Yêu cầu chức năng
 
-| ID      | Yêu cầu                                                                                        |  Ưu tiên | Trạng thái   | Phase dự kiến |
-| ------- | ---------------------------------------------------------------------------------------------- | -------: | ------------ | ------------- |
-| CAP-01  | Chỉ thu thập tab đang hoạt động sau thao tác của người dùng                                    | Bắt buộc | CHẤP_NHẬN    | 4/5A          |
-| CAP-02  | Trích xuất tiêu đề, URL, ngôn ngữ, heading, văn bản dễ đọc và anchor nguồn                     | Bắt buộc | CHẤP_NHẬN    | 5A            |
-| CAP-03  | Phát hiện nội dung trang đã thay đổi hoặc hết mới                                              |   Nên có | CHẤP_NHẬN    | 5A            |
-| CAP-04  | Hỗ trợ PDF, trang nhiều hình và OCR                                                            |   Có thể | HOÃN         | 7+            |
-| CHAT-01 | Đặt câu hỏi về một bản thu thập                                                                | Bắt buộc | CHẤP_NHẬN    | 4/5A          |
-| CHAT-02 | Stream câu trả lời tới side panel                                                              | Bắt buộc | CHẤP_NHẬN    | 4             |
-| CHAT-03 | Gắn citation nguồn có thể kiểm chứng                                                           | Bắt buộc | CHẤP_NHẬN    | 5A            |
-| CHAT-04 | Thông báo khi câu trả lời không được trang hỗ trợ                                              | Bắt buộc | CHẤP_NHẬN    | 5A            |
-| SEL-01  | Phát hiện văn bản được chọn và hiển thị hành động theo ngữ cảnh                                | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-02  | Dịch bằng ngữ cảnh câu xung quanh                                                              | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-03  | Phát âm và cho phép chọn giọng                                                                 | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-04  | Lưu từ cùng ngữ cảnh nguồn                                                                     | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| SEL-05  | Phân loại từ đơn với cụm/câu; từ đơn có từ loại, ví dụ AI mới và word family; cụm/câu chỉ dịch | Bắt buộc | CHẤP_NHẬN    | 5B            |
-| VOC-01  | Duy trì các trạng thái candidate, learning, reviewing, mastered, ignored                       | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| VOC-02  | Hợp nhất các lần gặp lặp lại của cùng một từ đã chuẩn hóa                                      | Bắt buộc | CHẤP_NHẬN    | 5B/5C         |
-| VOC-03  | Cho phép sửa thủ công nghĩa, trạng thái và metadata phát âm                                    |   Nên có | CHẤP_NHẬN    | 5C            |
-| LRN-01  | Tạo lịch ôn có tính xác định từ kết quả ôn tập                                                 | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| LRN-02  | Tạo bài học có giới hạn từ từ vựng đến hạn                                                     | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| LRN-03  | Hỗ trợ bài tập điền từ, chọn đáp án, nhớ lại và đọc hiểu theo ngữ cảnh                         |   Nên có | CHẤP_NHẬN    | 5C            |
-| LRN-04  | Hiển thị tiến độ mà không tạo ra tuyên bố mastery thiếu căn cứ                                 | Bắt buộc | CHẤP_NHẬN    | 5C            |
-| MCP-01  | Liên kết tài khoản EnglishBot với MCP client                                                   | Bắt buộc | CHẤP_NHẬN    | 6             |
-| MCP-02  | Tìm kiếm trong bản thu thập được chia sẻ rõ ràng                                               | Bắt buộc | CHẤP_NHẬN    | 6             |
-| MCP-03  | Liệt kê từ đến hạn/chưa thuộc và tạo bài học                                                   |   Nên có | CHẤP_NHẬN    | 6             |
-| QZ-01   | Xem trước và xuất văn bản tương thích Quizlet                                                  | Bắt buộc | CHẤP_NHẬN    | 5B/6          |
-| QZ-02   | Import file Quizlet do người dùng cung cấp                                                     |   Nên có | CHẤP_NHẬN    | 6             |
-| QZ-03   | Đồng bộ trực tiếp với Quizlet                                                                  |   Có thể | CÓ_ĐIỀU_KIỆN | 7+            |
-| PRIV-01 | Cấu hình thời gian lưu và xóa bản thu thập                                                     | Bắt buộc | CHẤP_NHẬN    | 4             |
-| PRIV-02 | Chặn thu thập trên domain bị từ chối                                                           | Bắt buộc | CHẤP_NHẬN    | 4             |
-| PRIV-03 | Không bao giờ lưu cookie phiên trình duyệt hoặc ChatGPT                                        | Bắt buộc | CHẤP_NHẬN    | Tất cả        |
+| ID        | Yêu cầu                                                                                                                                                                                                                                                                                                                                         | Trạng thái                |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| P1-TR-01  | Selection chỉ tạo action local; không gọi mạng trước click người dùng.                                                                                                                                                                                                                                                                          | CHẤP_NHẬN                 |
+| P1-TR-02  | Hỗ trợ Google Cloud Translation API hoặc AI BYOK cho mọi selection. Với từ khi chọn Google, Google dịch nghĩa và AI BYOK bổ sung POS/câu ví dụ; key chỉ cần nếu enrichment thiếu cache. Với cụm/câu, provider được chọn dịch trực tiếp; Google mode không cần AI enrichment. Cache đầy đủ được tái sử dụng mà không gọi provider; UI minh bạch. | CHẤP_NHẬN                 |
+| P1-TR-03  | Popup mở cạnh con trỏ, clamp viewport, hỗ trợ đóng, focus và bàn phím.                                                                                                                                                                                                                                                                          | CHẤP_NHẬN                 |
+| P1-TR-04  | Cụm/câu chỉ hiển thị bản dịch nghĩa, không Add.                                                                                                                                                                                                                                                                                                 | CHẤP_NHẬN                 |
+| P1-TR-05  | Lỗi key, quota, network và provider có recovery; không fallback ngầm.                                                                                                                                                                                                                                                                           | CHẤP_NHẬN                 |
+| P1-WD-01  | Từ đơn có POS/nghĩa/ví dụ; validate trước khi persist DB.                                                                                                                                                                                                                                                                                       | CHẤP_NHẬN                 |
+| P1-WD-02  | Cache/reuse phân biệt ngôn ngữ, provider, sense; lưu provenance/version; translation result lưu DB không đồng nghĩa đã Add.                                                                                                                                                                                                                     | CHẤP_NHẬN                 |
+| P1-WD-03  | Add idempotent vào queue người dùng; không Add text.                                                                                                                                                                                                                                                                                            | CHẤP_NHẬN                 |
+| P1-QZ-01  | Người dùng cấu hình N, không có mặc định. N đếm từ hợp lệ, duy nhất, đã Add, chưa gán batch. Khi chưa cấu hình N, yêu cầu cấu hình và không tạo batch.                                                                                                                                                                                          | CHẤP_NHẬN                 |
+| P1-QZ-02  | Tạo text import ổn định `term<TAB>definition`, một card mỗi dòng; validate delimiter.                                                                                                                                                                                                                                                           | CHẤP_NHẬN                 |
+| P1-QZ-03  | Tự tạo set Quizlet đúng tài khoản; chỉ xác nhận thành công khi có bằng chứng set.                                                                                                                                                                                                                                                               | CHẤP_NHẬN, phụ thuộc kênh |
+| P1-QZ-04  | Retry/reconciliation chống trùng; trạng thái unavailable/unknown được nêu rõ.                                                                                                                                                                                                                                                                   | CHẤP_NHẬN                 |
+| P1-UI-01  | Dùng Wirefigma cho popup/options/queue nhỏ, theo [reference](design/reference/WIREFIGMA_DESIGN_SYSTEM.md).                                                                                                                                                                                                                                      | CHẤP_NHẬN                 |
+| P1-SEC-01 | Gửi selection tối thiểu; không crawl trang/cookie/session.                                                                                                                                                                                                                                                                                      | CHẤP_NHẬN                 |
+| P1-SEC-02 | BYOK đi qua backend, key không lưu trong client; auth/secret chi tiết theo ADR.                                                                                                                                                                                                                                                                 | CHẤP_NHẬN                 |
+| P1-SEC-03 | Mô tả quyền trước khi content script detect; không ngụ ý `activeTab` tự kích hoạt khi select.                                                                                                                                                                                                                                                   | CHẤP_NHẬN                 |
 
-## Yêu cầu phi chức năng
+### Điều kiện đạt Quizlet
 
-| ID     | Yêu cầu                                                                                                               |
-| ------ | --------------------------------------------------------------------------------------------------------------------- |
-| NFR-01 | Mọi lưu lượng mạng bên ngoài môi trường local đều dùng TLS.                                                           |
-| NFR-02 | Secret chỉ ở phía server và được cung cấp qua secrets manager hoặc biến môi trường.                                   |
-| NFR-03 | Mọi API ghi dữ liệu phải được xác thực, phân quyền, kiểm tra dữ liệu và audit khi nhạy cảm.                           |
-| NFR-04 | Nội dung trang được coi là dữ liệu không đáng tin cậy và tách biệt khỏi system/tool instruction.                      |
-| NFR-05 | Backend hỗ trợ scale ngang mà không phụ thuộc vào trạng thái người dùng nằm trong process.                            |
-| NFR-06 | Database migration chỉ tiến về trước, có phiên bản, được kiểm thử và tương thích ngược trong lúc deploy.              |
-| NFR-07 | Provider bên ngoài được truy cập qua adapter có timeout, retry, circuit breaker và test double.                       |
-| NFR-08 | Mục tiêu accessibility là WCAG 2.2 AA cho UI do dự án kiểm soát khi khả thi.                                          |
-| NFR-09 | Trạng thái lỗi cho người dùng phải chỉ rõ cách phục hồi và không lộ secret hoặc stack trace thô.                      |
-| NFR-10 | Kiểm soát chi phí gồm giới hạn kích thước nội dung, chống trùng, cache, quota và theo dõi mức sử dụng theo tính năng. |
+Mục tiêu tự tạo set là yêu cầu sản phẩm bắt buộc. Feasibility proof cho kênh production chưa có. Owner cho phép khảo sát browser automation trong browser đã đăng nhập nếu kênh chính thức không dùng được; đây là quyền khảo sát, không phải bằng chứng PoC đạt. Đánh giá ranh giới bảo mật, điều khoản/kỹ thuật và quyết định triển khai trước gói production. Cho đến khi kênh được chứng minh, P1-QZ-03 có điều kiện kỹ thuật và Phase 1 chưa thể tuyên bố đạt đầy đủ. Export thủ công không thay AC hiện tại.
 
-## Quyết định sản phẩm cần chốt trong Phase 1
+## Ngoài phạm vi Phase 1
 
-Danh sách quyết định, phương án khuyến nghị và trạng thái phê duyệt đầy đủ được quản lý tập trung tại [`docs/11-decisions-to-lock.md`](11-decisions-to-lock.md).
+Capture/crawl trang, Chat/Q&A/citation, dashboard, MCP server, TTS, word family, lesson/scheduler/mastery nội bộ, import Quizlet từ file, direct sync không được hỗ trợ, và bất kỳ provider fallback không được người dùng chọn.
 
-- Chat trong tiện ích hay ChatGPT MCP là giao diện sử dụng hằng ngày chính. Khuyến nghị hiện tại: ưu tiên tiện ích.
-- Thời gian lưu bản thu thập mặc định: chỉ trong phiên, 24 giờ hoặc 7 ngày.
-- Trình độ người học mặc định và độ sâu của bài đánh giá onboarding.
-- OpenAI API key chỉ do hệ thống sở hữu hay hỗ trợ BYOK về sau.
-- Phát âm tiếng Anh ban đầu: Mỹ, Anh hoặc cho người dùng chọn.
-- Phiên bản Chrome và Edge tối thiểu được hỗ trợ.
+## Phi chức năng liên quan
+
+- TLS cho lưu lượng ngoài local; xác thực/phân quyền và validate cho mọi ghi DB.
+- Provider adapter có timeout/retry xác định; lỗi thân thiện, không lộ key/stack trace.
+- Selection là dữ liệu không tin cậy; giới hạn payload ở phần cần dịch.
+- Migration tiến về phía trước và có kiểm thử trước khi production.
+- Queue, cache và retry gắn với chủ thể người dùng và idempotency.
+
+## Quyết định đang chờ
+
+- Kênh Quizlet production vẫn cần feasibility proof; owner cho phép khảo sát browser automation trong browser đã đăng nhập nếu kênh chính thức không khả dụng.
+- AI provider/model cụ thể, auth, schema và versioning — chưa khóa, cần spike/ADR tương ứng.
+
+Lịch sử yêu cầu cũ CAP/CHAT/SEL/VOC/LRN/MCP/QZ được giữ ở P1-001 và các tài liệu lưu trữ; không phải backlog đang mở của Phase 1 này.

@@ -1,71 +1,41 @@
 # Tuyên bố dự án
 
-## Tầm nhìn sản phẩm
+## Tầm nhìn
 
-EnglishBot giúp người học hiểu tiếng Anh trong lúc duyệt web. Hệ thống đọc nội dung được người dùng cho phép từ tab trình duyệt đang hoạt động, trả lời câu hỏi có căn cứ, dịch và phát âm văn bản được chọn, theo dõi mức độ ghi nhớ từ vựng, tạo bài học và chuẩn bị dữ liệu học cho Quizlet.
+EnglishBot giúp người học tiếng Anh xử lý từ vựng họ gặp khi đọc web. Trong Phase 1, extension cho phép dịch lựa chọn theo yêu cầu, lưu dữ liệu từ hữu ích để tái sử dụng và đưa những từ người dùng chủ động thêm vào bộ thẻ Quizlet.
 
 ## Người dùng chính
 
-Bản phát hành đầu tiên hướng tới một người học nói tiếng Việt, quan tâm đến quyền riêng tư và sử dụng Chrome hoặc Edge trên máy tính. Mô hình dữ liệu có xét tới yêu cầu nhiều người dùng và thương mại hóa, nhưng các yêu cầu này không được làm chậm bản beta cho một người dùng.
+Người học nói tiếng Việt, dùng Chrome hoặc Edge trên máy tính, muốn tra nhanh mà vẫn kiểm soát nội dung được gửi đi và dữ liệu được lưu.
 
-## Kết quả sản phẩm
+## Kết quả Phase 1
 
-1. Người dùng có thể hiểu một trang tiếng Anh mà không cần rời khỏi trang đó.
-2. Câu trả lời dựa trên nội dung đã thu thập và trỏ ngược về nguồn.
-3. Việc tra hoặc trả lời sai một từ sẽ đóng góp bằng chứng cho mô hình học cá nhân.
-4. Hệ thống chuyển từ vựng đến hạn thành bài học tập trung hằng ngày.
-5. Từ vựng có thể được chuyển sang Quizlet qua quy trình được hỗ trợ và có bước xem lại.
-6. ChatGPT có thể truy cập dữ liệu trang được chia sẻ rõ ràng qua MCP mà không cần truy cập cookie trình duyệt.
+1. Khi chọn văn bản, người dùng thấy hành động cục bộ; chỉ sau khi bấm **Dịch**, popup nhỏ cạnh con trỏ mới gọi provider đã chọn.
+2. Người dùng có thể chọn Google Cloud Translation API hoặc AI BYOK cho mọi selection. Khi chọn Google cho từ, Google dịch nghĩa và AI BYOK bổ sung POS/câu ví dụ; AI key chỉ cần nếu enrichment chưa có trong cache. Cụm/câu dịch bằng provider đã chọn; Google mode không cần AI enrichment. Nếu cache có đủ dữ liệu thì tái sử dụng mà không gọi provider. Key không được lưu trong extension; xử lý phía backend theo ranh giới bảo mật.
+3. Từ đơn có từ loại, nghĩa và câu ví dụ. Ba trường này được validate rồi lưu trong DB, có thể tái sử dụng theo ngôn ngữ/provider/sense và provenance/version.
+4. Cụm/câu chỉ có bản dịch nghĩa; không có Add.
+5. **Add** là hành động riêng cho từ, đưa từ hợp lệ vào queue của người dùng một cách idempotent.
+6. Người dùng cấu hình ngưỡng N; không có giá trị mặc định. Nếu chưa cấu hình N, UI yêu cầu thiết lập và không tạo batch. Khi đủ N từ đã Add hợp lệ, chưa gán batch, EnglishBot tạo text import ổn định và tự tạo set Quizlet trong tài khoản người dùng qua kênh đã kiểm chứng. Thành công chỉ được báo khi có bằng chứng set.
 
-## Các ràng buộc định hướng
+N do người dùng cấu hình và luồng enrichment Google bằng AI BYOK đã được chốt. Kênh Quizlet production vẫn cần feasibility proof; owner cho phép khảo sát browser automation trong browser đã đăng nhập nếu kênh chính thức không dùng được. Không coi export thủ công là hoàn thành tiêu chí Quizlet.
 
-- Java và Spring Boot là nền tảng backend.
-- Các bề mặt trình duyệt dùng TypeScript vì API tiện ích trình duyệt là API JavaScript.
-- UI và luồng tương tác phải được xác thực bằng dữ liệu mô phỏng trước khi khóa thiết kế database production.
-- Backend ban đầu là modular monolith.
-- Quyền riêng tư theo cơ chế chủ động đồng ý: tiện ích chỉ thu thập tab sau thao tác của người dùng.
-- Dự án không tự động hóa endpoint riêng tư của ChatGPT hoặc trích xuất thông tin phiên ChatGPT.
-- Đồng bộ trực tiếp với Quizlet phụ thuộc vào API chính thức được hỗ trợ hoặc tích hợp được phê duyệt.
-- Đầu ra AI không được tin tưởng chỉ vì có định dạng tốt; bắt buộc phải có grounding và đánh giá.
+## Ngoài phạm vi Phase 1
 
-## Chỉ số thành công cho beta
+Chat/Q&A/citation, capture toàn trang, dashboard, MCP server EnglishBot, TTS, word family, lesson/scheduler/mastery nội bộ, ứng dụng di động, và tự động hóa endpoint riêng tư không được tài liệu hóa. Bài học duy nhất trong scope này là bộ thẻ trên Quizlet.
 
-| Khu vực         | Mục tiêu beta                                                                            |
-| --------------- | ---------------------------------------------------------------------------------------- |
-| Thu thập        | Trích xuất đúng nội dung bài viết chính trên ít nhất 90% bộ trang kiểm thử đã thống nhất |
-| Grounding       | Ít nhất 90% câu trả lời thực tế được chấp nhận có citation hỗ trợ hợp lệ                 |
-| UX chọn văn bản | Thẻ dịch xuất hiện trong 300 ms, không tính thời gian chờ dịch qua mạng                  |
-| Chat            | Token trả lời đầu tiên đáp ứng ngân sách hiệu năng đã thống nhất trên trang thông thường |
-| Từ vựng         | Các từ trùng được hợp nhất mà không làm mất lần gặp hoặc ngữ cảnh                        |
-| Học tập         | Mỗi kết quả ôn tập tạo ra trạng thái ôn tiếp theo có tính xác định                       |
-| Quyền riêng tư  | Không có OpenAI key, integration token hoặc cookie trình duyệt trong bundle tiện ích     |
-| Độ tin cậy      | Không còn lỗi mức nghiêm trọng 1 khi phát hành beta                                      |
+## Ràng buộc và nguyên tắc
 
-Các con số hiệu năng phụ thuộc vào hosting và lựa chọn model sẽ được chốt trong kiểm thử tải ở Phase 4.
+- Backend dự kiến Java/Spring Boot; extension TypeScript. Kiến trúc và các quyết định triển khai thuộc tài liệu có thẩm quyền riêng.
+- Dùng design system Wirefigma theo [bản tham chiếu](design/reference/WIREFIGMA_DESIGN_SYSTEM.md) và sample kèm theo; chỉ áp dụng token/component/behavior phù hợp popup, options và queue nhỏ.
+- Chỉ gửi selection cần thiết sau hành động rõ ràng; không crawl trang, đọc cookie hoặc session.
+- Cả từ và cụm/câu dịch bằng provider người dùng chọn. Trong Google mode, từ cần Google translation và AI BYOK enrichment POS/câu ví dụ nếu cache chưa đủ; phrase/câu dùng Google không cần AI key. AI mode dịch trực tiếp bằng AI. UI nêu minh bạch provider; cache đầy đủ được tái sử dụng mà không gọi provider.
+- Nội dung provider là dữ liệu cần validate. Lỗi provider/quota/network phải có trạng thái và recovery; không fallback ngầm.
+- Không khẳng định tạo Quizlet thành công nếu chưa xác minh set.
 
-## Giả định bàn giao
+## Ghi chú lịch sử
 
-- Một người đóng vai trò chủ sản phẩm/người review điều hành quy trình coding bằng AI.
-- Người phụ trách có thể dành 20–30 giờ tập trung mỗi tuần.
-- AI có thể tạo code nhanh, nhưng review của con người, quyết định sản phẩm, QA trực quan và phê duyệt phát hành vẫn là điểm giới hạn lịch trình.
-- Tối đa hai gói công việc độc lập được hoạt động đồng thời.
-- Gói công việc tác động cùng module hoặc schema phải chạy tuần tự.
-
-## Ngoài phạm vi của beta đầu tiên
-
-- Ứng dụng di động.
-- Tự động truy cập mọi tab trình duyệt đang mở.
-- Thu thập nền mà không có sự đồng ý của người dùng.
-- Thu thập toàn bộ website.
-- Lớp học cộng tác thời gian thực.
-- Tự động xuất bản lên Quizlet qua endpoint không được tài liệu hóa.
-- Microservice ở quy mô production.
-- Web agent tự chủ đa mục đích.
+Đường cơ sở P1-001 được chủ dự án duyệt ngày 2026-09-29 cho capture/Q&A, dashboard, học tập nội bộ và MCP. Theo yêu cầu ngày 2026-09-30, phạm vi đó bị thay thế cho Phase 1 bởi P1-R01; nội dung chi tiết được giữ trong tài liệu P1-001 với tư cách lịch sử, không phải phạm vi đang hoạt động. Phase 0 vẫn hoàn tất; P1-R01 chỉ thay đổi tài liệu và không xác nhận tính năng production.
 
 ## Quản trị
 
-- Chủ sản phẩm: phê duyệt phạm vi, UI, hành vi quyền riêng tư và bản phát hành.
-- Hồ sơ kiến trúc: `docs/decisions`.
-- Nguồn sự thật hiện tại: `docs/status/STATUS.md`.
-- Đơn vị triển khai: một file gói công việc.
-- Cổng phát hành: mọi yêu cầu được ánh xạ và test bắt buộc trong `docs/10-traceability.md` đều đạt.
+Chủ dự án quyết định phạm vi, các câu hỏi đang chờ, thiết kế và phát hành. P1-R01 là gói duy nhất cho việc lập lại đường cơ sở. [Status](status/STATUS.md) chỉ cập nhật sau khi gói vượt cổng kết thúc.

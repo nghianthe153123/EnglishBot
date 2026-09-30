@@ -18,3 +18,8 @@ Các quyết định hiện tại:
 - [ADR-003: Mô hình quyền riêng tư active-tab và chia sẻ rõ ràng](ADR-003-active-tab-explicit-share.md)
 - [ADR-004: Import/export Quizlet trước đồng bộ trực tiếp](ADR-004-quizlet-import-first.md)
 - [ADR-005: Cấu trúc repository và build](ADR-005-repository-build-layout.md)
+- [ADR-006: Phạm vi Phase 1 dịch selection](ADR-006-phase-1-translation-scope.md) — phạm vi hiện hành thay baseline sản phẩm cũ.
+- [ADR-007: Ranh giới provider và BYOK](ADR-007-translation-byok-boundaries.md) — đề xuất kỹ thuật cần khóa trước production.
+- [ADR-008: Khảo sát tự động thao tác Quizlet](ADR-008-quizlet-browser-spike.md) — đã chấp nhận khảo sát, chưa chứng minh kênh production.
+
+ADR-001/002/005 giữ nguyên nền tảng. Phần scope UI/capture/MCP/manual-only của baseline cũ đọc cùng ADR-006/008; không mở lại các tính năng đã hoãn.

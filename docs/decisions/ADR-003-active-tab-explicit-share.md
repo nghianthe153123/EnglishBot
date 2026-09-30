@@ -3,6 +3,8 @@
 - Trạng thái: Chấp nhận
 - Ngày: 2026-09-28
 
+> Phase 1 ngày 2026-09-30 chỉ đọc selection sau quyền site/activation và gọi dịch sau click (ADR-006). Capture/MCP/share grant dưới đây là lịch sử/phạm vi hoãn; nguyên tắc không đọc cookie/session và chỉ gửi dữ liệu tối thiểu vẫn áp dụng. Bôi đen không tự cấp activeTab.
+
 ## Bối cảnh
 
 EnglishBot cần đọc tab trình duyệt hiện tại và có thể lộ dữ liệu capture được chọn qua MCP. Quyền trình duyệt rộng và vĩnh viễn sẽ tạo rủi ro bảo mật/quyền riêng tư không cần thiết.

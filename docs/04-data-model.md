@@ -1,138 +1,75 @@
-# Mô hình dữ liệu
+# Mô hình dữ liệu — Phase 1
 
-## Trạng thái
+Mô hình logic đề xuất, chưa là schema/migration đã khóa. Phạm vi: [ADR-006](decisions/ADR-006-phase-1-translation-scope.md). Thứ tự: prototype → contract → DB → implementation trong [kế hoạch Phase 1](phases/phase-01-product-ui-architecture.md).
 
-Đây là **mô hình logic tạm thời**. Nó xác định quyền sở hữu và nhu cầu scale dự kiến, nhưng schema vật lý không được khóa cho đến khi bản mô phỏng có thể chạy của Phase 2 và bảng ánh xạ UI sang dữ liệu được phê duyệt.
+## Hai hành vi lưu khác nhau
 
-## Nguyên tắc thiết kế
+Dịch **từ** và validate đủ POS/nghĩa/ví dụ → lưu DB để tái sử dụng. **Add** đưa word entry đã lưu vào hàng đợi Quizlet; lookup/cache hit không tự Add. Cụm/câu không có Add và không lưu lịch sử bền vững mặc định.
 
-- PostgreSQL là system of record.
-- Mỗi backend module sở hữu bảng và invariant của mình.
-- Dữ liệu do người dùng tạo và dữ liệu thu thập luôn có chủ sở hữu và phân loại retention.
-- Nội dung trang thô, chunk đã suy ra, embedding và ngữ cảnh học được lưu có vòng đời khác nhau.
-- Lưu nối tiếp bằng chứng như encounter và review; suy ra mastery hiện tại thông qua chuyển trạng thái được kiểm soát.
-- Dùng ID dạng UUID/ULID không mang ý nghĩa tại ranh giới bên ngoài.
-- Dùng timestamp UTC và lưu riêng múi giờ người dùng.
-- Ưu tiên dữ liệu bền vững được chuẩn hóa; dùng JSONB cho payload provider, anchor và nội dung bài tập có phiên bản.
-- Không bao giờ lưu credential OpenAI, ChatGPT, trình duyệt hoặc Quizlet dưới dạng plaintext.
+## Entity đề xuất
 
-## Các nhóm entity
+| Entity                  | Trường chính                                                                                                                                                                                                                                                | Module/chính sách                                         |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| users/owner profile     | id, locale, timezone, status                                                                                                                                                                                                                                | identity; cơ chế auth chốt P1-104                         |
+| provider_configurations | id, user_id, provider, model_ref, encrypted_secret_ref, status, version                                                                                                                                                                                     | configuration; không key plaintext                        |
+| user_settings           | user_id, translation_provider, quizlet_threshold, quizlet_channel, external_account_ref                                                                                                                                                                     | configuration; N nullable khi chưa cấu hình               |
+| word_entries            | id, user_id, original_form, normalized_form, source_language, target_language, part_of_speech, meaning, example_sentence, sense_key, translation_provider, enrichment_source, schema_version, provider_version, context_fingerprint, created_at, updated_at | vocabulary; POS/nghĩa/ví dụ bắt buộc khi READY            |
+| added_words             | id, user_id, word_entry_id, dedupe_key, status, added_at, version                                                                                                                                                                                           | vocabulary; QUEUED/CLAIMED/EXPORTED                       |
+| quizlet_batches         | id, user_id, channel, external_account_ref, threshold_snapshot, format_version, payload_text, payload_hash, item_count, status, created_at, external_set_id, external_set_url                                                                               | integration; payload immutable; TEXT_READY khác SUCCEEDED |
+| quizlet_batch_items     | batch_id, added_word_id, ordinal, term_snapshot, definition_snapshot                                                                                                                                                                                        | integration; snapshot đúng các từ đã claim                |
+| integration_jobs        | id, batch_id, operation_key, status, attempt_count, next_attempt_at, lease_until, safe_error_code, last_external_result_ref                                                                                                                                 | integration; bền vững; đối soát UNKNOWN                   |
 
-### Định danh
+Bảng vật lý, ID, encoding secret và schema_version khóa trong P1-103/104. Không có captures/chunks/messages/embeddings/lessons/review_attempts/share_grants trong migration Phase 1.
 
-| Entity          | Trường quan trọng                                      | Ghi chú                               |
-| --------------- | ------------------------------------------------------ | ------------------------------------- |
-| `users`         | id, email, locale, timezone, level, status, created_at | Hồ sơ người dùng bền vững             |
-| `devices`       | id, user_id, installation_id, platform, last_seen_at   | Lần cài đặt tiện ích                  |
-| `auth_sessions` | id, user_id, token_hash, expires_at, revoked_at        | Bản ghi phiên phía server nếu sử dụng |
+## Cache và bất biến
 
-### Bản thu thập và retrieval
+- Entry thuộc người dùng; không chia sẻ nghĩa/ngữ cảnh/BYOK giữa tài khoản.
+- Lookup identity có ngôn ngữ nguồn/đích, dạng chuẩn hóa, provider/version và sense/context khi cần. Không unique toàn cục chỉ theo lowercase word.
+- Giữ original form, apostrophe/hyphen và các nghĩa khác nhau. Quy tắc lemma/sense phải có fixture trước unique index.
+- POS/nghĩa/ví dụ lưu bền vững, có provenance/version; model output thiếu trường không ghi READY.
+- Translation provider và enrichment source ghi riêng nếu chọn Google + AI/từ điển. D-P1-09 đã chốt Google dịch nghĩa + AI BYOK bổ sung POS/ví dụ cho từ; lưu provenance hai bước riêng.
+- Cache hit đúng entry không gọi provider lại. Invalidation/versioning có test; không áp TTL capture 24h cũ lên dữ liệu từ.
+- Add chống trùng theo owner + ngôn ngữ + từ/nghĩa đã chọn; không dựa riêng vào ID cache có thể thay đổi giữa provider. Khóa cuối qua P1-103.
+- Foreign key và ownership check ngăn Add/batch tham chiếu entry người khác.
 
-| Entity                 | Trường quan trọng                                                                                                           | Ghi chú                          |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| `captures`             | id, user_id, device_id, canonical_url_hash, display_url, title, language, status, content_hash, retention_class, expires_at | Aggregate root của bản thu thập  |
-| `documents`            | id, capture_id, extractor_version, cleaned_text_ref, token_count, created_at                                                | Phiên bản trích xuất đã làm sạch |
-| `document_chunks`      | id, document_id, ordinal, heading_path, text, token_count, anchor_json, embedding                                           | Bằng chứng có thể tìm kiếm       |
-| `capture_share_grants` | id, capture_id, user_id, audience, scope, expires_at, revoked_at                                                            | Chia sẻ MCP rõ ràng              |
+## Transaction batch và chống tạo trùng
 
-`display_url` có thể được mã hóa hoặc bỏ qua trong chế độ nhạy cảm về quyền riêng tư. HTML thô mặc định không được lưu; nếu lưu thì nằm trong object storage và database chỉ giữ tham chiếu.
+N do người dùng cấu hình và không có mặc định; chỉ số hợp lệ đã cấu hình mới kích hoạt batch. Chưa có N không tự tạo batch. Thay đổi N áp dụng cho từ QUEUED chưa claim, không thay threshold_snapshot/payload của batch đã tạo; hành vi kích hoạt khi đổi N khóa bằng fixture trong P1-103/107. Transaction claim đúng N từ READY, QUEUED, duy nhất và chưa batch; ghi snapshot/text/job atomically. Request Add đồng thời và nhiều worker không claim cùng một mục.
 
-### Hội thoại
+Unique `quizlet_batch_items(added_word_id)` giữ một mục thuộc tối đa một batch theo chính sách ban đầu. Cho phép xuất lại cùng từ ở batch khác cần quyết định riêng/versioned membership; không làm yếu invariant để retry. UNIQUE `integration_jobs(operation_key)` chống job nội bộ trùng. Write bên ngoài vẫn cần kiểm chứng idempotency/reconciliation.
 
-| Entity              | Trường quan trọng                                                                                       | Ghi chú                               |
-| ------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| `conversations`     | id, user_id, capture_id, title, status, created_at                                                      | Ban đầu thường gắn với một capture    |
-| `messages`          | id, conversation_id, role, content, model_ref, created_at                                               | Chỉ lưu theo chế độ retention đã chọn |
-| `message_citations` | message_id, chunk_id, quote_hash, start_offset, end_offset, ordinal                                     | Ánh xạ bằng chứng có thể xác minh     |
-| `ai_usage_events`   | id, user_id, feature, provider, model, input_units, output_units, latency_ms, cost_estimate, created_at | Telemetry chi phí và hiệu năng        |
-
-### Từ vựng
-
-| Entity            | Trường quan trọng                                                                                        | Ghi chú                                  |
-| ----------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| `lexemes`         | id, language, normalized_form, lemma, part_of_speech                                                     | Bản ghi ngôn ngữ đã chuẩn hóa dùng chung |
-| `word_senses`     | id, lexeme_id, definition, translation, ipa, accent, source, version                                     | Nhiều nghĩa/cách phát âm                 |
-| `user_words`      | id, user_id, lexeme_id, preferred_sense_id, state, mastery_score, stability, difficulty, due_at, version | Trạng thái học thuộc người dùng          |
-| `word_encounters` | id, user_word_id, capture_id, original_form, context_excerpt, action, occurred_at                        | Bằng chứng chỉ ghi nối tiếp              |
-
-Ràng buộc duy nhất không được hợp nhất sai các ngôn ngữ hoặc từ loại khác nhau. Khóa chống trùng cuối cùng được xác thực bằng kịch bản mô phỏng trước migration V1.
-
-### Học tập
-
-| Entity                 | Trường quan trọng                                                                             | Ghi chú                        |
-| ---------------------- | --------------------------------------------------------------------------------------------- | ------------------------------ |
-| `lessons`              | id, user_id, status, scheduled_for, started_at, completed_at, generator_version               | Aggregate bài học              |
-| `lesson_items`         | id, lesson_id, user_word_id, item_type, position, content_json, expected_answer_json          | Bài tập được sinh có phiên bản |
-| `review_attempts`      | id, lesson_item_id, user_word_id, grade, response_time_ms, submitted_answer_json, reviewed_at | Kết quả bất biến               |
-| `review_state_changes` | id, user_word_id, attempt_id, previous_state_json, next_state_json, algorithm_version         | Audit lịch ôn có thể tái tạo   |
-
-Bộ lập lịch học phải là hàm thuần có phiên bản để có thể chạy lại kết quả lịch sử trong test.
-
-### Tích hợp
-
-| Entity                     | Trường quan trọng                                                                            | Ghi chú                        |
-| -------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------ |
-| `integration_accounts`     | id, user_id, provider, external_account_ref, encrypted_token_ref, scopes, expires_at, status | Liên kết tài khoản provider    |
-| `integration_audit_events` | id, account_id, action, request_hash, outcome, created_at                                    | Audit tích hợp nhạy cảm        |
-| `export_batches`           | id, user_id, provider, status, format_version, item_count, payload_ref, created_at           | Batch xuất tương thích Quizlet |
-| `export_batch_items`       | batch_id, user_word_id, external_ref, status, error_code                                     | Kết quả theo từng mục          |
-| `sync_jobs`                | id, account_id, direction, cursor, status, attempt_count, next_attempt_at, error_summary     | Đồng bộ trực tiếp có điều kiện |
-
-## Quan hệ chính
+State inventory đề xuất:
 
 ```text
-user 1---* device
-user 1---* capture 1---* document 1---* document_chunk
-capture 1---* capture_share_grant
-user 1---* conversation 1---* message 1---* message_citation
-message_citation *---1 document_chunk
-lexeme 1---* word_sense
-user 1---* user_word *---1 lexeme
-user_word 1---* word_encounter
-user 1---* lesson 1---* lesson_item 1---* review_attempt
-user_word 1---* review_attempt 1---1 review_state_change
-user 1---* export_batch 1---* export_batch_item
+QUEUED → TEXT_READY → WAITING_CHANNEL → CREATING → SUCCEEDED
+                                    ↘ FAILED_RETRYABLE
+                                    ↘ UNKNOWN → RECONCILING → SUCCEEDED / FAILED_CONFIRMED
 ```
 
-## Kế hoạch index ban đầu
+P1-103 khóa transition. UNKNOWN không tự retry create. SUCCEEDED cần set ID/URL và account evidence. Channel chưa xác minh → WAITING_CHANNEL, không giả success/xóa từ khỏi queue.
 
-- `captures(user_id, created_at desc)`.
-- `captures(user_id, content_hash)` để chống trùng.
-- `document_chunks(document_id, ordinal)`.
-- Chỉ tạo vector index trên embedding của chunk sau khi đánh giá truy vấn đại diện.
-- `user_words(user_id, state, due_at)`.
-- Khóa duy nhất dự kiến cho `user_words(user_id, lexeme_id)`.
-- `word_encounters(user_word_id, occurred_at desc)`.
-- `lessons(user_id, scheduled_for, status)`.
-- `sync_jobs(status, next_attempt_at)`.
+## Query/index cần chứng minh
 
-## Phân loại retention
+| Query              | Index dự kiến                                         |
+| ------------------ | ----------------------------------------------------- |
+| Lookup đúng scope  | user_id + lookup_key/version (khóa sau fixture sense) |
+| Add trùng          | unique user_id + dedupe_key                           |
+| Claim N mục        | user_id + status + added_at + id                      |
+| Batch của owner    | user_id + created_at + id                             |
+| Worker lease/retry | status + next_attempt_at + lease_until                |
+| Đối soát set       | user_id + channel + external_set_id khi có            |
 
-| Phân loại        | Ví dụ                                        | Mặc định                            |
-| ---------------- | -------------------------------------------- | ----------------------------------- |
-| Tạm thời         | Bản thu thập đang hoạt động chưa chia sẻ     | Theo phiên hoặc TTL ngắn            |
-| Ngắn hạn         | Bản thu thập chia sẻ MCP, ngữ cảnh hội thoại | TTL có thể cấu hình                 |
-| Học tập bền vững | Từ của người dùng, lịch sử ôn                | Đến khi người dùng xóa              |
-| Vận hành         | Metadata audit và sử dụng                    | Thời gian tối thiểu theo chính sách |
-| Secret           | OAuth token                                  | Mã hóa; xóa khi ngắt kết nối        |
+Index thêm sau query thực tế. Kiểm tra concurrency trong P1-104/107; không vector index.
 
-## Chính sách migration
+## Retention, xóa và migration
 
-- Flyway migration chỉ tiến về phía trước trong production.
-- Migration phải thêm trước khi xóa.
-- Thay đổi phá hủy cần quy trình mở rộng/chuyển dữ liệu/thu hẹp theo nhiều bước.
-- Mỗi migration có test database trống và test nâng cấp từ phiên bản trước.
-- Backfill dữ liệu phải có thể tiếp tục lại và quan sát được.
-- Thay đổi schema phải cập nhật hợp đồng API, fixture và bảng truy vết trong cùng gói công việc.
+- Kết quả từ lưu đến khi người dùng xóa. URL/ngữ cảnh gốc không bắt buộc; không lưu toàn trang.
+- Phrase/sentence chỉ trong request/popup, không audit/log nội dung.
+- Secret rotate/disconnect không xóa sai dữ liệu từ. Không plaintext key/cookie/session Quizlet.
+- Audit chỉ owner/action/status/hash an toàn, không selection/key.
+- Xóa word/batch đang xử lý cần chính sách trước production; không cascade mất job UNKNOWN. Xóa cache không tự xóa bộ thẻ trên Quizlet.
+- PostgreSQL/Flyway theo ADR nền tảng. Forward-only migration có test DB trống/upgrade; rollback ứng dụng dùng schema tương thích.
 
-## Danh sách kiểm tra khóa database ở Phase 3
+## Cổng khóa DB P1-104
 
-- Có bảng ánh xạ UI sang dữ liệu đã được phê duyệt.
-- Mọi trường lưu bền vững có chủ sở hữu và phân loại retention.
-- Invariant của aggregate được viết thành test.
-- Mẫu truy vấn và cardinality dự kiến được ghi lại.
-- PII và secret được phân loại.
-- Hành vi xóa và xuất dữ liệu được đặc tả.
-- Index tương ứng với truy vấn đã chứng minh.
-- Mock fixture chuyển thành database fixture mà không thay đổi ngữ nghĩa.
-- Chủ sản phẩm phê duyệt đường cơ sở schema và ADR.
+Prototype + mapping UI→data đã duyệt; contract P1-103 khóa; enrichment/cache/sense rõ; ownership/auth/secret rõ; Add/batch concurrency/UNKNOWN có test; retention/xóa được mô tả. P1-R01 không tạo migration hay khẳng định schema production đã duyệt.

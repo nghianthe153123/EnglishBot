@@ -1,158 +1,85 @@
-# Kiến trúc hệ thống
+# Kiến trúc hệ thống — Phase 1
 
-## Kiểu kiến trúc
+Đường cơ sở ngày 2026-09-30 theo [ADR-006](decisions/ADR-006-phase-1-translation-scope.md). Java 21/Spring Boot, React/TypeScript và modular monolith tiếp tục theo ADR-001/005. [ADR-007](decisions/ADR-007-translation-byok-boundaries.md) ghi phần thiết kế cần xác minh trước production.
 
-EnglishBot bắt đầu dưới dạng modular monolith với các module có thể kiểm thử độc lập. Cách này giữ deployment và transaction đơn giản, đồng thời tạo ranh giới rõ ràng để tách thành dịch vụ về sau.
-
-## Các thành phần runtime
+## Runtime tối thiểu
 
 ```text
-Tiện ích Chrome/Edge            Bảng điều khiển web
-React + TypeScript              React + TypeScript
-          \                         /
-           \ HTTPS + SSE           /
-            v                     v
-             Backend EnglishBot
-              Java/Spring Boot
-  ┌──────────────┬──────────────┬──────────────┐
-  │ Thu thập/Chat│ Từ vựng      │ Tích hợp     │
-  │ Truy xuất    │ Học tập      │ MCP/Quizlet  │
-  └──────────────┴──────────────┴──────────────┘
-       │              │                │
-       v              v                v
- PostgreSQL/pgvector Redis        OpenAI/MCP/TTS
-       │
-       v
- Object storage cho artifact tùy chọn cần lưu lại
+Trang được cấp quyền
+  → content script: selection + vị trí pointer, action Dịch local
+  → click Dịch → popup → background/service worker extension
+  → HTTPS backend Java/Spring Boot
+       ├─ translation: Google adapter hoặc AI adapter dùng BYOK
+       ├─ vocabulary: POS/nghĩa/ví dụ, DB reuse, Add
+       └─ quizlet: ngưỡng N, text batch, job tạo bộ thẻ
+            ↓
+       PostgreSQL: từ, queue, snapshot batch, trạng thái job
+            ↓ kênh đã kiểm chứng
+       Quizlet: bộ thẻ thuộc tài khoản người dùng
 ```
 
-## Ranh giới module backend
+Không triển khai Redis, pgvector, retrieval, SSE chat, object storage hoặc MCP server trong Phase 1. Scaffold `apps/web` từ Phase 0 vẫn có thể tồn tại nhưng không mở task dashboard.
 
-| Module                | Sở hữu                                                          | Có thể phụ thuộc vào           |
-| --------------------- | --------------------------------------------------------------- | ------------------------------ |
-| `identity`            | Người dùng, thiết bị, phiên, ngữ cảnh phân quyền                | shared kernel                  |
-| `capture`             | Vòng đời bản thu thập, metadata tài liệu, kết quả làm sạch      | identity, shared kernel        |
-| `retrieval`           | Chia chunk, embedding, tìm kiếm ngữ nghĩa/từ khóa, anchor nguồn | interface của capture          |
-| `conversation`        | Hội thoại, tin nhắn, điều phối câu trả lời, citation            | retrieval, AI gateway          |
-| `vocabulary`          | Lexeme, nghĩa, lần gặp, trạng thái từ của người dùng            | identity, tham chiếu capture   |
-| `learning`            | Lịch ôn, lần làm bài, bài học, mục bài học                      | interface của vocabulary       |
-| `integration-mcp`     | Xác thực MCP, tool, resource, audit                             | chỉ public application service |
-| `integration-quizlet` | Ánh xạ import/export và sync job                                | interface của vocabulary       |
-| `ai-gateway`          | Request OpenAI, structured output, TTS, telemetry chi phí       | chỉ hạ tầng                    |
-| `platform`            | Database, cache, job, storage, observability                    | không sở hữu domain            |
+## Ranh giới module
 
-Quy tắc:
+| Module                 | Sở hữu                                                           | Interface được sử dụng                               |
+| ---------------------- | ---------------------------------------------------------------- | ---------------------------------------------------- |
+| identity/configuration | Chủ sở hữu, quyền truy cập, provider config, secret reference, N | API xác thực/cấu hình công khai                      |
+| translation            | Request dịch từ/text, lựa chọn provider, output validation       | Provider adapter; public vocabulary lookup interface |
+| vocabulary             | Word entry, cache/reuse, trạng thái Add và chống trùng           | Public identity/config interface                     |
+| integration-quizlet    | Snapshot batch, format import, job và đối soát set               | Public vocabulary interface/event, channel adapter   |
+| platform               | Database, clock, ID, transaction, log đã redact                  | Không sở hữu nghiệp vụ                               |
 
-- Một module sở hữu bảng và invariant của mình.
-- Module khác gọi application service hoặc nhận event đã công bố.
-- Controller không truy cập repository trực tiếp.
-- Domain module không import kiểu dữ liệu của OpenAI SDK.
-- Payload đặc thù provider không được rò vào domain entity.
+Tên module là thiết kế, chưa tạo module code mới trong phiên này. Không truy cập repository của module khác; domain không import SDK Google/AI hay DOM type. Endpoint provider nằm trong adapter allowlist, không nhận URL tùy ý từ trang hoặc output AI.
 
-## Cấu trúc repository đề xuất
+## Selection và quyền trình duyệt
 
-```text
-apps/
-├── extension/                 Tiện ích trình duyệt React/TypeScript
-└── web/                       Dashboard React/TypeScript
+1. Người dùng kích hoạt extension trên site hoặc cấp quyền host theo site qua luồng đã duyệt. Bôi đen không tự cấp `activeTab` và không tự inject content script.
+2. Content script phân loại local một từ so với cụm/câu và ghi vị trí pointer/selection rect; không đọc toàn trang.
+3. Bôi đen chỉ hiện action Dịch. Khi click, mở popup nhỏ cạnh pointer, giới hạn trong viewport, rồi gửi nội dung đã giới hạn.
+4. Background thực hiện request tới backend; content script không tiếp xúc provider key.
+5. Request gắn selection/request ID. Kết quả cũ không ghi đè selection mới sau navigation/close/đổi selection. Trạng thái bền vững không đặt riêng trong RAM worker MV3 có thể bị suspend.
+6. Popup render text an toàn, có loading/error/retry/close và keyboard/focus behavior.
 
-backend/
-├── application/               Phần lắp ráp Spring Boot
-├── modules/
-│   ├── identity/
-│   ├── capture/
-│   ├── retrieval/
-│   ├── conversation/
-│   ├── vocabulary/
-│   ├── learning/
-│   ├── integration-mcp/
-│   └── integration-quizlet/
-├── gateways/
-│   └── ai-gateway/
-└── platform/
+Ưu tiên thao tác kích hoạt rõ ràng + quyền site tối thiểu. Detect liên tục trên nhiều site cần optional host permission đã được cấp. Không hứa cài xong detect mọi trang chỉ bằng `activeTab`; chi tiết chốt trong P1-101/105.
 
-packages/
-├── api-contracts/             TypeScript client/type sinh từ OpenAPI
-├── ui/                        UI component/token dùng chung
-└── mock-fixtures/             Kịch bản sản phẩm xác định
-```
+## Dịch và bổ sung dữ liệu từ
 
-Cấu trúc build system chính xác được khóa trong ADR của Phase 0 trước khi scaffold code.
+- Provider chọn rõ: Google Cloud Translation API chính thức hoặc AI API dùng key người dùng. Không dùng endpoint Google Translate không tài liệu hóa, cookie ChatGPT hoặc subscription ChatGPT làm credential API.
+- Cụm/câu: chỉ dịch, kết quả tạm trong popup, không Add hoặc lưu lịch sử bền vững mặc định.
+- Từ: kiểm tra cache DB trước; kết quả hợp lệ chứa POS, nghĩa và câu ví dụ. Lưu DB để dùng lần sau, độc lập với nút Add.
+- Cache phân biệt user, ngôn ngữ, provider/version và nghĩa/sense khi cần. Nếu nghĩa/ngữ cảnh không phù hợp thì không tái dùng mù quáng.
+- Google Translation không có POS/example trong response. D-P1-09 đã chốt: Google dịch nghĩa, AI BYOK bổ sung POS/ví dụ cho từ. UI cấu hình thể hiện rõ Google + AI cho từ; thiếu AI key và không có cache đầy đủ thì báo cần cấu hình, chưa bật Add. Google dịch cụm/câu không gọi AI; AI mode vẫn dịch mọi selection bằng AI.
+- Enrichment/DB write lỗi: thông báo dữ liệu chưa đủ/chưa lưu; không bật Add hoặc giả hoàn tất.
 
-## Luồng dữ liệu cốt lõi
+## Add → batch → Quizlet
 
-### Thu thập và trả lời
+1. Add chỉ áp dụng word entry hợp lệ. Add idempotent, không tạo queue item trùng do double-click/retry.
+2. Trong transaction, đếm các từ duy nhất, hợp lệ, đã Add và chưa thuộc batch. Đạt N đã cấu hình thì claim đúng N mục, tạo batch snapshot + payload + job bền vững cùng transaction. N do người dùng cấu hình, không có mặc định; chưa cấu hình thì không tự chạy.
+3. Batch giữ nguyên term/definition/version dù word entry thay đổi về sau. Format `term<TAB>definition`, mỗi card một dòng; xử lý delimiter theo hợp đồng kiểm chứng.
+4. Worker/adapter tạo bộ thẻ đúng tài khoản qua kênh được P1-102 xác minh và quyết định tích hợp chấp nhận. Không dùng endpoint riêng tư hoặc copy cookie. ADR-008 đã cho phép khảo sát thao tác giao diện Quizlet trong trình duyệt đã đăng nhập khi tích hợp chính thức chưa dùng được; chỉ production sau spike GO và contract/permission được khóa.
+5. Ghi thành công chỉ khi có set ID/URL và bằng chứng chủ sở hữu phù hợp. Timeout có thể đã tạo set → UNKNOWN → đối soát trước retry. Local idempotency không tự bảo đảm Quizlet không tạo trùng.
+6. Lỗi/quyền hết hạn không làm mất batch. Text import có thể hiển thị phục hồi, nhưng không tính là đã đạt mục tiêu tự tạo Quizlet.
 
-1. Tiện ích yêu cầu quyền active-tab sau thao tác của người dùng.
-2. Content script trích xuất dữ liệu DOM được hỗ trợ trong isolated world.
-3. Tiện ích loại bỏ các trường có vẻ chứa secret và gửi bản thu thập đã giới hạn kích thước.
-4. Backend phân quyền, làm sạch, băm, chống trùng và lưu theo chính sách retention.
-5. Retrieval lập chỉ mục chunk khi nội dung vượt ngưỡng truyền trực tiếp vào ngữ cảnh.
-6. Conversation yêu cầu retrieval cung cấp các chunk nguồn liên quan.
-7. AI gateway gửi instruction đáng tin cậy tách biệt với nội dung không đáng tin cậy.
-8. Đầu ra câu trả lời/citation có cấu trúc được xác thực.
-9. SSE stream event hiển thị tới client.
+“Bài học Quizlet” trong kế hoạch này là bộ thẻ có thể mở để học; không hứa tự tạo khóa Learn hoặc lesson object riêng nếu chưa được chứng minh.
 
-### Chọn văn bản và từ vựng
+## Inventory API đề xuất
 
-1. Tiện ích ghi nhận vùng chọn cùng ngữ cảnh xung quanh đã giới hạn.
-2. Vocabulary chuẩn hóa nội dung mà không làm mất dạng gốc.
-3. AI hoặc nguồn từ điển bổ sung nghĩa theo ngữ cảnh.
-4. Khi lưu, hệ thống tạo hoặc cập nhật `user_word` và thêm một encounter.
-5. Learning sử dụng bằng chứng encounter/review nhưng không suy ra mastery chỉ từ độ khó của trang.
+P1-103 khóa OpenAPI sau prototype; đây chưa là hợp đồng ổn định.
 
-### Truy cập MCP
+| Command/query                    | Mục đích                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------- |
+| POST /translations               | Dịch selection; word có entry ID/trạng thái persist, text chỉ có bản dịch |
+| POST /words/{id}/add             | Add idempotent theo quyền sở hữu                                          |
+| GET /quizlet-batches/{id}        | Payload/status/phục hồi, không secret                                     |
+| POST /quizlet-batches/{id}/retry | Chỉ retry khi outcome đã xác minh an toàn                                 |
+| PUT /settings/translation        | Provider/model/reference key; không trả lại key                           |
+| PUT /settings/quizlet            | N/kênh/tài khoản/quyền tự tạo sau khi được chốt                           |
 
-1. Người dùng liên kết MCP client bằng OAuth hoặc luồng liên kết tài khoản tương đương đã được phê duyệt.
-2. Người dùng tạo share grant có thời hạn ngắn cho một bản thu thập.
-3. MCP tool xác thực tài khoản, scope, quyền sở hữu capture, thời hạn và quyền tool.
-4. MCP tìm kiếm hoặc trả về các chunk đã giới hạn, không bao giờ trả credential trình duyệt.
-5. Việc truy cập được ghi log và có thể thu hồi.
+REST + polling trạng thái job đủ cho Phase 1. PostgreSQL giữ state; job sống qua restart. Provider adapter có timeout/retry giới hạn; write bên ngoài phụ thuộc capability thực tế. Auth, nơi deploy và vòng đời BYOK là cổng P1-104, không mặc định deploy public không xác thực.
 
-## Kiểu API
+## Mở rộng và kiểm chứng
 
-- REST cho CRUD và command.
-- SSE cho stream câu trả lời model và tiến độ job.
-- OpenAPI là nguồn sự thật cho HTTP API nội bộ.
-- MCP Streamable HTTP cho MCP client.
-- Idempotency key cho tạo capture, gửi review và tạo export.
-- Phân trang bằng cursor cho dữ liệu lịch sử.
-- Chi tiết lỗi theo kiểu RFC 7807.
+Index theo owner/lookup key, phân trang queue/batch; không tải toàn bộ từ vào RAM. Giữ public interface để thêm tính năng sau. Cache phân tán, broker hoặc tách service chỉ thêm khi tải đo được cần và có ADR. Chat/MCP/dashboard/scheduler cũ HOÃN, chưa có lịch mở lại.
 
-## Kế hoạch scale
-
-### Beta ban đầu
-
-- Một backend deployment với nhiều instance không trạng thái nếu cần.
-- PostgreSQL là system of record và vector store.
-- Redis dùng cho cache ngắn hạn, rate limiting và điều phối phân tán.
-- Bảng scheduled/job dùng cho công việc nền bền vững.
-
-### Điều kiện kích hoạt việc tách module
-
-Chỉ tách module khi tồn tại ít nhất một điều kiện:
-
-- Nhiều lần cần scale độc lập và đã đo lường được.
-- Nhịp deployment bị module không liên quan cản trở.
-- Cần cô lập vì bảo mật/tuân thủ.
-- Có bằng chứng đo lường về tranh chấp database.
-- Module cần runtime khác biệt đáng kể.
-
-Ứng viên tách đầu tiên có khả năng là worker AI/retrieval và worker tích hợp. Identity, vocabulary và learning nên ở cùng nhau cho đến khi ranh giới transaction trở thành vấn đề đo được.
-
-## Môi trường triển khai
-
-| Môi trường | Mục đích                                      | Chính sách dữ liệu                     |
-| ---------- | --------------------------------------------- | -------------------------------------- |
-| Local      | Phát triển và kiểm thử xác định               | Mặc định chỉ dùng fixture tổng hợp     |
-| CI         | Cổng chất lượng tự động                       | Container và fixture tạm thời          |
-| Staging    | Kiểm thử tích hợp, UAT và đánh giá model thật | Tài khoản test không nhạy cảm          |
-| Production | Beta/sử dụng thật                             | Mã hóa, lưu theo chính sách người dùng |
-
-## Cổng chất lượng kiến trúc
-
-- ArchUnit kiểm tra các phụ thuộc module bị cấm.
-- Hợp đồng API sinh hoặc xác thực type phía client.
-- Database migration chạy được từ database trống và snapshot bản phát hành trước.
-- Tích hợp bên ngoài có contract test và mô phỏng lỗi.
-- Observability gồm request ID, error ID an toàn cho người dùng, module, độ trễ, token sử dụng và trạng thái job.
+Cổng kiến trúc: module dependency test; OpenAPI/client compatibility; provider fault tests; DB migration/concurrency; user isolation; secret artifact scan; restart worker/job và reconciliation. Nguồn xác minh provider: [khảo sát khả thi](product/phase-1-provider-feasibility.md).

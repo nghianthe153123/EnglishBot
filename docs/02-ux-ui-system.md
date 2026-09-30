@@ -1,185 +1,83 @@
-# Hệ thống UX và UI
+# Hệ thống UX/UI — Phase 1
 
-## Mục đích
+## Nguyên tắc
 
-Tài liệu này định nghĩa các bề mặt UI và trạng thái phải được xác thực bằng dữ liệu mô phỏng trước khi khóa hợp đồng API và database. Có thể dùng Figma, nhưng ứng dụng mô phỏng có thể chạy được mới là sản phẩm nghiệm thu.
+Giao diện Phase 1 hỗ trợ tra cứu nhanh khi đọc web. Dùng Wirefigma theo [bản tham chiếu](design/reference/WIREFIGMA_DESIGN_SYSTEM.md) và sample để chọn token, component và behavior phù hợp cho popup, options và hàng đợi nhỏ. Không dùng lại baseline ba tab side panel hay trang dashboard. Không tạo mockup mới trong gói P1-R01; chủ dự án yêu cầu xóa các mockup EnglishBot cũ.
 
-## Các bề mặt UI
+## Bề mặt và luồng chính
 
-### 1. Side panel của tiện ích
+### Selection và popup pointer
 
-Giao diện sử dụng hằng ngày chính gồm ba khu vực cấp cao nhất:
+1. Người dùng chọn văn bản trên trang được cấp quyền. Extension chỉ chuẩn bị hành động local; không gửi request.
+2. Action local cho phép chủ động chọn **Dịch**. Popup nhỏ neo gần vị trí con trỏ/selection, đặt lại khi vượt viewport và giữ nội dung đọc được dù trang có nền tối.
+3. Click **Dịch** mở popup ngay ở trạng thái loading và gửi selection tối thiểu đến provider đã chọn. Popup tự chuyển sang kết quả/lỗi; retry chỉ xuất hiện để phục hồi lỗi. Có đóng và focus return.
+4. Từ đơn hiển thị term, POS, nghĩa, câu ví dụ và nút **Add** riêng. Cụm/câu chỉ hiển thị bản dịch nghĩa, không Add.
 
-- **Chat** — trạng thái thu thập, tóm tắt, hội thoại có căn cứ và citation.
-- **Từ vựng** — chỉ các từ đã lưu từ trang hiện tại; toàn thư viện được quản lý trong dashboard.
-- **Bài học** — số lượng từ đến hạn và lối vào bài học nhanh.
+Popup keyboard-operable: focus nhìn thấy, Escape đóng, focus quay lại trigger hợp lý, trạng thái tải/lỗi được công bố bằng văn bản, selection dài/multiline không làm popup vượt viewport. Các chi tiết tương tác được kiểm chứng ở wireframe, không tự thêm tính năng.
 
-Khung giao diện đề xuất:
+### Translation result và Add queue là hai trạng thái khác nhau
 
-```text
-┌──────────────────────────────────┐
-│ EnglishBot       Tab hiện tại: Bật│
-├──────────────────────────────────┤
-│ Chat       Từ vựng       Bài học│
-├──────────────────────────────────┤
-│ Tiêu đề trang                    │
-│ 2.430 từ · Tiếng Anh · Mới       │
-│                                  │
-│ Câu trả lời của trợ lý...        │
-│ [Nguồn 1] [Nguồn 2]              │
-│                                  │
-│ Hỏi về trang này...           ➤  │
-└──────────────────────────────────┘
-```
+Từ đơn có đủ POS/nghĩa/ví dụ sau validate sẽ được persist vào DB để lần tra sau có thể reuse. Điều này không tự đưa từ vào queue. Nút Add riêng tạo một queue item idempotent cho người dùng. Cụm/câu không có rich word record hoặc Add.
 
-Các trạng thái bắt buộc:
+Queue nhỏ cho biết số từ hợp lệ đã Add và N do người dùng cấu hình. Không có giá trị mặc định; khi chưa cấu hình, UI yêu cầu thiết lập và không tạo batch. Khi đạt ngưỡng, UI thể hiện đang tạo, đã xác minh, đang reconcile, unavailable hoặc unknown. Không báo thành công trước bằng chứng set Quizlet.
 
-- Chưa có quyền.
-- Trang bị hạn chế/không được hỗ trợ.
-- Sẵn sàng quét.
-- Đang quét.
-- Quét thất bại kèm hướng dẫn thử lại.
-- Đã thu thập và còn mới.
-- Trang đã thay đổi; đề xuất thu thập lại.
-- Bản thu thập đã hết hạn.
-- Ngoại tuyến.
-- Bị giới hạn tần suất hoặc hết quota.
-- Đang stream câu trả lời.
-- Câu trả lời có căn cứ kèm citation.
-- Câu trả lời không được nội dung trang hỗ trợ.
+### Options
 
-### 2. Bong bóng hành động khi chọn văn bản
+Options cấu hình provider (Google Cloud Translation API hoặc AI BYOK), AI key theo quy trình backend, ngôn ngữ và quyền cần thiết. AI key dùng cho AI mode và cho POS/câu ví dụ enrichment của từ trong Google mode khi cache chưa đủ; Google translation cho cụm/câu không cần AI key. Mọi selection được dịch bằng provider đã chọn. Giải thích quyền trước khi content script bắt đầu phát hiện selection. Bôi đen không tự cấp `activeTab` hay gọi mạng.
 
-Tương tác đầu tiên xuất hiện ngay từ code local và không được chờ phản hồi mạng.
-
-Selection được phân loại thành **một từ đơn** hoặc **cụm/câu nhiều từ**. Popup ban đầu chỉ hiển thị selection và loại nhận diện; không gọi mạng trước hành động rõ ràng.
-
-- **Từ đơn:** mở thẻ từ vựng có bản dịch theo ngữ cảnh, từ loại, một câu ví dụ mới do AI soạn và các dạng cùng họ từ (ví dụ `learn`, `learner`, `learning`); cho phép phát âm và lưu từ.
-- **Cụm/câu:** chỉ hiển thị bản dịch nghĩa; không có phát âm, từ loại, câu ví dụ, word family, giải thích bổ sung hoặc lưu từ.
-
-Nội dung/hành động của thẻ từ đơn:
-
-- Bản dịch tiếng Việt theo ngữ cảnh.
-- Phát âm và lựa chọn giọng.
-- Lưu từ.
-
-Các trường trong thẻ mở rộng:
-
-- Nội dung được chọn ban đầu.
-- Lemma đã chuẩn hóa khi phù hợp.
-- Từ loại.
-- IPA hoặc ký hiệu phát âm khi có.
-- Bản dịch tiếng Việt theo ngữ cảnh.
-- Một câu ví dụ mới do AI soạn.
-- Danh sách dạng cùng họ từ; không bao gồm từ đồng nghĩa/trái nghĩa.
-- Điều khiển phát âm Anh-Mỹ/Anh-Anh.
-- Hành động lưu từ.
-
-Chưa chốt ở P1-002: câu ví dụ AI phải bám nghĩa trong ngữ cảnh trang hay dùng nghĩa phổ biến độc lập; câu ví dụ và word family có được lưu cùng mục từ hay không. Chuyển hai quyết định này sang phase thiết kế DB/API để đánh giá cùng mô hình dữ liệu và vòng đời nội dung.
-
-Bong bóng phải xử lý được vùng chọn nhiều dòng, mép viewport, zoom, trang nền tối và điều hướng trang.
-
-### 3. Bảng điều khiển web
-
-Các route:
-
-| Route           | Mục đích                                                          |
-| --------------- | ----------------------------------------------------------------- |
-| `/today`        | Bài học đến hạn, từ mới, hoạt động gần đây                        |
-| `/vocabulary`   | Tìm kiếm, lọc, sửa, xuất hàng loạt                                |
-| `/lessons`      | Bài học đang chờ, lịch sử và tiến độ ôn tập có bằng chứng         |
-| `/sources`      | Bản thu thập và ngữ cảnh được giữ lại                             |
-| `/integrations` | Luồng MCP và Quizlet                                              |
-| `/settings`     | Trình độ, giọng, quyền riêng tư, thời gian lưu, domain bị từ chối |
-
-Tiến độ tổng quan được hiển thị trong `/today`; lịch sử ôn và bằng chứng tiến độ theo bài học nằm trong `/lessons`. Không tạo route `/progress` riêng trong beta (D-103; xác nhận P1-001 ngày 2026-09-29).
-
-### 4. Trạng thái chia sẻ MCP/ChatGPT
-
-Tiện ích hiển thị:
-
-- Dữ liệu nào sẽ được chia sẻ.
-- Thời điểm hết hạn.
-- Tài khoản EnglishBot đang kết nối.
-- Hành động thu hồi.
-- Thời điểm truy cập MCP gần nhất khi có.
-
-ChatGPT không có quyền truy cập “tab hiện tại” một cách vô hình hoặc vĩnh viễn.
-
-## Kiến trúc thông tin
+## Wireframe chức năng (mô tả, không phải mockup)
 
 ```text
-EnglishBot
-├── Ngữ cảnh
-│   ├── Bản thu thập đang hoạt động
-│   ├── Tóm tắt
-│   └── Chat có căn cứ
-├── Học tập
-│   ├── Từ vựng
-│   ├── Bài học hằng ngày
-│   └── Tiến độ trong Hôm nay/Bài học
-├── Nguồn
-│   ├── Bản thu thập
-│   └── Đoạn ngữ cảnh
-└── Kiểm soát
-    ├── Tích hợp
-    ├── Quyền riêng tư
-    └── Cài đặt
+Trang đang đọc
+  chọn “ephemeral”
+       └── action local: [Dịch]
+             └── popup cạnh selection
+                   term: ephemeral
+                   POS: adjective
+                   nghĩa: ...
+                   ví dụ: ...
+                   [Add]
+                   trạng thái dịch / lỗi / đóng
+
+Queue nhỏ: 4 từ đã Add · ngưỡng N: cần cấu hình · trạng thái batch/Quizlet
 ```
 
-## Design token
+```text
+Options: Provider [Google | AI BYOK]
+         AI API key (AI mode và Google word enrichment; xử lý backend)
+         Quyền cần thiết và giải thích
+         Lỗi cấu hình / lưu / thử lại
+```
 
-Ứng dụng mô phỏng phải thiết lập token thay vì nhúng các giá trị tùy ý:
+## Trạng thái và recovery
 
-- Vai trò màu: nền, bề mặt, chính, thành công, cảnh báo, nguy hiểm, chữ, chữ phụ, focus ring.
-- Kiểu chữ: display, heading, body, label, đoạn code/nguồn.
-- Khoảng cách: thang cơ sở 4 px.
-- Bo góc: nhỏ, vừa, lớn, dạng viên thuốc.
-- Độ nổi: popup, panel, modal.
-- Chuyển động: phản hồi nhanh, chuyển tiếp thường, phương án giảm chuyển động.
+| Vùng        | Trạng thái cần thiết                                                              | Hành vi                                                                               |
+| ----------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Selection   | chưa chọn, selection hết hạn/không hợp lệ                                         | Không request; giải thích hoặc đóng action.                                           |
+| Translation | idle, loading, result, offline, timeout, quota, key/provider error                | Retry rõ ràng; giữ selection khi an toàn; không fallback provider.                    |
+| Word        | chưa lưu, đã reuse, persist lỗi                                                   | Nêu trạng thái DB; không cho Add đến khi record hợp lệ.                               |
+| Add         | chưa Add, đang Add, đã Add, lỗi/unknown                                           | Chống double submit; retry idempotent; queue state không nhập nhằng với cache.        |
+| Quizlet     | dưới ngưỡng, tạo batch, đang tạo set, verified, reconciling, unavailable, unknown | Chỉ verified set mới báo thành công; giữ batch và hỗ trợ reconcile/retry chống trùng. |
+| Options     | chưa cấu hình, lưu thành công, key invalid, provider lỗi/quota                    | Key không hiển thị lại đầy đủ hoặc xuất hiện trong log; chỉ dùng provider được chọn.  |
 
-Tiện ích phải ưu tiên chiều rộng hẹp. Component của bảng điều khiển có thể responsive, nhưng beta hướng tới desktop.
+## Accessibility, privacy và layout
 
-## Kịch bản dữ liệu mô phỏng
+- Tuân thủ ngữ nghĩa control Wirefigma; label rõ, icon-only có accessible name, focus ring hiện diện, không dựa vào màu duy nhất.
+- Popup có tương phản đủ trên nền trang bất kỳ, nhưng không tự suy ra dark theme/palette chưa được nguồn xác nhận.
+- Không đọc DOM toàn trang để tạo context; chỉ selection cần thiết. Không ghi URL/cookie/session nếu không có yêu cầu và phê duyệt riêng.
+- Cấp quyền content script được giải thích trước; quyền browser theo manifest/ADR, không mô tả `activeTab` sai.
+- Thông báo loading/lỗi và kết quả dùng vùng live phù hợp; đóng popup trả focus có thể dự đoán.
 
-Ứng dụng mô phỏng có thể chạy được phải chứa các kịch bản xác định:
+## Thành phần dữ liệu và trạng thái lưu
 
-1. Bài viết tiếng Anh dài có mười phần nguồn.
-2. Bài viết ngắn không có câu trả lời cho câu hỏi mẫu.
-3. Trang động được đánh dấu hết mới sau khi thu thập.
-4. Trang bị hạn chế.
-5. Bản dịch cho từ có nhiều nghĩa.
-6. Chọn cụm từ và cả câu.
-7. Lần gặp từ trùng từ nguồn thứ hai.
-8. Thư viện từ vựng trống.
-9. Hai mươi từ đến hạn với mức mastery khác nhau.
-10. Dữ liệu xuất Quizlet có dòng trùng và không hợp lệ.
-11. MCP ở các trạng thái chưa kết nối, đã kết nối, đã chia sẻ, hết hạn và bị thu hồi.
-12. Timeout mạng, vượt quota và lỗi server có thể phục hồi.
+| UI                 | Nguồn                                                       | Lưu trữ                            | Hành vi lỗi                                                                         |
+| ------------------ | ----------------------------------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------------- |
+| Dịch selection     | Provider đã chọn                                            | Kết quả tạm trước validate         | Cho retry đúng provider, không fallback.                                            |
+| POS/nghĩa/ví dụ từ | DB cache theo ngôn ngữ/provider/sense và provenance/version | Bền vững sau validate              | Báo lỗi persist, không khẳng định đã lưu.                                           |
+| Add queue          | Queue của người dùng                                        | Bền vững, idempotent               | Trạng thái unknown cần đối soát; không nhân đôi.                                    |
+| Text import/batch  | Các queue item đủ điều kiện                                 | Batch bền vững                     | Giữ batch, validate delimiter; retry/reconcile.                                     |
+| Quizlet set        | Tài khoản người dùng qua kênh được hỗ trợ                   | External; liên kết evidence/status | Verified/unavailable/unknown; không khẳng định thành công khi chưa có set evidence. |
 
-Mock fixture phải dùng ID ổn định và nằm trong package dùng chung để Storybook, UI test và API contract test cùng sử dụng một bộ ví dụ.
+## Câu hỏi còn chờ
 
-## Cổng nghiệm thu UX trước khi khóa database
-
-Phase 2 không thể hoàn tất cho đến khi:
-
-- Mọi hành trình cốt lõi đã chấp nhận đều có thể thao tác xuyên suốt bằng dữ liệu mô phỏng.
-- Có đủ trạng thái trống, tải, lỗi, hết mới, ngoại tuyến và quyền truy cập.
-- Chủ sản phẩm phê duyệt điều hướng và thuật ngữ.
-- Kiểm tra accessibility không có lỗi nghiêm trọng.
-- Màn hình được kiểm tra trực quan ở chiều rộng hẹp của tiện ích và viewport desktop/mobile của dashboard.
-- Mỗi trường hiển thị được phân loại là dữ liệu suy ra, tạm thời, bền vững hoặc bên ngoài.
-- Mỗi hành động người dùng được ánh xạ thành command/query trong bản nháp hợp đồng API.
-
-## Bảng ánh xạ UI sang dữ liệu
-
-Với mỗi màn hình được phê duyệt, ghi lại:
-
-| Thành phần UI           | Nguồn           | Lưu trữ           | Độ mới             | Quyền            | Hành vi khi lỗi           |
-| ----------------------- | --------------- | ----------------- | ------------------ | ---------------- | ------------------------- |
-| Tiêu đề trang           | Bản thu thập    | TTL               | Thời điểm thu thập | Chủ bản thu thập | Hiển thị không khả dụng   |
-| Citation                | Chunk/anchor    | Theo bản thu thập | Thời điểm thu thập | Chủ bản thu thập | Tắt điều hướng            |
-| Mastery của từ          | Learning engine | Bền vững          | Tức thời           | Chỉ người dùng   | Hiển thị giá trị gần nhất |
-| Trạng thái xuất Quizlet | Export batch    | Bền vững          | Trạng thái job     | Chỉ người dùng   | Thử lại hoặc tải nội dung |
-
-Bảng đầy đủ được tạo trong Phase 2 và trở thành đầu vào cho schema cuối ở Phase 3.
+Kênh Quizlet production cần feasibility proof; owner cho phép khảo sát browser automation trong browser đã đăng nhập nếu official channel không dùng được. Provider/model AI cụ thể, auth và schema vẫn chưa khóa. N do người dùng cấu hình; không có mặc định. Mockup, dashboard và visual evidence cũ không phải baseline hiện hành.

@@ -1,18 +1,9 @@
 # Hồ sơ thực thi theo phase
 
-Mỗi phase có một tài liệu điều hành riêng. Tài liệu phase không thay thế work package; nó định nghĩa mục tiêu, thứ tự, ngân sách thời gian, cổng kiểm thử và điều kiện chuyển phase.
+Mỗi phase có tài liệu điều hành riêng. Work package là đơn vị duy nhất được thực thi; phase plan mô tả mục tiêu, thứ tự, effort, test gate và điều kiện chuyển tiếp.
 
 - [Phase 0 — Nền tảng và khóa quy trình](phase-00-foundation.md)
 - [Báo cáo kết thúc Phase 0](phase-00-closeout.md)
-- [Phase 1 — Phạm vi sản phẩm, hướng UI và kiến trúc hệ thống](phase-01-product-ui-architecture.md)
-- Phase 1 — Chốt sản phẩm, UI và system design: tạo sau khi Phase 0 đạt cổng kết thúc.
-- Phase 2 — Bản thiết kế có thể chạy bằng mock data.
-- Phase 3 — Hợp đồng API và database.
-- Phase 4 — Nền tảng và vertical slice production.
-- Phase 5A — Capture, retrieval và Q&A có căn cứ.
-- Phase 5B — Dịch, phát âm, từ vựng và Quizlet export.
-- Phase 5C — Learning engine và bài học.
-- Phase 6 — MCP và workflow Quizlet.
-- Phase 7 — Gia cố, UAT và beta.
+- [Phase 1 — Lập lại đường cơ sở P1-R01](phase-01-product-ui-architecture.md)
 
-Chỉ tạo hồ sơ chi tiết cho phase tiếp theo khi phase hiện tại gần đạt cổng kết thúc. Cách này tránh để kế hoạch chi tiết lỗi thời trước khi triển khai.
+Phase 1 hiện hành là chuỗi P1-101..109 được định nghĩa trong phase plan. Roadmap và package P2–P7 cũ được giữ trong tài liệu như lịch sử bị thay thế/hoãn; chưa lập lịch phase mở rộng. Không suy ra quyền thực thi từ backlog lịch sử.

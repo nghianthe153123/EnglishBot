@@ -3,6 +3,8 @@
 - Trạng thái: Chấp nhận
 - Ngày: 2026-09-28
 
+> Lịch sử: phạm vi manual-import đủ beta bị thay thế ngày 2026-09-30 bởi ADR-006. Chủ dự án cho phép khảo sát UI automation qua ADR-008. Các quyết định bên dưới mô tả baseline cũ; external write production vẫn tắt cho tới khi kênh đã được kiểm chứng/chấp nhận. Đồng bộ hai chiều chưa thuộc Phase 1.
+
 ## Bối cảnh
 
 Sản phẩm cần khả năng tương tác với Quizlet, nhưng đồng bộ trực tiếp không được phụ thuộc vào endpoint không tài liệu hóa, cookie trình duyệt hoặc UI automation dễ vỡ.

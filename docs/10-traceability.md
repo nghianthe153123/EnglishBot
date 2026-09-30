@@ -1,45 +1,61 @@
 # Ma trận truy vết yêu cầu
 
-Ma trận này ngăn tính năng được triển khai mà không có test và ngăn test lệch khỏi yêu cầu sản phẩm. Cập nhật khi yêu cầu, module sở hữu, gói công việc hoặc cổng phát hành thay đổi.
+Đường truy vết hiện hành của P1-R01 dùng requirement ID cho baseline mới. ID cũ được giữ trong lịch sử package P1-001..007, không gán lại sang yêu cầu mới. Thay đổi chỉ được tính đạt khi package tương ứng có test/bằng chứng.
 
-| Yêu cầu | Module/bề mặt sở hữu              | Gói công việc chính       | Bằng chứng bắt buộc                                                              |
-| ------- | --------------------------------- | ------------------------- | -------------------------------------------------------------------------------- |
-| CAP-01  | Extension, capture                | P5A-001                   | Test quyền và browser E2E                                                        |
-| CAP-02  | Extension, capture, retrieval     | P5A-001, P5A-002          | Corpus trích xuất                                                                |
-| CAP-03  | Capture                           | P5A-002                   | Test hết mới/thay đổi                                                            |
-| CAP-04  | Đã hoãn                           | Tương lai                 | Không thuộc cổng beta                                                            |
-| CHAT-01 | Conversation                      | P4-005, P5A-005           | API/browser E2E                                                                  |
-| CHAT-02 | Conversation, extension           | P4-005, P4-006            | Integration test SSE                                                             |
-| CHAT-03 | Retrieval, conversation           | P5A-005                   | Đánh giá citation                                                                |
-| CHAT-04 | Conversation                      | P5A-006                   | Đánh giá từ chối trả lời                                                         |
-| SEL-01  | Extension                         | P5B-001                   | Interaction/visual/accessibility test                                            |
-| SEL-02  | AI gateway, vocabulary            | P5B-002                   | Bộ dịch theo ngữ cảnh                                                            |
-| SEL-03  | Extension, AI gateway             | P5B-003                   | Test audio/fallback                                                              |
-| SEL-04  | Vocabulary                        | P5B-004, P5B-005          | Domain và E2E test                                                               |
-| SEL-05  | Extension, AI gateway, vocabulary | P5B-001, P5B-002, P5B-004 | Phân loại selection; card có POS, ví dụ AI mới, word family; phrase/câu chỉ dịch |
-| VOC-01  | Vocabulary, learning              | P5B-004, P5C-001          | State-machine test                                                               |
-| VOC-02  | Vocabulary                        | P5B-004                   | Normalization/property test                                                      |
-| VOC-03  | Vocabulary, dashboard             | P5B-005                   | API/UI test                                                                      |
-| LRN-01  | Learning                          | P5C-001, P5C-002          | Scheduler property/replay test                                                   |
-| LRN-02  | Learning                          | P5C-003                   | Test invariant bài học                                                           |
-| LRN-03  | Learning, AI gateway              | P5C-004, P5C-005          | Contract generator + E2E                                                         |
-| LRN-04  | Learning, dashboard               | P5C-006                   | Test tính bằng chứng                                                             |
-| MCP-01  | Integration MCP, identity         | P6-001, P6-002            | Protocol/auth test                                                               |
-| MCP-02  | Integration MCP, retrieval        | P6-003                    | Test quyền sở hữu/scope/tool                                                     |
-| MCP-03  | Integration MCP, learning         | P6-004                    | Contract test tool                                                               |
-| QZ-01   | Integration Quizlet               | P5B-006                   | Test định dạng/idempotency                                                       |
-| QZ-02   | Integration Quizlet               | P6-006                    | Fixture validation import                                                        |
-| QZ-03   | Có điều kiện                      | Tương lai                 | Cần ADR tích hợp được duyệt                                                      |
-| PRIV-01 | Capture, identity, UI             | P3-002, P4-003            | Test TTL/xóa/E2E                                                                 |
-| PRIV-02 | Extension, capture                | P5A-001                   | Test denylist/quyền                                                              |
-| PRIV-03 | Tất cả                            | P0-003, P7-002            | Quét secret và review bảo mật                                                    |
-| NFR-01  | Platform                          | P0-003, P7-002            | Xác minh deployment/TLS                                                          |
-| NFR-02  | Platform                          | P0-003, P7-002            | Quét secret/diễn tập xoay vòng                                                   |
-| NFR-03  | Identity, mọi API                 | P4-002, P7-002            | Ma trận phân quyền                                                               |
-| NFR-04  | Capture, conversation, MCP        | P5A-006, P6-007           | Bộ test injection                                                                |
-| NFR-05  | Platform                          | P4-001, P7-001            | Test không trạng thái/tải                                                        |
-| NFR-06  | Persistence                       | P3-003, P3-004, P7-004    | Tương thích migration/rollback                                                   |
-| NFR-07  | Gateway/tích hợp                  | P4-004, P6-007            | Contract/failure test                                                            |
-| NFR-08  | UI dự án kiểm soát                | P2-007, P7-003            | Báo cáo axe/accessibility thủ công                                               |
-| NFR-09  | API/UI                            | Mọi gói tính năng         | Test trạng thái lỗi                                                              |
-| NFR-10  | AI gateway/platform               | P4-007, P5A-007, P7-001   | Telemetry mức sử dụng/chi phí                                                    |
+## Baseline mới — P1-R01
+
+| Yêu cầu                                                                                             | Gói chính              | Test/bằng chứng bắt buộc                                                               |
+| --------------------------------------------------------------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------------- |
+| P1-TR-01: selection chỉ hiện action local, không mạng trước click                                   | P1-101, P1-105, P1-109 | Unit/interaction và assertion network trên browser                                     |
+| P1-TR-02: Google Translation API chính thức hoặc AI BYOK                                            | P1-103, P1-104, P1-105 | Contract request/result, adapter fake, test credential/bảo mật                         |
+| P1-TR-03: popup cạnh pointer, clamp viewport, close/focus/keyboard                                  | P1-101, P1-105, P1-109 | Component/browser và bằng chứng visual/keyboard                                        |
+| P1-TR-04: phrase/sentence chỉ dịch, không Add                                                       | P1-103, P1-105, P1-109 | Assertion contract và E2E                                                              |
+| P1-TR-05: lỗi key/quota/network/provider có recovery, không fallback ngầm                           | P1-103, P1-105         | Test contract lỗi/adapter                                                              |
+| P1-WD-01: word có POS/definition/example, chỉ persist sau validation                                | P1-104, P1-106         | Domain/DB validation, persistence qua restart                                          |
+| P1-WD-02: cache/reuse theo language/provider/sense, provenance/version; Add tách riêng              | P1-103, P1-104, P1-106 | Cache hit không gọi provider, collision/isolation                                      |
+| P1-WD-03: Add idempotent vào queue của user; không Add text                                         | P1-106, P1-107         | Double click/đồng thời và test âm tính phrase                                          |
+| P1-QZ-01: N đếm từ Added duy nhất/hợp lệ/chưa batch                                                 | P1-107                 | N unset/invalid/configured, N−1/N/N+1, đổi N khi queue có dữ liệu, Add trùng/đồng thời |
+| P1-QZ-02: text import ổn định term TAB definition, mỗi card một dòng; validate delimiter            | P1-107                 | Fixture unicode/newline/delimiter/property                                             |
+| P1-QZ-03: tự tạo set đúng tài khoản; thành công cần bằng chứng set                                  | P1-102, P1-108, P1-109 | Báo cáo khả thi và live integration có nhãn/test account, URL/ID                       |
+| P1-QZ-04: retry/đối soát tránh trùng; unavailable/unknown rõ                                        | P1-102, P1-108         | Timeout sau create, dừng retry tự động, reconcile/idempotency                          |
+| P1-UI-01: Wirefigma chỉ dùng cho popup/options/queue cần thiết                                      | P1-101, P1-109         | Review nguồn/checksum và visual 320/360/420                                            |
+| P1-SEC-01: selection tối thiểu; không crawl trang/cookie/session                                    | P1-101, P1-105, P1-109 | Test âm permission/trang hạn chế/quyền riêng tư                                        |
+| P1-SEC-02: BYOK đi qua backend, không lưu key ở client; auth/secret theo ADR                        | P1-103, P1-104, P1-109 | Review threat, redaction log, quét client bundle/storage                               |
+| P1-SEC-03: mô tả permission trước khi content-script phát hiện; activeTab không được cấp do bôi đen | P1-101, P1-105, P1-109 | Browser test cài mới/chưa cấp/cấp/thu hồi/trang hạn chế                                |
+
+Yêu cầu xuyên suốt: test LLM trong CI dùng fixture xác định; test Google/AI/Quizlet thật có nhãn riêng, test account và bằng chứng đã che thông tin nhạy cảm. Không lưu secret trong Git hoặc CI mặc định.
+
+## Quyết định đã chốt và hành vi kiểm thử
+
+- Khi chọn Google, phrase/sentence chỉ gọi Google Translation, không cần AI key; khi chọn AI, phrase/sentence được dịch qua AI provider đã chọn và không Add/enrich thành từ.
+- Google word dùng AI BYOK để bổ sung POS/example; thiếu key thì chờ cấu hình/credential, không bịa nội dung.
+- Cache đầy đủ không gọi lại provider.
+- N do user cấu hình, không có default; unset/invalid thì runtime không tạo batch.
+- P1-102 khảo sát kênh Quizlet chính thức trước; nếu không dùng được, được khảo sát browser automation trong browser Quizlet đã đăng nhập. Việc khảo sát không chứng minh PoC hoặc production đã được duyệt.
+
+## Bao phủ các gate
+
+| Gate                 | Phạm vi bao phủ                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| Scope/UX owner gate  | P1-TR-01/03/04, P1-UI-01, P1-SEC-01/03; Wirefigma và hành vi local-only              |
+| Mock/contracts gate  | P1-TR-02/04/05, P1-WD-02/03, P1-QZ-02/04                                             |
+| DB/BYOK gate         | P1-WD-01/02 và P1-SEC-02; migration rỗng/nâng cấp, cô lập user                       |
+| E2E/UAT/release gate | Tất cả ID; Chrome rồi Edge; bằng chứng visual/bảo mật và kết quả Quizlet đã xác minh |
+
+P1-QZ-03/04 không thể đạt bằng copy/export thủ công. Kênh Quizlet còn `CHƯA_CHỐT`; gate phụ thuộc phải chờ khảo sát, bằng chứng và ADR/owner approval. Owner cho phép khảo sát browser automation nếu kênh chính thức không dùng được; việc cho phép khảo sát không đồng nghĩa production đã được duyệt.
+
+## Truy vết lịch sử — giữ nguyên các requirement ID cũ
+
+Các dòng dưới đây để audit; mapping thuộc kế hoạch trước, không phải đường thực thi hiện hành. Hồ sơ package lịch sử giữ trạng thái/bằng chứng ban đầu.
+
+| Nhóm ID lịch sử                  | Mapping package cũ | Xử lý hiện tại                                                                                                      |
+| -------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| CAP-01..04, CHAT-01..04          | P4/P5A             | Capture, Chat, Q&A hoãn; không thuộc Phase 1 mới                                                                    |
+| SEL-01..05                       | P5B                | Baseline cũ bị thay thế; selection mới truy vết qua P1-TR/P1-WD/P1-UI                                               |
+| VOC-01..03, LRN-01..04           | P5B/P5C            | Dashboard từ vựng, scheduler, bài học nội bộ hoãn; Add mới thuộc P1-WD-03                                           |
+| MCP-01..03                       | P6                 | MCP hoãn                                                                                                            |
+| QZ-01..03                        | P5B/P6             | Định nghĩa export/import/direct-sync lịch sử bị thay; yêu cầu tự tạo mới là P1-QZ-01..04                            |
+| PRIV-01..03, NFR-01..10, D-101.. | P3–P7              | Giữ decision/trace ID và bằng chứng cũ; áp dụng nguyên tắc bảo mật liên quan cho gói mới theo mapping cụ thể ở trên |
+| J1..J5                           | Hành trình P1 cũ   | Giữ nguyên ý nghĩa lịch sử; hành trình mới dùng P1-J1..J4 ở tài liệu sản phẩm                                       |
+
+Truy vết và bằng chứng hoàn tất P0 không đổi. Không dùng ID package P1 cũ cho tính năng mới.

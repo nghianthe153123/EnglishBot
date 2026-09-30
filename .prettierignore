@@ -6,3 +6,7 @@ pnpm-lock.yaml
 mvnw
 mvnw.cmd
 
+# Snapshot nguồn thiết kế: giữ nội dung/checksum nhập từ C:/SystemDesign.
+docs/design/reference/WIREFIGMA_DESIGN_SYSTEM.md
+docs/design/reference/wirefigma-sample.html
+

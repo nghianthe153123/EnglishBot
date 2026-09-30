@@ -2,120 +2,56 @@
 
 ## Quy tắc
 
-- Đây là backlog đã lên kế hoạch, không phải quyền thực thi mọi hạng mục.
-- Một dòng chỉ có thể triển khai sau khi tạo file gói công việc chi tiết và đánh dấu `SẴN_SÀNG`.
-- ID được giữ ổn định kể cả khi lịch thay đổi.
+- Đây là backlog đã lập kế hoạch, không tự cấp quyền thực thi. Chỉ bắt đầu gói `SẴN_SÀNG` khi dependency, gate và quyết định cần thiết đã đạt.
+- Giữ ID ổn định; các gói P1-001..007 cũ là lịch sử, không tái sử dụng ID.
+- Mỗi thời điểm chỉ một gói được thực thi. Tài liệu/test độc lập có thể chạy song song sau khi hợp đồng liên quan được duyệt.
+- Mỗi package ghi AC, test/bằng chứng, cờ phát hành, rollback và báo cáo. Không tuyên bố tính năng hoàn tất nếu chưa có bằng chứng.
 
-## Phase 0 — Nền tảng
+## Phase 0 — Nền tảng (lịch sử giữ nguyên)
 
-| ID     | Gói công việc                                 | Phụ thuộc | Bằng chứng chính          |
-| ------ | --------------------------------------------- | --------- | ------------------------- |
-| P0-001 | Review và phê duyệt charter, phạm vi, roadmap | Không     | Hồ sơ quyết định đã duyệt |
-| P0-002 | Khóa ADR về cấu trúc repository/build         | P0-001    | ADR + kế hoạch scaffold   |
-| P0-003 | Định nghĩa môi trường, secret và cổng CI      | P0-002    | Ma trận môi trường        |
-| P0-004 | Chạy thử workflow gói công việc bằng AI       | P0-001    | Gói mẫu đã hoàn thành     |
+| ID     | Gói công việc                               | Phụ thuộc | Bằng chứng                 |
+| ------ | ------------------------------------------- | --------- | -------------------------- |
+| P0-001 | Review và phê duyệt charter/phạm vi/roadmap | —         | Hồ sơ quyết định           |
+| P0-002 | Khóa ADR repository/build                   | P0-001    | ADR/kế hoạch scaffold      |
+| P0-003 | Môi trường, secret và CI                    | P0-002    | Ma trận môi trường/cổng CI |
+| P0-004 | Dry run workflow AI                         | P0-001    | Package mẫu                |
 
-## Phase 1 — Sản phẩm, UI và kiến trúc
+## Phase 1 — Đường thực thi mới theo P1-R01 (2026-09-30)
 
-| ID     | Gói công việc                                       | Phụ thuộc              | Bằng chứng chính       |
-| ------ | --------------------------------------------------- | ---------------------- | ---------------------- |
-| P1-001 | Xác thực persona, hành trình và ưu tiên tính năng   | P0-001                 | PRD đã duyệt           |
-| P1-002 | Thiết kế kiến trúc thông tin và trạng thái tiện ích | P1-001                 | Wireframe đã duyệt     |
-| P1-003 | Thiết kế dashboard và luồng tích hợp                | P1-001                 | Wireframe đã duyệt     |
-| P1-004 | Định nghĩa design token và mục tiêu accessibility   | P1-002, P1-003         | Đặc tả UI              |
-| P1-005 | Khóa ranh giới module và kiến trúc runtime          | P1-001                 | ADR kiến trúc          |
-| P1-006 | Threat model cho hành trình ban đầu                 | P1-001, P1-005         | Threat model đã review |
-| P1-007 | Soạn operation OpenAPI và danh mục MCP tool         | P1-002, P1-003, P1-005 | Bản nháp hợp đồng      |
+Ước lượng tuần tự 16–27 ngày làm việc, gồm triển khai, kiểm thử và owner review; đây không phải cam kết lịch. P1-102 có thể khảo sát sớm.
 
-## Phase 2 — Thiết kế mô phỏng có thể chạy
+| ID     | Gói                             | Phụ thuộc                                           | Ngày | Trạng thái/điều kiện                                               | Bằng chứng chính                                        |
+| ------ | ------------------------------- | --------------------------------------------------- | ---: | ------------------------------------------------------------------ | ------------------------------------------------------- |
+| P1-101 | Phạm vi/UX theo Wirefigma       | Phase 0                                             |  1–2 | NHÁP; được chuẩn bị theo scope mới                                 | Owner duyệt phạm vi, trạng thái UX                      |
+| P1-102 | Khảo sát khả thi Quizlet        | P1-R01; có thể khảo sát sớm                         |  1–3 | NHÁP; chỉ khảo sát, không code tích hợp                            | Báo cáo kênh/xác thực/set/lỗi/retry                     |
+| P1-103 | Prototype mô phỏng và hợp đồng  | P1-101                                              |  2–3 | NHÁP; cần owner review hợp đồng                                    | Luồng mock + test request/result/state                  |
+| P1-104 | DB, migration, auth/BYOK        | P1-103 + ADR/owner decisions                        |  2–3 | NHÁP; triển khai sau khi hợp đồng và quyết định bảo mật được duyệt | Test migration rỗng/nâng cấp, cô lập user, secret       |
+| P1-105 | Selection/popup/provider dịch   | P1-103, P1-104; thiết kế permission                 |  3–4 | NHÁP                                                               | Test unit/contract/browser                              |
+| P1-106 | Enrichment từ, cache/reuse, Add | P1-104, P1-105                                      |  2–3 | NHÁP; theo owner dùng AI BYOK bổ sung POS/example cho word         | Test domain/cache/Add idempotency                       |
+| P1-107 | Ngưỡng N, batch snapshot/import | P1-106                                              |  1–2 | NHÁP; N do user cấu hình, không có mặc định                        | Test unset/invalid/configured, biên/đồng thời/định dạng |
+| P1-108 | Tự tạo Quizlet set              | P1-102 khả thi và owner chấp nhận kênh; P1-107; ADR |  2–4 | BỊ_CHẶN: kênh `CHƯA_CHỐT`, chưa có phê duyệt production            | Đối soát/idempotency/test account có nhãn               |
+| P1-109 | E2E, UAT, cổng phát hành        | P1-101..108                                         |  2–3 | NHÁP; chỉ đóng khi scope bắt buộc đạt                              | E2E Chrome/Edge, trực quan/bảo mật/UAT                  |
 
-| ID     | Gói công việc                                 | Phụ thuộc      | Bằng chứng chính               |
-| ------ | --------------------------------------------- | -------------- | ------------------------------ |
-| P2-001 | Scaffold UI workspace và design system        | P1-004         | Danh mục component             |
-| P2-002 | Tạo kịch bản mock dùng chung có phiên bản     | P1-001, P1-007 | Package fixture/test           |
-| P2-003 | Xây shell tiện ích mô phỏng và các trạng thái | P2-001, P2-002 | Visual/interaction test        |
-| P2-004 | Xây bong bóng chọn văn bản mô phỏng           | P2-001, P2-002 | Interaction/accessibility test |
-| P2-005 | Xây hành trình dashboard mô phỏng             | P2-001, P2-002 | Mock E2E test                  |
-| P2-006 | Xây luồng tích hợp MCP/Quizlet mô phỏng       | P2-002, P2-005 | Mock E2E test                  |
-| P2-007 | Hoàn tất bảng UI-dữ liệu và cổng UX           | P2-003..P2-006 | Chủ sản phẩm duyệt             |
+Chi tiết: [P1-101](work-packages/P1-101-scope-wirefigma-ux.md), [P1-102](work-packages/P1-102-quizlet-feasibility.md), [P1-103](work-packages/P1-103-mock-contracts.md), [P1-104](work-packages/P1-104-db-byok.md), [P1-105](work-packages/P1-105-selection-translation.md), [P1-106](work-packages/P1-106-word-cache-add.md), [P1-107](work-packages/P1-107-threshold-import-batch.md), [P1-108](work-packages/P1-108-quizlet-auto-create.md), [P1-109](work-packages/P1-109-e2e-uat-release.md).
 
-## Phase 3 — Hợp đồng và database
+## Phase 1 — Các gói P1-001..007 (lịch sử đã bị thay thế)
 
-| ID     | Gói công việc                                  | Phụ thuộc      | Bằng chứng chính       |
-| ------ | ---------------------------------------------- | -------------- | ---------------------- |
-| P3-001 | Hoàn thiện API command, query và hợp đồng lỗi  | P2-007         | OpenAPI contract test  |
-| P3-002 | Hoàn thiện aggregate, retention và quy tắc xóa | P2-007         | Review dữ liệu         |
-| P3-003 | Tạo schema vật lý V1 và index                  | P3-001, P3-002 | Flyway migration       |
-| P3-004 | Tạo database fixture và repository test        | P3-003         | Báo cáo Testcontainers |
-| P3-005 | Sinh/xác thực TypeScript API client và type    | P3-001         | Build hợp đồng client  |
-| P3-006 | Phê duyệt ADR đường cơ sở schema               | P3-003, P3-004 | ADR đã duyệt           |
+| ID     | Gói lịch sử                            | Trạng thái trước phiên rebaseline                                | Nội dung mới thay thế                                               |
+| ------ | -------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------- |
+| P1-001 | Persona, hành trình, ưu tiên tính năng | HOÀN_TẤT; bằng chứng owner/CI lịch sử được giữ trong hồ sơ       | Baseline bị P1-R01 thay thế; không chứng minh tính năng mới tồn tại |
+| P1-002 | IA, extension, selection popup         | ĐANG_LÀM                                                         | Thay bằng P1-101/P1-105                                             |
+| P1-003 | Dashboard và tích hợp                  | ĐANG_REVIEW; bằng chứng review được bảo toàn trong hồ sơ lịch sử | Dashboard/MCP hoãn; câu hỏi Quizlet chuyển P1-102/108               |
+| P1-004 | Nền tảng thiết kế/khả năng tiếp cận    | ĐANG_REVIEW; bằng chứng review được bảo toàn trong hồ sơ lịch sử | Wirefigma thuộc P1-101/109; không dùng ảnh visual cũ làm baseline   |
+| P1-005 | Thiết kế runtime/module                | NHÁP                                                             | Quyết định BYOK/API liên quan chuyển P1-103/104                     |
+| P1-006 | Mô hình đe dọa                         | NHÁP                                                             | Rủi ro selection/BYOK/batch/Quizlet kiểm tra trong P1-104..109      |
+| P1-007 | Danh mục hợp đồng                      | NHÁP                                                             | Thay bằng hợp đồng P1-103                                           |
 
-## Phase 4 — Lát cắt nền tảng xuyên suốt
+Các package lịch sử giữ ID, trạng thái/bằng chứng có liên quan và ngày tháng. Phần kế hoạch cũ không còn là backlog hiện hành.
 
-| ID     | Gói công việc                                            | Phụ thuộc      | Bằng chứng chính                |
-| ------ | -------------------------------------------------------- | -------------- | ------------------------------- |
-| P4-001 | Scaffold ứng dụng Spring Boot modular                    | P0-002, P3-006 | Build + ArchUnit                |
-| P4-002 | Triển khai khung identity và phân quyền                  | P4-001         | Test auth âm                    |
-| P4-003 | Triển khai tạo/trạng thái/xóa capture                    | P4-002, P3-004 | Integration test API            |
-| P4-004 | Triển khai AI gateway fake và adapter OpenAI             | P4-001         | Contract test adapter           |
-| P4-005 | Triển khai stream phản hồi bằng SSE                      | P4-003, P4-004 | Integration test stream         |
-| P4-006 | Kết nối tiện ích với lát cắt xuyên suốt sau cờ tính năng | P3-005, P4-005 | Kiểm thử nhanh E2E trên staging |
-| P4-007 | Thêm telemetry và event chi phí cơ bản                   | P4-004, P4-005 | Bằng chứng dashboard/log        |
+## Phase 2+ — Backlog lịch sử, đang hoãn
 
-## Phase 5A — Capture và Q&A có căn cứ
+Phase 2 thiết kế mock chạy được; Phase 3 API/database; Phase 4 capture/AI; Phase 5A capture/Q&A; Phase 5B dịch/từ vựng/TTS; Phase 5C scheduler/bài học nội bộ; Phase 6 MCP/Quizlet; Phase 7 gia cố/beta từng nằm trong roadmap 26 tuần cũ. Roadmap này đã bị thay thế; đây chỉ là tham chiếu lịch sử, không phải công việc được duyệt hoặc lên lịch. Không lập lịch mở rộng Phase 2+ cho tới khi owner duyệt scope mới. Phase 1 hiện hành loại trừ capture toàn trang, Chat/Q&A, dashboard, MCP, TTS, word family, scheduler/mastery và bài học nội bộ.
 
-| ID      | Gói công việc                                        | Phụ thuộc        | Bằng chứng chính          |
-| ------- | ---------------------------------------------------- | ---------------- | ------------------------- |
-| P5A-001 | Triển khai active-tab extraction và làm sạch         | P4-006           | Báo cáo corpus trích xuất |
-| P5A-002 | Triển khai source anchor và phát hiện hết mới        | P5A-001          | Browser E2E               |
-| P5A-003 | Triển khai chunking và đường cơ sở retrieval từ khóa | P5A-001          | Đánh giá retrieval        |
-| P5A-004 | Chỉ đánh giá/thêm vector retrieval khi có căn cứ     | P5A-003          | ADR + số liệu so sánh     |
-| P5A-005 | Triển khai câu trả lời có căn cứ và citation         | P5A-002, P5A-003 | Đánh giá Q&A              |
-| P5A-006 | Thêm phòng vệ prompt injection và từ chối trả lời    | P5A-005          | Bộ test đối kháng         |
-| P5A-007 | UAT Q&A và sửa lỗi phase                             | P5A-001..P5A-006 | Cổng phase đã duyệt       |
+## Phase 0 và bảo toàn ID
 
-## Phase 5B — Chọn văn bản và từ vựng
-
-| ID      | Gói công việc                                 | Phụ thuộc        | Bằng chứng chính           |
-| ------- | --------------------------------------------- | ---------------- | -------------------------- |
-| P5B-001 | Triển khai bong bóng chọn văn bản production  | P2-004, P4-006   | Browser E2E                |
-| P5B-002 | Triển khai hợp đồng dịch theo ngữ cảnh        | P4-004, P5B-001  | Bộ test dịch               |
-| P5B-003 | Triển khai browser TTS và server TTS fallback | P5B-001          | Test audio/fallback        |
-| P5B-004 | Triển khai aggregate từ vựng và encounter     | P3-006           | Domain/repository test     |
-| P5B-005 | Kết nối luồng lưu/đã biết/bỏ qua/sửa          | P5B-002, P5B-004 | UI/API E2E                 |
-| P5B-006 | Triển khai preview xuất tương thích Quizlet   | P5B-004          | Test định dạng/idempotency |
-
-## Phase 5C — Học tập
-
-| ID      | Gói công việc                                            | Phụ thuộc        | Bằng chứng chính         |
-| ------- | -------------------------------------------------------- | ---------------- | ------------------------ |
-| P5C-001 | Định nghĩa và triển khai scheduler có phiên bản          | P5B-004          | Property/replay test     |
-| P5C-002 | Triển khai gửi review và truy vấn đến hạn                | P5C-001          | API/concurrency test     |
-| P5C-003 | Triển khai lesson aggregate và lựa chọn xác định         | P5C-002          | Domain test              |
-| P5C-004 | Triển khai AI exercise generator có cấu trúc và fallback | P4-004, P5C-003  | Contract/evaluation test |
-| P5C-005 | Triển khai UI bài học và phục hồi gián đoạn              | P2-005, P5C-003  | Browser E2E              |
-| P5C-006 | Triển khai màn hình bằng chứng tiến độ                   | P5C-002, P5C-005 | UI/API test              |
-| P5C-007 | UAT học tập mô phỏng nhiều tuần                          | P5C-001..P5C-006 | Cổng phase đã duyệt      |
-
-## Phase 6 — Workflow MCP và Quizlet
-
-| ID     | Gói công việc                                         | Phụ thuộc       | Bằng chứng chính    |
-| ------ | ----------------------------------------------------- | --------------- | ------------------- |
-| P6-001 | Triển khai shell MCP Streamable HTTP server           | P4-001          | Protocol test       |
-| P6-002 | Triển khai liên kết tài khoản MCP và scope            | P4-002, P6-001  | Ma trận auth        |
-| P6-003 | Triển khai capture share grant và tool tìm kiếm       | P5A-005, P6-002 | Test tool           |
-| P6-004 | Triển khai MCP tool từ đến hạn và bài học             | P5C-003, P6-002 | Test tool           |
-| P6-005 | Triển khai integration audit và chính sách phê duyệt  | P6-002..P6-004  | Bằng chứng bảo mật  |
-| P6-006 | Triển khai import file Quizlet do người dùng cung cấp | P5B-006         | Fixture import      |
-| P6-007 | Chạy compatibility, injection và integration UAT      | P6-003..P6-006  | Cổng phase đã duyệt |
-
-## Phase 7 — Gia cố và beta
-
-| ID     | Gói công việc                               | Phụ thuộc          | Bằng chứng chính             |
-| ------ | ------------------------------------------- | ------------------ | ---------------------------- |
-| P7-001 | Hoàn tất đường cơ sở hiệu năng và khắc phục | Mọi module cốt lõi | Báo cáo tải                  |
-| P7-002 | Hoàn tất review bảo mật và khắc phục        | Mọi module cốt lõi | Cổng bảo mật                 |
-| P7-003 | Hoàn tất accessibility và cross-browser     | Mọi module UI      | Báo cáo accessibility/visual |
-| P7-004 | Xác minh backup, restore, xóa và rollback   | Platform hoàn tất  | Bằng chứng diễn tập          |
-| P7-005 | Chạy UAT beta và bug bash                   | P7-001..P7-004     | Báo cáo UAT                  |
-| P7-006 | Build, deploy, canary và quan sát beta      | P7-005             | Checklist phát hành          |
+Giữ nguyên ID P0-001..004, trạng thái hoàn thành Phase 0 và bằng chứng. Không tái sử dụng P1-001..007 cho công việc khác; công việc mới dùng P1-101..109.

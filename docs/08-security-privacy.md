@@ -1,82 +1,42 @@
-# Kế hoạch bảo mật và quyền riêng tư
+# Bảo mật và quyền riêng tư — Phase 1
 
-## Mục tiêu bảo mật
+Áp dụng cho selection translation, BYOK, word DB và batch Quizlet theo ADR-006. Capture/MCP/citation không thuộc threat model phát hành hiện tại.
 
-- Chỉ thu thập sau thao tác rõ ràng của người dùng.
-- Chỉ gửi lượng nội dung tối thiểu cần cho tính năng đã chọn.
-- Giữ secret khỏi tiện ích và browser storage.
-- Coi nội dung trang, output model và output MCP là không đáng tin cậy.
-- Hành động tích hợp nhạy cảm phải rõ ràng, có scope, có thể thu hồi và audit.
-- Cung cấp quyền kiểm soát retention và xóa dữ liệu dễ hiểu cho người dùng.
+## Dữ liệu và quyền
 
-## Phân loại dữ liệu
+| Dữ liệu                        | Xử lý                                                                                   |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| Selection từ/cụm/câu           | Chỉ gửi sau click Dịch; giới hạn kích thước; không đọc toàn trang                       |
+| POS/nghĩa/ví dụ từ             | Lưu DB theo owner để reuse; lookup không tự Add                                         |
+| Phrase/sentence                | Tạm trong request/popup; không ghi lịch sử/log nội dung mặc định                        |
+| API key và credential tích hợp | Secret backend; không plaintext/client storage/log/artifact                             |
+| Queue/batch/set reference      | Ownership rõ, trạng thái bền vững, text snapshot; không tuyên bố set đã tạo khi UNKNOWN |
 
-| Phân loại           | Ví dụ                                      | Cách xử lý                                        |
-| ------------------- | ------------------------------------------ | ------------------------------------------------- |
-| Công khai           | Tài liệu sản phẩm, văn bản trang công khai | Kiểm soát truyền/lưu tiêu chuẩn                   |
-| Nội dung người dùng | Trang thu thập, câu hỏi, ngữ cảnh từ vựng  | Theo quyền sở hữu, mã hóa, retention giới hạn     |
-| Nhạy cảm            | Văn bản intranet/email riêng, lịch sử học  | Tối thiểu hóa, redact, TTL ngắn mặc định          |
-| Secret              | API key, OAuth token, session token        | Kho secret phía server, mã hóa, không log         |
-| Vận hành            | Request ID, độ trễ, mã lỗi                 | Không chứa văn bản capture thô nếu chưa phê duyệt |
+Không đọc cookie/password/page storage/token phiên của website hoặc ChatGPT. Content script chỉ hoạt động sau activation/quyền site; bôi đen không tự cấp activeTab. Quyền tối thiểu chốt ở P1-101/105, site Quizlet chỉ bổ sung nếu kênh đã chấp nhận cần.
 
-## Kiểm soát bắt buộc
+## BYOK và provider
 
-### Tiện ích
+UI cấu hình có thể nhận key để gửi một lần qua TLS đến backend đã xác thực; sau đó chỉ hiển thị masked status/reference. Không lưu key trong extension/browser storage hoặc trả key đầy đủ qua GET. Lưu key mã hóa hay session-only phía backend, cơ chế xoay vòng/xóa, auth/deploy là quyết định P1-104/ADR-007 trước production.
 
-- Ưu tiên `activeTab` và `scripting` thay vì quyền vĩnh viễn trên mọi site.
-- Duy trì denylist mặc định cho cài đặt trình duyệt, ngân hàng, password manager và nhóm nhạy cảm khác khi nhận diện được.
-- Không đọc password input, hidden form value, cookie, local storage hoặc authentication token của trang.
-- Làm sạch mọi HTML lấy từ trang trước khi render.
-- Hiển thị rõ trạng thái thu thập/chia sẻ và điều khiển thu hồi.
+Google project credential cũng server-only. Endpoint/model nằm trong allowlist; không nhận URL tùy ý để tránh request đến đích do nội dung trang/AI chọn. Lỗi/log redact key/selection; usage chỉ metadata cần thiết. Google dịch nghĩa + AI BYOK bổ sung từ loại/ví dụ đã được chủ dự án chốt; cấu hình/UI phải thể hiện rõ luồng hai provider cho từ. Google dịch cụm/câu không gọi AI; AI mode dịch selection bằng AI.
 
-### Backend
+## Untrusted input và dữ liệu nhiều người dùng
 
-- Xác thực và phân quyền mọi tài nguyên thuộc người dùng.
-- Kiểm tra quyền sở hữu object, không dựa vào việc ID khó đoán.
-- Kiểm tra kích thước request, content type, schema và tần suất.
-- Mã hóa provider token và xoay vòng server secret.
-- Redact secret và nội dung capture khỏi log.
-- Áp dụng xóa theo TTL cho capture, chunk, embedding, câu trả lời cache và share grant.
-- Dùng idempotency cho thao tác ghi có thể retry.
+- Selection và output provider là dữ liệu không tin cậy: render text, không HTML thực thi.
+- Instruction AI tách selection; nội dung selection không được cấp quyền gọi tool hoặc thay đổi account.
+- Validate schema/POS/nghĩa/ví dụ trước READY; incomplete không Add.
+- Mọi request DB/queue/batch kiểm tra owner, không dựa vào ID khó đoán.
+- Cache và key theo user; không reuse giữa người dùng.
+- Add, batch claim và job có idempotency/concurrency tests.
 
-### AI và MCP
+## Quizlet và tác động bên ngoài
 
-- Tách instruction đáng tin cậy khỏi nội dung trang/tool không đáng tin cậy.
-- Không cho nội dung trang chọn tool hoặc đích đến tùy ý.
-- Allowlist MCP tool được lộ ra trong từng workflow.
-- Yêu cầu phê duyệt cho side effect thay đổi dữ liệu hoặc bên ngoài.
-- Xác thực output model có cấu trúc trước khi dùng trong domain.
-- Log tên tool, kết quả phân quyền, request hash đã giới hạn, trạng thái kết quả và metadata an toàn.
+Tự tạo bộ thẻ là yêu cầu owner; owner đã cho phép khảo sát browser automation trên trình duyệt Quizlet đã đăng nhập nếu kênh chính thức chưa dùng được. Channel production còn cần bằng chứng spike. ADR-004 vẫn chặn external write chưa được kiểm chứng; P1-102 phải xác minh quyền client/account và khả năng tạo set. ADR-008 ghi lựa chọn khảo sát browser automation; kết quả spike phải cập nhật trước implementation và kiểm tra permission, phiên đăng nhập hiện có và recovery; không copy cookie hoặc tự vượt cơ chế đăng nhập.
 
-## Kịch bản threat model
+Enable tự tạo chỉ trong tài khoản/quyền người dùng đã cấu hình, đúng batch và threshold. Chỉ báo SUCCEEDED với set evidence. Timeout sau create → UNKNOWN → đối soát; không loop create vô hạn. Không tự xóa bộ thẻ trên tài khoản như rollback.
 
-- Trang chứa text ẩn yêu cầu model xuất dữ liệu người dùng.
-- Trang độc hại tạo HTML nhằm chạy trong panel tiện ích.
-- Người dùng đoán capture hoặc lesson ID của người khác.
-- MCP server bị xâm phạm yêu cầu nội dung capture không cần thiết.
-- Model trả citation giả hoặc markup có thể thực thi.
-- Retry tạo review hoặc export trùng.
-- Build tiện ích vô tình chứa API key.
-- Capture đã xóa vẫn còn trong embedding, cache, backup hoặc payload audit.
+## Xóa, revoke và test gate
 
-Mỗi kịch bản cần test hoặc kiểm soát vận hành được ghi lại trước beta.
+Đến P1-104 phải mô tả: xóa cache/queue/batch, batch đang chạy/UNKNOWN, disconnect/rotate key, owner delete và retention audit. Xóa local không ngầm xóa external set. UI báo chưa lưu khi DB write fail.
 
-## Retention và xóa dữ liệu
-
-- Retention mặc định của capture thô/đã làm sạch được quyết định trong Phase 1 và hiển thị trước lần capture đầu.
-- Ngữ cảnh từ đã lưu chỉ được tồn tại lâu hơn capture khi hành vi sản phẩm nêu rõ.
-- Xóa capture phải xóa hoặc gỡ liên kết chunk, embedding, message và share grant theo invariant đã ghi.
-- Ngắt tích hợp phải thu hồi và xóa credential đã lưu.
-- Xóa account có thể bất đồng bộ nhưng phải quan sát được và có mục tiêu hoàn tất được ghi lại.
-- Hết hạn backup được ghi riêng với xóa dữ liệu đang hoạt động.
-
-## Cổng bảo mật phát hành
-
-- Threat model đã cập nhật.
-- Test ma trận phân quyền đạt.
-- Bộ prompt injection đạt ngưỡng đã duyệt.
-- Quét secret artifact tiện ích sạch.
-- Quét dependency và container không còn lỗi critical/high chưa được chấp nhận.
-- Diễn tập xóa dữ liệu và phục hồi backup đạt.
-- Thông báo quyền riêng tư khớp với telemetry, retention và provider thực tế.
-- Quy trình sự cố và xoay credential đã được kiểm tra.
+Test gate trong P1-104..109: secret scan bundle/storage/log; owner isolation; XSS/prompt injection; key lỗi/hết hạn/quota; selection đổi/restart; double Add/concurrent claim; account mismatch/revoke; timeout sau create và reconcile; migration DB rỗng/upgrade. Live test dùng tài khoản/credential test riêng, có nhãn và bằng chứng đã redact.
