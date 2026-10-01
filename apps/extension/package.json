@@ -4,10 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json --noEmit && node ../../scripts/run-mock-vite.mjs build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@englishbot/api-contracts": "workspace:*",
+    "@englishbot/mock-fixtures": "workspace:*",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

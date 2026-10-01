@@ -32,6 +32,12 @@ importers:
 
   apps/extension:
     dependencies:
+      '@englishbot/api-contracts':
+        specifier: workspace:*
+        version: link:../../packages/api-contracts
+      '@englishbot/mock-fixtures':
+        specifier: workspace:*
+        version: link:../../packages/mock-fixtures
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -64,7 +70,11 @@ importers:
 
   packages/api-contracts: {}
 
-  packages/mock-fixtures: {}
+  packages/mock-fixtures:
+    dependencies:
+      '@englishbot/api-contracts':
+        specifier: workspace:*
+        version: link:../api-contracts
 
   packages/ui:
     dependencies:

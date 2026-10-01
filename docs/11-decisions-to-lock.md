@@ -35,6 +35,13 @@ Owner đã trả lời cả ba câu hỏi trong P1-R01: N cấu hình không m�
 
 ## Quyết định nền tảng còn hiệu lực
 
+### D-P1-16…18 — Quyết định trong P1-103 ngày 2026-10-01
+
+- D-P1-16 CHẤP_NHẬN: một mục liền có dấu nháy/gạch nối bên trong vẫn là từ đơn; nhiều mục là cụm/câu.
+- D-P1-17 CHẤP_NHẬN: chỉ gửi phần bôi đen, tra nghĩa phổ biến độc lập và AI soạn ví dụ theo nghĩa trả về. Không gửi surrounding context hoặc khẳng định nghĩa theo ngữ cảnh trang. Chốt phần nghĩa/ví dụ của D-P1-12; cache/dedupe/schema vẫn cần duyệt hợp đồng.
+- D-P1-18 CHẤP_NHẬN: lưu/thay N không tạo batch ngay; chỉ Add mới thành công kế tiếp kiểm tra queue chưa gán batch. Không thay đổi snapshot đã tạo.
+- Owner yêu cầu bắt đầu P1-103; xem [hồ sơ mock/hợp đồng](design/p1-103-contract-review.md). Chưa duyệt mock/hợp đồng mới và chưa mở P1-104.
+
 Java 21/Spring Boot; React/TypeScript; monorepo; mock-first/contract-first; PostgreSQL/Flyway; modular monolith; public module interface; ownership/auth; không plaintext secret; không đọc cookie/session trang. D-001..004/006/009 và ADR-001/002/005 tiếp tục cho phạm vi nhỏ.
 
 Redis, pgvector, SSE chat, object storage, MCP, TTS, scheduler và dashboard không phải dependency Phase 1. Chat/capture retention/share-grant decisions cũ HOÃN theo tính năng.

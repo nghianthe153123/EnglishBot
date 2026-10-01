@@ -1,0 +1,452 @@
+{
+  "status": "PASS",
+  "browser": "154.0.8037.59",
+  "checks": [
+    "no pre-click lookup; single nonmodal dialog; close-focus/Tab exit/Escape return",
+    "phrase only meaning, no Add/POS/example",
+    "Add idempotency, N no default, batch import",
+    {
+      "viewport": 320,
+      "dark": false,
+      "word": {
+        "x": 8,
+        "y": 292,
+        "width": 304,
+        "height": 440
+      }
+    },
+    {
+      "viewport": 320,
+      "dark": true,
+      "word": {
+        "x": 8,
+        "y": 292,
+        "width": 304,
+        "height": 440
+      }
+    },
+    {
+      "viewport": 360,
+      "dark": false,
+      "word": {
+        "x": 8,
+        "y": 236,
+        "width": 320,
+        "height": 440
+      }
+    },
+    {
+      "viewport": 360,
+      "dark": true,
+      "word": {
+        "x": 8,
+        "y": 236,
+        "width": 320,
+        "height": 440
+      }
+    },
+    {
+      "viewport": 420,
+      "dark": false,
+      "word": {
+        "x": 8,
+        "y": 236,
+        "width": 320,
+        "height": 440
+      }
+    },
+    {
+      "viewport": 420,
+      "dark": true,
+      "word": {
+        "x": 8,
+        "y": 236,
+        "width": 320,
+        "height": 440
+      }
+    },
+    "320x360 reflow: footer visible and Add reachable, no repeated lookup",
+    "close while loading invalidates old command",
+    "native DOM selection change invalidates old response; outside click preserves target focus",
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 240,
+        "y": 0
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 614
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 248,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 240,
+        "y": 614
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 248,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 160,
+        "y": 0
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 320
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 240,
+        "y": 320
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 160,
+        "y": 614
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 248,
+        "width": 304,
+        "height": 380
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 280,
+        "y": 0
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 614
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 268,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 280,
+        "y": 614
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 268,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 180,
+        "y": 0
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 320
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 280,
+        "y": 320
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 180,
+        "y": 614
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 268,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 63.1875,
+        "y": 30,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 340,
+        "y": 0
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 67.1875,
+        "y": 30,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 614
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 63.1875,
+        "y": 268,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 340,
+        "y": 614
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 67.1875,
+        "y": 268,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 210,
+        "y": 0
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 320
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 63.1875,
+        "y": 8,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 340,
+        "y": 320
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 67.1875,
+        "y": 8,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 210,
+        "y": 614
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 8,
+        "y": 268,
+        "width": 320,
+        "height": 360
+      }
+    },
+    {
+      "computedStyles": {
+        "background": "rgb(255, 255, 255)",
+        "text": "rgb(33, 18, 56)",
+        "muted": "rgb(95, 89, 106)",
+        "cta": {
+          "foreground": "rgb(255, 255, 255)",
+          "background": "rgb(33, 18, 56)"
+        },
+        "focus": {
+          "color": "rgb(141, 32, 245)",
+          "width": "3px",
+          "offset": "3px"
+        },
+        "reducedMotion": true
+      },
+      "contrast": {
+        "body": 17.379877893133717,
+        "muted": 6.722899709748003,
+        "cta": 17.379877893133717,
+        "focus": 5.741370573552639
+      }
+    },
+    "immutable batch UI quizlet-unavailable: no blind create/retry control",
+    "immutable batch UI quizlet-unknown: no blind create/retry control",
+    "immutable batch UI quizlet-verified-mock: no blind create/retry control",
+    {
+      "longPhrase": true,
+      "width": 320,
+      "dark": false,
+      "noAiKey": true
+    },
+    {
+      "longPhrase": true,
+      "width": 320,
+      "dark": true,
+      "noAiKey": true
+    },
+    {
+      "longPhrase": true,
+      "width": 360,
+      "dark": false,
+      "noAiKey": true
+    },
+    {
+      "longPhrase": true,
+      "width": 360,
+      "dark": true,
+      "noAiKey": true
+    },
+    {
+      "longPhrase": true,
+      "width": 420,
+      "dark": false,
+      "noAiKey": true
+    },
+    {
+      "longPhrase": true,
+      "width": 420,
+      "dark": true,
+      "noAiKey": true
+    }
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "limits": [
+    "Chưa xác minh quyền Chrome thật (P1-105).",
+    "Browser zoom 125%/200% cần walkthrough riêng; CSS viewport reflow không thay zoom thật."
+  ]
+}

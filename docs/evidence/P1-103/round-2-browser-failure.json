@@ -1,0 +1,387 @@
+{
+  "status": "FAIL",
+  "browser": "154.0.8037.59",
+  "checks": [
+    "no pre-click lookup; single nonmodal dialog; close-focus/Tab exit/Escape return",
+    "phrase only meaning, no Add/POS/example",
+    "Add idempotency, N no default, batch import",
+    {
+      "viewport": 320,
+      "dark": false,
+      "word": {
+        "x": 8,
+        "y": 309,
+        "width": 304,
+        "height": 423
+      }
+    },
+    {
+      "viewport": 320,
+      "dark": true,
+      "word": {
+        "x": 8,
+        "y": 309,
+        "width": 304,
+        "height": 423
+      }
+    },
+    {
+      "viewport": 360,
+      "dark": false,
+      "word": {
+        "x": 8,
+        "y": 253,
+        "width": 320,
+        "height": 423
+      }
+    },
+    {
+      "viewport": 360,
+      "dark": true,
+      "word": {
+        "x": 8,
+        "y": 253,
+        "width": 320,
+        "height": 423
+      }
+    },
+    {
+      "viewport": 420,
+      "dark": false,
+      "word": {
+        "x": 8,
+        "y": 253,
+        "width": 320,
+        "height": 423
+      }
+    },
+    {
+      "viewport": 420,
+      "dark": true,
+      "word": {
+        "x": 8,
+        "y": 253,
+        "width": 320,
+        "height": 423
+      }
+    },
+    "320x360 reflow: footer visible and Add reachable, no repeated lookup",
+    "close while loading invalidates old command",
+    "native DOM selection change invalidates old response; outside click preserves target focus",
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 240,
+        "y": 0
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 614
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 265,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 240,
+        "y": 614
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 265,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 160,
+        "y": 0
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 320
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 240,
+        "y": 320
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 160,
+        "y": 614
+      },
+      "viewport": 320,
+      "popup": {
+        "x": 8,
+        "y": 265,
+        "width": 304,
+        "height": 363
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 280,
+        "y": 0
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 614
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 285,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 280,
+        "y": 614
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 285,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 180,
+        "y": 0
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 320
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 280,
+        "y": 320
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 8,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 180,
+        "y": 614
+      },
+      "viewport": 360,
+      "popup": {
+        "x": 8,
+        "y": 285,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 0
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 63.1875,
+        "y": 30,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 340,
+        "y": 0
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 67.1875,
+        "y": 30,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 614
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 63.1875,
+        "y": 285,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 340,
+        "y": 614
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 67.1875,
+        "y": 285,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 210,
+        "y": 0
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 8,
+        "y": 30,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 0,
+        "y": 320
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 63.1875,
+        "y": 8,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 340,
+        "y": 320
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 67.1875,
+        "y": 8,
+        "width": 320,
+        "height": 343
+      }
+    },
+    {
+      "nativeSelectionEdge": {
+        "x": 210,
+        "y": 614
+      },
+      "viewport": 420,
+      "popup": {
+        "x": 8,
+        "y": 285,
+        "width": 320,
+        "height": 343
+      }
+    }
+  ],
+  "message": "focus ring is not clipped by popup",
+  "externalRequests": [],
+  "pageErrors": []
+}

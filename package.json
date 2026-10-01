@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "pnpm --recursive --if-present run build",
+    "dev:mock": "pnpm --filter @englishbot/api-contracts --filter @englishbot/mock-fixtures run build && node scripts/run-mock-vite.mjs apps/extension --host 127.0.0.1 --port 4173 --strictPort",
     "docs:check": "node scripts/check-docs.mjs",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
@@ -17,7 +18,7 @@
     "quality": "pnpm run format && pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build",
     "secrets:scan": "node scripts/scan-secrets.mjs",
     "test": "vitest run",
-    "typecheck": "pnpm --recursive --if-present run typecheck",
+    "typecheck": "pnpm --filter @englishbot/api-contracts --filter @englishbot/mock-fixtures run build && pnpm --recursive --if-present run typecheck",
     "verify:all": "node scripts/verify-repository.mjs",
     "verify:docs": "pnpm run docs:check && pnpm run secrets:scan",
     "verify:frontend": "pnpm install --frozen-lockfile && pnpm run quality"

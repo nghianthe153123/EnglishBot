@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', '**/target/**', '**/coverage/**', '**/node_modules/**'],
+    ignores: ['**/dist/**', '**/target/**', '**/coverage/**', '**/node_modules/**', '**/.cache/**'],
   },
   {
     files: ['**/*.mjs'],
